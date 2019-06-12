@@ -1,4 +1,3 @@
-// auth reducer here
 import { UPDATE_FIELD_AUTH, LOGIN } from './../actions';
 
 export default (state = {}, action) => {

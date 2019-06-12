@@ -1,7 +1,6 @@
-import './../css/App.css';
-import Login from './Login';
-import Register from './Register';
-import Home from './Home';
+import Login from './Route/Login';
+import Register from './Route/Register';
+import Home from './Route/Home';
 
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
@@ -9,7 +8,6 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 class App extends React.Component {
   render(){
     return (
-      <div className="App">
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={Home} />
@@ -17,7 +15,6 @@ class App extends React.Component {
             <Route path="/login" component={Login} />
           </Switch>
         </BrowserRouter>
-      </div>
     );
   }
 }
