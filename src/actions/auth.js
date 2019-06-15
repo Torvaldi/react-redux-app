@@ -1,4 +1,4 @@
-import { LOGIN } from './../actions';
+import { LOGIN } from '../constant/actions';
 
 export const login = (dispatch, data) => {
     fetch('http://localhost:8000/api/login', {

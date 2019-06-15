@@ -5,6 +5,11 @@ body {
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* see Material UI custom theme */
+  --primary: #2196f3;
+  --secondary: #651fff;
+  --tablet: 1024px;
+  --mobile: 375px;
 }
 
 a {
@@ -24,3 +29,4 @@ html, body, #root, #root>div {
 #component {
   height: 100%;
 }
+

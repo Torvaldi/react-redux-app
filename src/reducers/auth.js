@@ -1,4 +1,4 @@
-import { UPDATE_FIELD_AUTH, LOGIN } from './../actions';
+import { UPDATE_FIELD_AUTH, LOGIN } from './../constant/actions';
 
 export default (state = {}, action) => {
     switch(action.type) {

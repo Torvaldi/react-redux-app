@@ -1,38 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-import { UPDATE_FIELD_AUTH, LOGIN } from '../../actions';
+import { UPDATE_FIELD_AUTH, LOGIN } from '../../constant/actions';
 import { login } from '../../actions/auth';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { withStyles } from '@material-ui/styles';
-
-const styles = {
-  form: {
-      display: 'flex',
-      flexDirection: 'column',
-      width: '60%',
-  },
-  formField: {
-      width: '100%',
-  },
-  formExtra: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      margin: '15px 0 40px 0',
-  },
-  button: {
-      marginRight: '10px',
-  },
-  textField: {
-      width: '100%',
-  }
-
-};
+import Alert from '../../components/Alert';
+import '../../css/loginForm.css';
 
 const mapStateToProps = (state) => ({ ...state.auth });
 
@@ -53,41 +29,50 @@ class LoginForm extends Component {
     this.changePassword = (event) => this.props.onChangePassword(event.target.value);
     this.submitForm = (username, password) => (event) => {
       event.preventDefault();
-      this.props.onSubmit(username, password);
+      if(username && password){
+        this.props.onSubmit(username, password);
+      }
     }
   }
 
   render(){
-    const { username, password } = this.props;
-    const { classes } = this.props;
+    const { username, password, error } = this.props;
+    let alert;
+    if(error){
+      alert = <Alert message={error} />;
+    } else {
+      alert = "";
+    }
 
     return (
-          <React.Fragment>
-            <form className={classes.form} onSubmit={this.submitForm(username, password)}>
-                <div className={classes.formField}>
+          <form className="form" onSubmit={this.submitForm(username, password)}>
+            {alert}
+                <div className="formField">
                   <TextField
                     id="username"
                     label="Username"
                     placeholder="Username"
-                    className={classes.textField}
+                    className="textField"
                     onChange={this.changeUsername}
                     margin="normal"
                     variant="outlined"
+                    required
                   />
                 </div>
-                <div className={classes.formField}>
+                <div className="formField">
                   <TextField
                     id="Password"
                     label="Password"
                     type="password"
-                    className={classes.textField}
+                    className="textField"
                     autoComplete="current-password"
                     onChange={this.changePassword} 
                     margin="normal"
                     variant="outlined"
+                    required
                   />
                 </div>
-                <div className={classes.formExtra}>
+                <div className="formExtra">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -97,23 +82,19 @@ class LoginForm extends Component {
                       }
                       label="Remember me"
                     />
-                    <a href="#">Forget Password ?</a>
+                    <a className="rememberMe" href="#">Forget Password ?</a>
                 </div>
-                <div>
-                  <Button className={classes.button} type="submit" size="large" variant="contained" color="primary">
-                    Login
-                  </Button>
-                  <Button className={classes.button} type="submit" size="large" variant="outlined" color="primary">
-                    Sign Up
-                  </Button>
+                <div className="buttonField">
+                    <Button className="buttonLogin" type="submit" size="large" variant="contained" color="primary">
+                      Login
+                    </Button>
+                    <Button  type="submit" size="large" variant="outlined" color="primary">
+                      Sign Up
+                    </Button>
                 </div>
             </form>
-            {this.props.token}
-        </React.Fragment>
     );
   }
 }
 
-const compenent = connect(mapStateToProps, mapDispatchToProps)(LoginForm);
-
-export default withStyles(styles)(compenent)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

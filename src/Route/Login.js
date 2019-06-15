@@ -2,41 +2,22 @@ import React from 'react';
 
 import LoginForm from '../containers/form/LoginForm';
 import BlockText from '../components/BlockText';
+import Image from '../components/LoginImage';
 
-import { withStyles } from '@material-ui/styles';
-
-const styles = {
-  authBlock: {
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100%',
-      width: '35%',
-      justifyContent: 'center',
-      alignItems: 'center',
-  },
-  authLayout: {
-    height: '100%',
-    display: 'flex',
-  },
-  imageLayout: {
-    backgroundColor: 'lightblue',
-    width: '65%',
-  }
-};
+import '../css/loginRoute.css';
 
 const Login = (props) => {
-  const { classes } = props;
   return (
-        <section className={classes.authLayout} >
-          <article className={classes.authBlock}>
+        <section className="authLayout" >
+          <article className="authBlock">
             <BlockText />
             <LoginForm />
           </article>
-          <article className={classes.imageLayout}>
-            Image
+          <article className="imageLayout">
+            <Image />
           </article>
         </section>
     );
 }
 
-export default withStyles(styles)(Login)
+export default Login

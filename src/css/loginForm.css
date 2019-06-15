@@ -1,0 +1,58 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    min-height: 360px;
+    justify-content: flex-end;
+}
+
+.formField {
+    width: 100%;
+}
+
+.formExtra {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0 40px 0;
+}
+
+.buttonField {
+    /* nothing yet */
+}
+
+/* rewrite default value of material UI */
+.buttonLogin {
+    margin-right: 10px !important;
+}
+
+.textField {
+    width: 100%;
+}
+
+.rememberMe {
+    color: grey;
+}
+
+.rememberMe:hover {
+    color:var(--primary);
+}
+
+/* mobile */
+@media only screen and (max-width: 414px) {
+    .formExtra {
+        display: flex;
+      flex-direction: column;
+    }
+    .formExtra a{
+        margin-top: 15px;
+    }
+    .buttonField{
+        display: flex;
+        flex-direction: column;
+    }
+    .buttonLogin {
+        margin-right: 0px !important;
+        margin-bottom: 30px !important;
+    }
+}

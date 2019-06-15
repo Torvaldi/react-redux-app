@@ -8,10 +8,26 @@ import { Provider } from 'react-redux';
 
 import store from './store';
 
+// Material design IU custom color
+// https://material-ui.com/customization/color/
+import { createMuiTheme } from '@material-ui/core/styles';
+import deepPurple from '@material-ui/core/colors/deepPurple';
+import blue from '@material-ui/core/colors/blue';
+import { ThemeProvider } from '@material-ui/styles';
+
+const theme = createMuiTheme({
+    palette: {
+        primary: blue,
+        secondary: deepPurple,
+      },
+});
+
 ReactDOM.render((
-    <Provider store={store}>
-        <App />
-    </Provider>
+    <ThemeProvider theme={theme}>
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </ThemeProvider>
 ), document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
