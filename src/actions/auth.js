@@ -1,7 +1,8 @@
 import { LOGIN } from '../constant/actions';
+import { API_LOGIN } from '../constant/api';
 
 export const login = (dispatch, data) => {
-    fetch('http://localhost:8000/api/login', {
+    fetch(API_LOGIN, {
         method: 'POST',
         body: JSON.stringify({
           'username': data.username, 
