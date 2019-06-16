@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { UPDATE_FIELD_AUTH, RESET_ERROR } from '../actions/actions';
 import { login } from '../actions/auth';
+import { Link } from 'react-router-dom';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -9,6 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Alert from '../components/Alerte/Alert';
 import './loginForm.css';
+import { API_LOGIN } from '../helper/api';
 
 const mapStateToProps = (state) => ({ ...state.auth });
 
@@ -105,9 +107,11 @@ class LoginForm extends Component {
                     <Button className="buttonLogin" type="submit" size="large" variant="contained" color="primary">
                       Login
                     </Button>
-                    <Button  type="submit" size="large" variant="outlined" color="primary">
-                      Sign Up
-                    </Button>
+                      <Link to="/register">
+                        <Button size="large" variant="outlined" color="primary">
+                          Sign up 
+                        </Button>
+                      </Link>
                 </div>
             </form>
     );

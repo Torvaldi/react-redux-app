@@ -3,7 +3,6 @@ import React from 'react';
 import LoginForm from './LoginForm';
 import Image from '../components/LoginImage/LoginImage';
 import AuthLayout from '../components/AuthLayout/AuthLayout';
-  
 
 const Login = (props) => {
   return (
