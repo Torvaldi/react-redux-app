@@ -1,7 +1,7 @@
 import React from 'react';
 
-import '../css/loginImage.css';
-import image from '../img/login.jpg';
+import './loginImage.css';
+import image from './login.jpg';
 
 const LoginImage = (props) => {
   return (

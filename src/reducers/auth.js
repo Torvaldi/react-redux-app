@@ -1,4 +1,4 @@
-import { UPDATE_FIELD_AUTH, LOGIN } from './../constant/actions';
+import { UPDATE_FIELD_AUTH, LOGIN, RESET_ERROR } from '../actions/actions';
 
 export default (state = {}, action) => {
     switch(action.type) {
@@ -9,6 +9,11 @@ export default (state = {}, action) => {
                 ...state,
                 error: action.payload.error,
                 token : action.payload.token
+            }
+        case RESET_ERROR:
+            return {
+                ...state,
+                error: undefined
             }
         default:
             return state;

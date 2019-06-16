@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { UPDATE_FIELD_AUTH, LOGIN } from '../../constant/actions';
-import { login } from '../../actions/auth';
+import { UPDATE_FIELD_AUTH, RESET_ERROR } from '../actions/actions';
+import { login } from '../actions/auth';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Alert from '../../components/Alert';
-import '../../css/loginForm.css';
+import Alert from '../components/Alerte/Alert';
+import './loginForm.css';
 
 const mapStateToProps = (state) => ({ ...state.auth });
 
@@ -19,21 +19,36 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch({type: UPDATE_FIELD_AUTH, key: 'password', value}),
   onSubmit: (username, password) =>
     login(dispatch, {username, password}),
+  onResetError: () =>
+    dispatch({type: RESET_ERROR})
 });
 
 class LoginForm extends Component {
 
   constructor(){
     super();
-    this.changeUsername = (event) => this.props.onChangeUsername(event.target.value);
-    this.changePassword = (event) => this.props.onChangePassword(event.target.value);
-    this.submitForm = (username, password) => (event) => {
-      event.preventDefault();
-      if(username && password){
-        this.props.onSubmit(username, password);
-      }
+  }
+
+  changeUsername = (event) => this.props.onChangeUsername(event.target.value);
+  changePassword = (event) => this.props.onChangePassword(event.target.value);
+
+  submitForm = (username, password) => (event) => {
+    event.preventDefault();
+    if(username && password){
+      this.props.onSubmit(username, password);
     }
   }
+
+  /**
+   * @var string error
+   * Reset error state if the user click on an input
+   */
+  resetError = (error) => (event) => {
+      event.preventDefault();
+      if(error){
+        this.props.onResetError();
+      }
+    }
 
   render(){
     const { username, password, error } = this.props;
@@ -54,6 +69,7 @@ class LoginForm extends Component {
                     placeholder="Username"
                     className="textField"
                     onChange={this.changeUsername}
+                    onClick={this.resetError(error)}
                     margin="normal"
                     variant="outlined"
                     required
@@ -66,7 +82,8 @@ class LoginForm extends Component {
                     type="password"
                     className="textField"
                     autoComplete="current-password"
-                    onChange={this.changePassword} 
+                    onChange={this.changePassword}
+                    onClick={this.resetError(error)}
                     margin="normal"
                     variant="outlined"
                     required

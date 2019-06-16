@@ -1,5 +1,5 @@
-import { LOGIN } from '../constant/actions';
-import { API_LOGIN } from '../constant/api';
+import { LOGIN } from './actions';
+import { API_LOGIN } from '../helper/api';
 
 export const login = (dispatch, data) => {
     fetch(API_LOGIN, {

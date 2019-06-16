@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '../css/alerte.css';
+import './alerte.css';
 
 const Alert = (props) => {
   return (

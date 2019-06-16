@@ -1,10 +1,10 @@
 import React from 'react';
 
-import LoginForm from '../containers/form/LoginForm';
-import BlockText from '../components/BlockText';
-import Image from '../components/LoginImage';
+import LoginForm from './LoginForm';
+import BlockText from '../components/BlockText/BlockText';
+import Image from '../components/LoginImage/LoginImage';
 
-import '../css/loginRoute.css';
+import './login.css';  
 
 const Login = (props) => {
   return (

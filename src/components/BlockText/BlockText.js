@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/styles';
 
-import '../css/blockText.css';
+import './blockText.css';
 
 const Blocktext = (props) => {
   return (
