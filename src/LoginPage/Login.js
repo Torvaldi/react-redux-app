@@ -1,22 +1,23 @@
 import React from 'react';
 
 import LoginForm from './LoginForm';
-import BlockText from '../components/BlockText/BlockText';
 import Image from '../components/LoginImage/LoginImage';
-
-import './login.css';  
+import AuthLayout from '../components/AuthLayout/AuthLayout';
+  
 
 const Login = (props) => {
   return (
-        <section className="authLayout" >
-          <article className="authBlock">
-            <BlockText />
-            <LoginForm />
-          </article>
-          <article className="imageLayout">
-            <Image />
-          </article>
-        </section>
+        <AuthLayout
+        text={
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vesti"
+        }
+        left={
+          <LoginForm />
+        } 
+        right={
+          <Image />
+        }
+        />
     );
 }
 
