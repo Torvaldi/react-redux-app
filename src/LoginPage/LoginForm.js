@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { UPDATE_FIELD_AUTH, RESET_ERROR } from '../actions/actions';
 import { login } from '../actions/auth';
 import { Link } from 'react-router-dom';
+import propTypes from 'prop-types';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -10,7 +11,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Alert from '../components/Alerte/Alert';
 import './loginForm.css';
-import { API_LOGIN } from '../helper/api';
+
 
 const mapStateToProps = (state) => ({ ...state.auth });
 
@@ -117,5 +118,13 @@ class LoginForm extends Component {
     );
   }
 }
+
+LoginForm.propTypes = {
+  onChangeUsername: propTypes.func,
+  onChangePassword: propTypes.func,
+  onSubmit: propTypes.func,
+  onResetError: propTypes.func,
+}
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
