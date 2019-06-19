@@ -1,8 +1,9 @@
 import React from 'react';
-
+import propTypes from 'prop-types';
 import './blockText.css';
 
-const Blocktext = (props) => {
+
+const BlockText = (props) => {
   return (
     <article className="authText">
       <h1 className="title">Lorem ipsum dolor sit amet consectetur </h1>
@@ -11,4 +12,9 @@ const Blocktext = (props) => {
   );
 }
 
-export default Blocktext;
+BlockText.prototype = {
+  text : propTypes.string.isRequired,
+}
+
+
+export default BlockText;

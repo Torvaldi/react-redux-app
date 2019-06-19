@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { UPDATE_FIELD_AUTH, RESET_ERROR } from '../actions/actions';
-import { login } from '../actions/auth';
+import { login, changeUsername, changePassword, resetError } from '../actions/auth';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 
@@ -16,21 +15,17 @@ import './loginForm.css';
 const mapStateToProps = (state) => ({ ...state.auth });
 
 const mapDispatchToProps = (dispatch) => ({
-  onChangeUsername :  (value) =>
-    dispatch({type: UPDATE_FIELD_AUTH, key: 'username', value}),
-  onChangePassword :  (value) =>
-    dispatch({type: UPDATE_FIELD_AUTH, key: 'password', value}),
+  onChangeUsername:  (username) =>
+    dispatch(changeUsername(username)),
+  onChangePassword:  (password) =>
+    dispatch(changePassword(password)),
   onSubmit: (username, password) =>
     login(dispatch, {username, password}),
   onResetError: () =>
-    dispatch({type: RESET_ERROR})
+    dispatch(resetError())
 });
 
 class LoginForm extends Component {
-
-  constructor(){
-    super();
-  }
 
   changeUsername = (event) => this.props.onChangeUsername(event.target.value);
   changePassword = (event) => this.props.onChangePassword(event.target.value);
@@ -51,7 +46,7 @@ class LoginForm extends Component {
       if(error){
         this.props.onResetError();
       }
-    }
+  }
 
   render(){
     const { username, password, error } = this.props;
@@ -102,7 +97,7 @@ class LoginForm extends Component {
                       }
                       label="Remember me"
                     />
-                    <a className="rememberMe" href="#">Forget Password ?</a>
+                    <a href="#" className="rememberMe" href="#">Forget Password ?</a>
                 </div>
                 <div className="buttonField">
                     <Button className="buttonLogin" type="submit" size="large" variant="contained" color="primary">
