@@ -1,12 +1,17 @@
 import React from 'react';
-
+import propTypes from 'prop-types';
 import './loginImage.css';
-import image from './login.jpg';
+
 
 const LoginImage = (props) => {
   return (
-      <img src={image} alt="image" className="imageLogin" />
+      <img src={props.image} alt="image" className="imageLogin" />
   );
 }
+
+LoginImage.propTypes = {
+  image: propTypes.string.isRequired,
+}
+
 
 export default LoginImage;

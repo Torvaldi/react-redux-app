@@ -14,7 +14,6 @@ beforeEach(() => {
     text = 'hi there';
 });
 
-
 describe('<AuthLayout />', () => {
     // snapshot
     it('should render Auth Componenent', () => {

@@ -3,6 +3,7 @@ import React from 'react';
 import LoginForm from './LoginForm';
 import Image from '../components/LoginImage/LoginImage';
 import AuthLayout from '../components/AuthLayout/AuthLayout';
+import image from '../asset/login.jpg';
 
 const Login = (props) => {
   return (
@@ -14,7 +15,7 @@ const Login = (props) => {
           <LoginForm />
         } 
         right={
-          <Image />
+          <Image image={image} />
         }
         />
     );
