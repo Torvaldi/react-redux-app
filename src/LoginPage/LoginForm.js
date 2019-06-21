@@ -119,6 +119,9 @@ LoginForm.propTypes = {
   onChangePassword: propTypes.func,
   onSubmit: propTypes.func,
   onResetError: propTypes.func,
+  username: propTypes.string,
+  password: propTypes.string,
+  error: propTypes.string,
 }
 
 
