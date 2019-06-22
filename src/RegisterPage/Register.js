@@ -2,6 +2,8 @@ import React from 'react';
 
 import AuthLayout from '../components/AuthLayout/AuthLayout';
 import Image from '../components/LoginImage/LoginImage';
+import ImageLogin from '../asset/login.jpg';
+import RegisterForm from './RegisterForm';
 
 const Register = (props) => {
     return (
@@ -10,10 +12,10 @@ const Register = (props) => {
         "This is the register page"
       }
       left={
-        "form"
+        <RegisterForm />
       }
       right={
-        <Image />
+        <Image image={ImageLogin} />
       }
       />
     );

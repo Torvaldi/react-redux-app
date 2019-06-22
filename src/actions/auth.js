@@ -1,17 +1,23 @@
-import { API_LOGIN } from '../helper/api';
+import { API_LOGIN, API_REGISTER } from '../helper/api';
 
 export const UPDATE_FIELD_USERNAME = 'UPDATE_FIELD_USERNAME';
 export const UPDATE_FIELD_PASSWORD = 'UPDATE_FIELD_PASSWORD';
+export const UPDATE_FIELD_PASSWORD_CONFIRM = 'UPDATE_FIELD_PASSWORD_CONFIRM';
+export const UPDATE_FIELD_MAIL = 'UPDATE_FIELD_MAIL';
 export const LOGIN = 'LOGIN';
-export const RESET_ERROR = 'RESET_ERROR';
+export const REGISTER = 'REGISTER';
+export const RESET_ERROR_LOGIN = 'RESET_ERROR_LOGIN';
+export const RESET_ERROR_REGISTER = 'RESET_ERROR_REGISTER';
+export const RESET_SUCESS_REGISTER = 'RESET_SUCESS_REGISTER';
 
+// LOGIN and REGISTER action
 export const login = (dispatch, data) => {
-  console.log('login')
     fetch(API_LOGIN, {
         method: 'POST',
         body: JSON.stringify({
           'username': data.username, 
-          'password' : data.password}),
+          'password' : data.password
+        }),
     })
     .then(response => response.json())
     .then(result =>
@@ -21,6 +27,26 @@ export const login = (dispatch, data) => {
         })
       );
 };
+
+export const register = (dispatch, data) => {
+  fetch(API_REGISTER, {
+    method: 'POST',
+    body: JSON.stringify({
+      'username': data.username,
+      'email': data.mail,
+      'password' : data.password,
+      'password_confirmation': data.passwordConfirmation
+    }),
+})
+.then(response => response.json())
+.then(result =>
+    dispatch({
+      type: REGISTER,
+      payload: result,
+    })
+  );
+};
+
 
 export function changeUsername(username){
   return {
@@ -36,12 +62,44 @@ export function changePassword(password){
   }
 }
 
-export function resetError(){
+export function changePasswordConfirm(passwordConfirmation){
   return {
-    type: RESET_ERROR,
+    type: UPDATE_FIELD_PASSWORD_CONFIRM,
+    payload: { passwordConfirmation }
+  }
+}
+
+export function changeMail(mail){
+  return {
+    type: UPDATE_FIELD_MAIL,
+    payload : { mail }
+  }
+}
+
+
+export function resetErrorLogin(){
+  return {
+    type: RESET_ERROR_LOGIN,
     payload: {
-      error: undefined,
+      errorLogin: undefined,
     }
   }
 }
 
+export function resetSucessRegister(){
+  return {
+    type: RESET_SUCESS_REGISTER,
+    payload: {
+      messageRegister: undefined,
+    }
+  }
+}
+
+export function resertErrorRegister(){
+  return {
+    type: RESET_ERROR_REGISTER,
+    payload: {
+      errorRegister: undefined,
+    }
+  }
+}

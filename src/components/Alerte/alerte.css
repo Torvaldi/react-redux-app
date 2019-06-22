@@ -1,5 +1,5 @@
-.alertBlock {
-    background-color: #e57373;
+/* BLOCK */
+.alertBlockError, .alertBlockSuccess {
     width: 100%;
     border-radius: 2px;
     padding: 10px 0px;
@@ -9,9 +9,25 @@
     box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
 }
 
-.alertText {
+.alertBlockError {
+    background-color: #e57373;
+}
+
+.alertBlockSuccess {
+    background-color: #81c784;
+}
+
+/* TEXT */
+.alertTextError, .alertTextSuccess {
    margin-left: 5px;
    font-weight: bold;
-   color: #b71c1c;
+}
+
+.alertTextError {
+    color: #b71c1c;
+}
+
+.alertTextSuccess {
+    color: #1b5e20;
 }
 

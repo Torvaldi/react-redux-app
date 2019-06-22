@@ -1,4 +1,14 @@
-import {UPDATE_FIELD_USERNAME,  UPDATE_FIELD_PASSWORD, LOGIN, RESET_ERROR } from '../actions/auth';
+import {
+    UPDATE_FIELD_USERNAME,  
+    UPDATE_FIELD_PASSWORD, 
+    LOGIN, 
+    REGISTER,
+    UPDATE_FIELD_PASSWORD_CONFIRM, 
+    UPDATE_FIELD_MAIL,
+    RESET_ERROR_LOGIN,
+    RESET_ERROR_REGISTER,
+    RESET_SUCESS_REGISTER,
+} from '../actions/auth';
 
 export default (state = {}, action) => {
     switch(action.type) {
@@ -12,16 +22,49 @@ export default (state = {}, action) => {
                 ...state,
                 password: action.payload.password,
             }
+        case UPDATE_FIELD_PASSWORD_CONFIRM:
+            return {
+                ...state,
+                passwordConfirmation: action.payload.passwordConfirmation
+            }
+        case UPDATE_FIELD_MAIL:
+            return {
+                ...state,
+                mail: action.payload.mail
+            }
+        case RESET_ERROR_LOGIN:
+            return {
+                ...state,
+                errorLogin: action.payload.errorLogin
+            }
+        case RESET_ERROR_REGISTER:
+            return {
+                ...state,
+                errorRegister: action.payload.errorRegister
+            }
+        case RESET_SUCESS_REGISTER:
+            return {
+                ...state,
+                messageRegister: action.payload.messageRegister
+            }
         case LOGIN:
             return {
                 ...state,
-                error: action.payload.error,
+                errorLogin: action.payload.error,
                 token : action.payload.token
             }
-        case RESET_ERROR:
+        case REGISTER:
+            if(action.payload.error === undefined){
+                return {
+                    ...state,
+                    errorRegister: action.payload.error,
+                    messageRegister: "Congratulations! Your account has been created",
+                }
+            }
             return {
                 ...state,
-                error: action.payload.error
+                errorRegister: action.payload.error,
+                messageRegister: undefined,
             }
         default:
             return state;

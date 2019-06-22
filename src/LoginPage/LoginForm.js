@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { login, changeUsername, changePassword, resetError } from '../actions/auth';
+import { login, changeUsername, changePassword, resetErrorLogin, resetSucessRegister } from '../actions/auth';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 
@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Alert from '../components/Alerte/Alert';
-import './loginForm.css';
+import '../css/authForm.css';
 
 
 const mapStateToProps = (state) => ({ ...state.auth });
@@ -21,8 +21,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(changePassword(password)),
   onSubmit: (username, password) =>
     login(dispatch, {username, password}),
-  onResetError: () =>
-    dispatch(resetError())
+  onResetErrorLogin: () =>
+    dispatch(resetErrorLogin()),
+  onResetMessageRegister: () =>
+    dispatch(resetSucessRegister()),
 });
 
 class LoginForm extends Component {
@@ -38,28 +40,26 @@ class LoginForm extends Component {
   }
 
   /**
-   * @var string error
-   * Reset error state if the user click on an input
+   * @var string errorLogin
+   * Reset errorLogin state if the user click on an input
    */
-  resetError = (error) => (event) => {
-      event.preventDefault();
-      if(error){
-        this.props.onResetError();
-      }
+  resetError = (errorLogin) => (event) => {
+    event.preventDefault();
+    if(errorLogin){
+      this.props.onResetErrorLogin();
+    }
   }
 
   render(){
-    const { username, password, error } = this.props;
-    let alert;
-    if(error){
-      alert = <Alert message={error} />;
-    } else {
-      alert = "";
+    const { username, password, errorLogin } = this.props;
+    let alerteLogin = "";
+    if(errorLogin){
+      alerteLogin = <Alert message={errorLogin} type={0} />;
     }
 
     return (
-          <form className="form" onSubmit={this.submitForm(username, password)}>
-            {alert}
+          <form className="formSmall" onSubmit={this.submitForm(username, password)}>
+            {alerteLogin}
                 <div className="formField">
                   <TextField
                     id="username"
@@ -67,7 +67,7 @@ class LoginForm extends Component {
                     placeholder="Username"
                     className="textField"
                     onChange={this.changeUsername}
-                    onClick={this.resetError(error)}
+                    onClick={this.resetError(errorLogin)}
                     margin="normal"
                     variant="outlined"
                     required
@@ -81,7 +81,7 @@ class LoginForm extends Component {
                     className="textField"
                     autoComplete="current-password"
                     onChange={this.changePassword}
-                    onClick={this.resetError(error)}
+                    onClick={this.resetError(errorLogin)}
                     margin="normal"
                     variant="outlined"
                     required
@@ -121,7 +121,7 @@ LoginForm.propTypes = {
   onResetError: propTypes.func,
   username: propTypes.string,
   password: propTypes.string,
-  error: propTypes.string,
+  errorLogin: propTypes.string,
 }
 
 
