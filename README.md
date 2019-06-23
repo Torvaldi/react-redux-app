@@ -5,7 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 This project works with a REST API available [here](https://github.com/falia15/symfony4-api.git).
 TODO : add project goal and description.
 
-## Initialise project
+## Initialiase project
 
 ``git clone https://github.com/falia15/react-redux-app.git``
 
@@ -13,7 +13,7 @@ TODO : add project goal and description.
 
 ``npm install``
 
-In src folder, copy config.example.js and name it config.js, and add your configuration
+In src folder, copy config.example.js, name it config.js, and add your configuration
 
 
 ## Start the wep application
