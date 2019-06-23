@@ -1,0 +1,32 @@
+/*@import url('https://fonts.googleapis.com/css?family=Noto+Sans&display=swap'); */
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* see Material UI custom theme */
+  --primary: #2196f3;
+  --secondary: #651fff;
+  --tablet: 1024px;
+  --mobile: 375px;
+}
+
+a {
+  text-decoration: none;
+  color: #212121;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+html, body, #root, #root>div {
+  height: 100%;
+}
+
+#component {
+  height: 100%;
+}
+

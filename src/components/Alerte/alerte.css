@@ -1,0 +1,33 @@
+/* BLOCK */
+.alertBlockError, .alertBlockSuccess {
+    width: 100%;
+    border-radius: 2px;
+    padding: 10px 0px;
+    margin: 10px 0px;
+    -webkit-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+}
+
+.alertBlockError {
+    background-color: #e57373;
+}
+
+.alertBlockSuccess {
+    background-color: #81c784;
+}
+
+/* TEXT */
+.alertTextError, .alertTextSuccess {
+   margin-left: 5px;
+   font-weight: bold;
+}
+
+.alertTextError {
+    color: #b71c1c;
+}
+
+.alertTextSuccess {
+    color: #1b5e20;
+}
+

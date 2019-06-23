@@ -1,0 +1,31 @@
+.authBlock {
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    justify-content: center;
+    align-items: center;
+}
+
+.authLayout {
+    height: 100%;
+    display: flex;
+}
+
+.imageLayout {
+    width: 65%;
+}
+
+/* tablet */
+@media only screen and (max-width: 1024px) {
+    .authLayout {
+      flex-direction: column;
+      justify-content: center;
+    }
+    .imageLayout {
+        width: 100%;
+        display: none;
+    }
+    .authBlock {
+        width: 100%;
+    }
+}
