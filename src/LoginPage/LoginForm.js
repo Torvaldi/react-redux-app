@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { login, changeUsername, changePassword, resetErrorLogin, resetSucessRegister } from '../actions/auth';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import propTypes from 'prop-types';
 
 import TextField from '@material-ui/core/TextField';
@@ -51,7 +51,12 @@ class LoginForm extends Component {
   }
 
   render(){
-    const { username, password, errorLogin } = this.props;
+    const { username, password, errorLogin, token } = this.props;
+    if(token){
+      document.cookie = "token=" + this.props.token;
+      return <Redirect to="/game" />;
+    }
+
     let alerteLogin = "";
     if(errorLogin){
       alerteLogin = <Alert message={errorLogin} type={0} />;
