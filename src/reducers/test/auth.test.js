@@ -1,5 +1,3 @@
-import React from 'react';
-
 import authReducer from '../auth';
 import * as action from '../../actions/auth';
 

@@ -11,10 +11,23 @@ export async function tokenVerify(token){
     return response;
 }
 
+/**
+ * @param {*string} cookie ex : "username=falia"
+ * @return {*string}
+ * Split string after the = 
+ * Separate function so its easier to test as we have to set a cookie
+ */
+export const splitCookie = (value, name) => {
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2){
+        return parts.pop().split(";").shift();
+    }
+    return "";
+}
+
 export const getCookie = (name) => {
     var value = "; " + document.cookie;
-    var parts = value.split("; " + name + "=");
-    if (parts.length == 2) return parts.pop().split(";").shift();
+    return splitCookie(value, name);
 }
 
 export const tokenDecode = (token) => {

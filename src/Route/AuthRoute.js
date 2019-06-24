@@ -4,8 +4,9 @@ import { Redirect } from 'react-router-dom';
 
 const AuthRoute = ({component: Component}) => {
   let token = getCookie('token');
+  
   if(token && tokenVerify(token)){
-    return <Component/> 
+    return <Component/>;
   }
   return <Redirect to='/login' />
   
