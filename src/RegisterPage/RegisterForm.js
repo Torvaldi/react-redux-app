@@ -49,11 +49,9 @@ class RegisterForm extends Component {
   resetFeedback = (errorRegister, messageRegister) => (event) => {
     event.preventDefault();
     if(errorRegister){
-      console.log(errorRegister)
       this.props.onResetErrorRegister();
     }
     if(messageRegister){
-      console.log(messageRegister)
       this.props.onResetSucessRegister()
     }
   }
