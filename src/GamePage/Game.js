@@ -1,16 +1,24 @@
 import React from 'react';
 import { tokenDecode, getCookie } from '../helper/auth';
-import { Redirect } from 'react-router-dom';
+
+import GameLayout from './../components/GameLayout/GameLayout';
+import GameAvalaible from './GameAvalaible';
+import CreateGameForm from './CreateGameForm';
 
 const Game = () => {
 
-    let user = tokenDecode(getCookie('token'));
+  let token = getCookie('token');
+  let user = tokenDecode(token);
     // pass user.payload as props to component
-
     return (
-      <div >
-          private game route
-      </div>
+      <GameLayout
+        left={
+          <GameAvalaible user={user.payload} token={token} />
+        } 
+        right={
+          <CreateGameForm />
+        }
+        />
     );
 }
 
