@@ -4,11 +4,29 @@ import moment from 'moment';
 import 'moment-timezone';
 
 /**
+ * Genere text based on the creation date of the game
+ * @param {*int} timestamp 
+ */
+export const getGamelistDateText = (timestamp) => {
+    let minutes = getDifferenceCurrentDate(timestamp);
+
+    if(minutes == 0){
+        return "Created less than a minute ago";
+    }
+
+    if(minutes == 1){
+        return "Created 1 minute ago";
+    }
+
+    return "Created " + minutes + " minutes ago";
+}
+
+/**
  * get difference between given date and the curent date
  * @param {*string} timestamp 
- * @return {*object} minutes and seconds
+ * @return {*int} minutes
  */
-export const getDifferenceCurrentDate = (timestamp) => {
+const getDifferenceCurrentDate = (timestamp) => {
     // get current date and given date with auth user timezone
     let date = getDateTime(timestamp);
     let now = getDateTimeWithTimezone(new Date());
@@ -17,16 +35,15 @@ export const getDifferenceCurrentDate = (timestamp) => {
 
     // get result into minutes and second, remove number after dot
     let minutes = Math.floor(differenceInSecond / 60);
-    let seconds = differenceInSecond % 60;
 
-    return {minutes, seconds};
+    return minutes;
 }
 
 /**
  * get datetime with auth user timezone
  * @param {*string} timestamp 
  */
-export const getDateTime = (timestamp) => {
+const getDateTime = (timestamp) => {
     let dateTime = new Date(timestamp);
     return getDateTimeWithTimezone(dateTime);
 }
