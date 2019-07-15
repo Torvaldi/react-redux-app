@@ -18,6 +18,12 @@ const Alert = (props) => {
     textClass = 'alertTextSuccess';
   }
 
+  // 1 for informative message
+  if(props.type === 2){
+    blockClass = 'alertBlockInfo';
+    textClass = 'alertTextInfo';
+  }
+
   return (
     <article className={blockClass}>
       <span className={textClass}>{props.message}</span>
