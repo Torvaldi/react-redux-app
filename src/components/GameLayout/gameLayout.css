@@ -1,0 +1,14 @@
+.gameLayout {
+    display: flex;
+    min-height: 100%;
+}
+
+.listBlock {
+    width: 75%;
+    background-color: var(--lighGrey);
+}
+
+.createBlock {
+    width: 25%;
+    border-left: 2px solid var(--grey);
+}
