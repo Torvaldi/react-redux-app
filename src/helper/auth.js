@@ -19,7 +19,7 @@ export async function tokenVerify(token){
  */
 export const splitCookie = (value, name) => {
     var parts = value.split("; " + name + "=");
-    if (parts.length == 2){
+    if (parts.length === 2){
         return parts.pop().split(";").shift();
     }
     return "";
