@@ -16,10 +16,8 @@ class App extends React.Component {
             <Route exact path="/" component={Home} />
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
-            <Route
-              path='/game'
-              component={() => <AuthRoute component={Game} />}
-            />
+            <Route exact path='/game/running' component={() => <AuthRoute component={Home} />} />
+            <Route path='/game' component={() => <AuthRoute component={Game} />} />
           </Switch>
         </BrowserRouter>
     );
