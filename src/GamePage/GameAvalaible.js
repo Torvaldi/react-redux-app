@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getGameAvalaible, userJoinGame, getUserRunningGame, userReJoinGame } from '../actions/game';
-import GameList from './GameList';
-import { Redirect } from 'react-router-dom';
 
-import './css/gameAvalaible.css';
+import { pagination, getCurrentPage, getPaginationInputData } from '../helper/game';
+import { getGameAvalaible, userJoinGame, getUserRunningGame, userReJoinGame } from '../actions/game';
+
+import GameList from '../components/GameList/GameList';
+import Pagination from '../components/Pagination/Pagination';
+import { Redirect } from 'react-router-dom';
 import Alert from '../components/Alerte/Alert';
+import './css/gameAvalaible.css';
 
 const mapStateToProps = (state, ownProps) => ({...state.game, ...ownProps});
 
@@ -57,10 +60,22 @@ class GameAvalaible extends Component {
      * @param {*object} object of game
      */
     printGameList = (games) => {
+
+        // get page
+        let gamesPaginate = pagination(games);
+        let currentPage = getCurrentPage(games);
+
+        let currentGame = gamesPaginate[currentPage];
+
+        let gameType = '';
+        if(this.props.userRunningGame == true){
+            gameType = 'disable';
+        }
+
         return(
             <ul className="gamelist_list">
-                {games.map((game) => {
-                    return <GameList game={game} joinGame={this.joinGame} gameStatus="disable" />;
+                {currentGame.map((game) => {
+                    return <GameList game={game} joinGame={this.joinGame} gameType={gameType} />;
                 })}
             </ul>
         );
@@ -74,12 +89,27 @@ class GameAvalaible extends Component {
         return (
             <section className="runningGame">
                 <Alert type={2} message="You still have a session running !" />
-                <GameList game={game} joinGame={this.reJoinGame} gameStatus="running" />
+                <GameList game={game} joinGame={this.reJoinGame} gameType="running" />
             </section>
         );
     }
 
+    /**
+     * Print pagination if needed
+     * @param {*object} game
+     */
+    printPagination = (games) => {
+        let page = getPaginationInputData(games)
+        if(page.max > 0){
+            return(
+                <Pagination left={page.left} right={page.right} max={page.max} current={page.current} />
+            )
+        }
+        return '';
+    }
+
     render(){
+        // redirect if the user join a game
         if(this.props.userJoinGame === true){
             return <Redirect to="game/running" />
         }
@@ -88,10 +118,16 @@ class GameAvalaible extends Component {
 
         return (
          <section className="layout">
-            <h1 className="title">Join a game</h1>
+            <h1 className="title_game_avalaible">Join a game</h1>
             {userRunningGame === true ? this.printRunningGame(runningGame) : ''}
+
             <span className="text">Waiting for players</span>
             {games ? this.printGameList(games) : '' }
+
+            <section className="gamelist_pagination_layout">
+                {games ? this.printPagination(games): ''}
+            </section>
+            
          </section>
         );
     }

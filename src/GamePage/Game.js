@@ -1,22 +1,18 @@
 import React from 'react';
-import { tokenDecode, getCookie } from '../helper/auth';
 
 import GameLayout from './../components/GameLayout/GameLayout';
 import GameAvalaible from './GameAvalaible';
 import CreateGameForm from './CreateGameForm';
 
-const Game = () => {
-
-  let token = getCookie('token');
-  let user = tokenDecode(token);
+const Game = ({token, user}) => {
     // pass user.payload as props to component
     return (
       <GameLayout
         left={
-          <GameAvalaible user={user.payload} token={token} />
+          <GameAvalaible user={user} token={token} />
         } 
         right={
-          <CreateGameForm />
+          <CreateGameForm token={token} />
         }
         />
     );
