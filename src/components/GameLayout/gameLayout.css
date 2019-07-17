@@ -4,11 +4,13 @@
 }
 
 .listBlock {
-    width: 75%;
+    width: 85%;
     background-color: var(--lighGrey);
+    padding: 50px 80px;
 }
 
 .createBlock {
-    width: 25%;
+    width: 15%;
     border-left: 2px solid var(--grey);
+    padding: 50px 100px;
 }

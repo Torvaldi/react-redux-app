@@ -1,13 +1,13 @@
 import React from 'react';
-import { getGamelistDateText } from '../helper/date';
-import { getGameStatus } from '../helper/game';
+import { getGamelistDateText } from '../../helper/date';
+import { getGameStatus } from '../../helper/game';
 
-import './css/gameList.css'
+import './gameList.css'
 import Button from '@material-ui/core/Button';
 
 const GameList = ({
   joinGame, 
-  gameStatus, 
+  gameType, 
   game: { id, creator, timestamp, level, answer, score_to_win, total_player, status}
   }) => {
       // get date under the form of "created at x minutes ago"
@@ -16,12 +16,12 @@ const GameList = ({
       // dynamic style
       var block_gamelist = 'block_gamelist';
       var disabled = false;
-      if(gameStatus == 'disable'){
+      if(gameType == 'disable'){
         block_gamelist = 'block_gamelist_disable';
         disabled = true;
       }
 
-      if(gameStatus == 'running'){
+      if(gameType == 'running'){
         var TextStatus = <span className="status_title"> - {getGameStatus(status)}</span>
       }
 

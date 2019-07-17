@@ -1,7 +1,8 @@
 import { 
   API_LOAD_GAME_BY_STATUS, 
   API_USER_JOIN_GAME, 
-  API_USER_RUNNING_GAME, 
+  API_USER_RUNNING_GAME,
+  API_USER_CREATE_GAME,
   getAuthorizationHeader 
 } from './../helper/api';
 
@@ -9,6 +10,9 @@ export const LOAD_AVALAIBLE_GAME = 'LOAD_AVALAIBLE_GAME';
 export const CREATE_GAME = 'CREATE_GAME';
 export const USER_JOIN_GAME = 'USER_JOIN_GAME';
 export const USER_RUNNING_GAME = 'USER_RUNNING_GAME';
+export const UPDATE_FIELD_LEVEL = 'UPDATE_FIELD_LEVEL';
+export const UPDATE_FIELD_ANSWER = 'UPDATE_FIELD_ANSWER';
+export const UPDATE_FIELD_WINNING_SCORE = 'UPDATE_FIELD_WINNING_SCORE';
 
 /**
  * get all game waiting for player
@@ -79,4 +83,54 @@ export const getUserRunningGame = (dispatch, token) => {
       payload: result
     })
   );
+}
+
+export const storeGame = (dispatch, token, data) => {
+  fetch(API_USER_CREATE_GAME, {
+    method: 'POST',
+    headers: getAuthorizationHeader(token),
+    body: JSON.stringify({
+      'level': data.level, 
+      'answer': data.answer,
+      'score_to_win': data.winningScore
+    }),
+  })
+  .then(response => response.json())
+  .then(result => 
+    dispatch({
+      type: CREATE_GAME,
+      payload: result,
+    })
+  );
+}
+
+
+export function changeLevel(level){
+  return {
+    type: UPDATE_FIELD_LEVEL,
+    payload: { level }
+  }
+}
+
+export function changeAnswer(answer){
+
+  if(answer < 3){
+    answer = 3;
+  }
+
+  if(answer > 15){
+    answer = 15;
+  }
+
+  return {
+    type: UPDATE_FIELD_ANSWER,
+    payload: { answer }
+  }
+}
+
+export function changeWinningScore(winningScore){
+  return {
+    type: UPDATE_FIELD_WINNING_SCORE,
+    payload: { winningScore }
+  }
 }
