@@ -8,6 +8,9 @@ import {
     RESET_ERROR_LOGIN,
     RESET_ERROR_REGISTER,
     RESET_SUCESS_REGISTER,
+    USER,
+    TOKEN_SUCESS,
+    TOKEN_ERROR
 } from '../actions/auth';
 
 export default (state = {}, action) => {
