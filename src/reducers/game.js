@@ -49,9 +49,15 @@ export default (state = initialState, action) => {
                 winningScore: action.payload.winningScore
             }
         case CREATE_GAME:
+            if(action.payload.error === undefined){
+                return {
+                    ...state,
+                    userCreateGame: true,
+                }
+            }
             return {
                 ...state,
-                userCreateGame: true,
+                userCreateGame: false,
             }
         default:
             return state;

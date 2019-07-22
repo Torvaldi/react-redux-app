@@ -5,7 +5,9 @@ import {
 
 let defaultState = {
     sucessToken: false,
-    errorToken: false
+    errorToken: false,
+    token: null,
+    user: null
 }
 
 export default (state = defaultState, action) => {

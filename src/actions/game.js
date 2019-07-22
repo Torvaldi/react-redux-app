@@ -2,7 +2,7 @@ import {
   API_LOAD_GAME_BY_STATUS, 
   API_USER_JOIN_GAME, 
   API_USER_RUNNING_GAME,
-  API_USER_CREATE_GAME,
+  API_NEW_GAME,
   getAuthorizationHeader 
 } from './../helper/api';
 
@@ -56,19 +56,6 @@ export const userJoinGame = (dispatch, data) => {
 }
 
 /**
- * User REjoin game action
- * it call USER_JOIN_GAME event as userJoinGame function but does not perform api call
- * This function is use in case a user close the window of the running game, so they can rejoin it again
- * @param {*int} gameId 
- */
-export function userReJoinGame(gameId){
-  return {
-    type: USER_JOIN_GAME,
-    payload: { gameId }
-  }
-}
-
-/**
  * get the last (if there are any) running game the user has
  */
 export const getUserRunningGame = (dispatch, token) => {
@@ -86,7 +73,7 @@ export const getUserRunningGame = (dispatch, token) => {
 }
 
 export const storeGame = (dispatch, token, data) => {
-  fetch(API_USER_CREATE_GAME, {
+  fetch(API_NEW_GAME, {
     method: 'POST',
     headers: getAuthorizationHeader(token),
     body: JSON.stringify({
@@ -106,6 +93,15 @@ export const storeGame = (dispatch, token, data) => {
 
 
 export function changeLevel(level){
+
+  if(level > 3){
+    level = 3;
+  }
+
+  if(level < 1){
+    level = 1;
+  }
+
   return {
     type: UPDATE_FIELD_LEVEL,
     payload: { level }
@@ -129,8 +125,26 @@ export function changeAnswer(answer){
 }
 
 export function changeWinningScore(winningScore){
+
+  if(winningScore < 10){
+    winningScore = 10;
+  }
+
   return {
     type: UPDATE_FIELD_WINNING_SCORE,
     payload: { winningScore }
+  }
+}
+
+/**
+ * User REjoin game action
+ * it call USER_JOIN_GAME event as userJoinGame function but does not perform api call
+ * This function is use in case a user close the window of the running game, so they can rejoin it again
+ * @param {*int} gameId 
+ */
+export function userReJoinGame(gameId){
+  return {
+    type: USER_JOIN_GAME,
+    payload: { gameId }
   }
 }
