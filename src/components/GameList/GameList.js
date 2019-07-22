@@ -27,7 +27,7 @@ const GameList = ({
       if(gameType === 'running'){
         var TextStatus = <span className="status_title"> - {getGameStatus(status)}</span>
       }
-
+      
       return(
         <Animated isVisible={true}>
           <li className={block_gamelist} key={id}>

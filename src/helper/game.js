@@ -6,6 +6,8 @@ const GAME_BY_PAGE = 5;
  * @param {*int} statusId 
  */
 export const getGameStatus = (statusId) => {
+    statusId = parseInt(statusId);
+
     if(statusId === 1){
         return "Waiting for player";
     }
@@ -17,7 +19,6 @@ export const getGameStatus = (statusId) => {
     if(statusId === 3){
         return "Finish";
     }
-
 }
 
 /**
