@@ -27,10 +27,10 @@ describe('auth helper', () => {
         expect(auth.splitCookie(value, name)).toEqual(expectedResult);
     });
 
-    it("should return an empty string because the cookie doesn't exist, splitCookie()", () => {
+    it("should return null because the cookie doesn't exist, splitCookie()", () => {
         let value = "; username=falia";
         let name = "password"
-        let expectedResult = "";
+        let expectedResult = null;
         expect(auth.splitCookie(value, name)).toEqual(expectedResult);
     });
 

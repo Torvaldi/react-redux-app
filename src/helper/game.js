@@ -1,21 +1,27 @@
 const GAME_BY_PAGE = 5;
 
+/**
+ * TESTED
+ * retrived game status text
+ * @param {*int} statusId 
+ */
 export const getGameStatus = (statusId) => {
-    if(statusId == 1){
+    if(statusId === 1){
         return "Waiting for player";
     }
 
-    if(statusId == 2){
+    if(statusId === 2){
         return "Running";
     }
 
-    if(statusId == 3){
+    if(statusId === 3){
         return "Finish";
     }
 
 }
 
 /**
+ * TESTED
  * @param {*object} data
  * @return {*array} paginated data
  */
@@ -43,6 +49,7 @@ export const pagination = (data) => {
 }
 
 /**
+ * TESTED
  * get data used to print the paginate input componenant
  * @param {*object} data to paginate
  * @return {*int} current, current page
@@ -75,6 +82,7 @@ export const getPaginationInputData = (data) => {
 }
 
 /**
+ * HALF TESTED with getPaginationInputData() : use get(page) argument, can't be fully tested
  * @param {*object} data 
  * @return {*int} number of the current page
  */
@@ -97,6 +105,7 @@ export const getCurrentPage = (data) => {
 }
 
 /**
+ * TESTED
  * get max page the given data can have
  * @param {*object} data 
  */

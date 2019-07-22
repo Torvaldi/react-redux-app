@@ -2,6 +2,7 @@
 // https://momentjs.com/timezone/
 import moment from 'moment';
 import 'moment-timezone';
+// CANT BE TESTED: as it used timezone and current date information
 
 /**
  * Genere text based on the creation date of the game
@@ -10,11 +11,11 @@ import 'moment-timezone';
 export const getGamelistDateText = (timestamp) => {
     let minutes = getDifferenceCurrentDate(timestamp);
 
-    if(minutes == 0){
+    if(minutes === 0){
         return "Created less than a minute ago";
     }
 
-    if(minutes == 1){
+    if(minutes === 1){
         return "Created 1 minute ago";
     }
 

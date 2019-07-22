@@ -27,4 +27,31 @@ describe('game helper', () => {
         expect(result.length).toEqual(2);
     });
 
+    it('should print right paginate input, getPaginationInputData()', () => {
+        let data = [
+            { title: 1 }, {title: 2 }, {title: 3 }, {title: 4 }, {title: 5 }, {title: 6 }, {title: 7 }
+        ];
+        
+        let dataInput = game.getPaginationInputData(data);
+        // current page is 0, as its the default page when there are not page parameter
+        let expectedResult = {
+             current: 0,
+             max: 1,
+             left: 0,
+             right: 1,
+            };
+        expect(dataInput).toEqual(expectedResult);
+        
+    });
+
+    it('should return the max page, getMaxPage()', () => {
+        let data = [
+            { title: 1 }, {title: 2 }, {title: 3 }, {title: 4 }, {title: 5 }, {title: 6 }, {title: 7 }
+        ];
+
+        let maxPage = game.getMaxPage(data);
+        // data can be slice one time, so there are only one page (without the default page with the first 5 data)
+        expect(maxPage).toEqual(1);
+    });
+
 });
