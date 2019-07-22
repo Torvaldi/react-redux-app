@@ -73,3 +73,21 @@
 .status_title {
     color: var(--secondary);
 }
+
+/* mobile */
+@media only screen and (max-width: 550px) {
+    .block_gamelist, .block_gamelist_disable, .gamelist_config {
+      flex-direction: column;
+      align-items: center;
+      
+    }
+
+    .gamelist_info{
+        text-align: center;
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+
+
+}

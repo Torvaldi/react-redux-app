@@ -1,9 +1,12 @@
 import React from 'react';
+import propTypes from 'prop-types';
+
 import { getGamelistDateText } from '../../helper/date';
 import { getGameStatus } from '../../helper/game';
 
 import './gameList.css'
 import Button from '@material-ui/core/Button';
+import {Animated} from "react-animated-css";
 
 const GameList = ({
   joinGame, 
@@ -16,17 +19,18 @@ const GameList = ({
       // dynamic style
       var block_gamelist = 'block_gamelist';
       var disabled = false;
-      if(gameType == 'disable'){
+      if(gameType === 'disable'){
         block_gamelist = 'block_gamelist_disable';
         disabled = true;
       }
 
-      if(gameType == 'running'){
+      if(gameType === 'running'){
         var TextStatus = <span className="status_title"> - {getGameStatus(status)}</span>
       }
 
       return(
-        <li className={block_gamelist} key={id}>
+        <Animated isVisible={true}>
+          <li className={block_gamelist} key={id}>
             <section className="gamelist_info">
               <h2 className="gamelist_title">
               {creator} 's game
@@ -67,10 +71,16 @@ const GameList = ({
               </Button>
               </form>
             </section>
-        </li>
+          </li>
+        </Animated>
       );
     
 }
 
+GameList.propTypes = {
+  joinGame: propTypes.func.isRequired,
+  gameType: propTypes.string.isRequired,
+  game: propTypes.object.isRequired,
+}
 
 export default GameList

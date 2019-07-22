@@ -14,3 +14,21 @@
     border-left: 2px solid var(--grey);
     padding: 50px 100px;
 }
+
+/* tablet */
+@media only screen and (max-width: 1024px) {
+    .gameLayout {
+      flex-direction: column;
+    }
+
+    .createBlock {
+        width: 80%;
+    }
+}
+
+/* tablet */
+@media only screen and (max-width: 550px) {
+    .gameLayout {
+        align-items: center;
+    }
+}

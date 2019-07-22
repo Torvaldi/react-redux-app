@@ -2,17 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './pagination.css';
 
+import propTypes from 'prop-types';
+
 const Pagination = ({left, right, max, current}) => {
   const parameter ="?page=";
 
   let cssLeft = '';
   let cssRight = '';
 
-  if(current == 0 && left == 0){
+  if(current === 0 && left === 0){
     cssLeft = 'disable_pagination';
   }
 
-  if(current == max && right == max){
+  if(current === max && right === max){
     cssRight = 'disable_pagination';
   }
 
@@ -29,6 +31,11 @@ const Pagination = ({left, right, max, current}) => {
   );
 }
 
-
+Pagination.propTypes = {
+  left: propTypes.number.isRequired,
+  right: propTypes.number.isRequired,
+  max: propTypes.number.isRequired,
+  current: propTypes.number.isRequired,
+}
 
 export default Pagination;
