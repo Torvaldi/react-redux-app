@@ -5,7 +5,7 @@ import auth from './reducers/auth';
 import game from './reducers/game';
 
 export default combineReducers({
-    token,
     auth,
+    token,
     game,
 });

@@ -59,6 +59,10 @@
     }
     .buttonLogin {
         margin-right: 0px !important;
-        margin-bottom: 30px !important;
     }
+    .buttonRegister {
+        width: 100%;
+        margin-top: 30px !important;
+    }
+    
 }
