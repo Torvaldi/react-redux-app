@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import './css/createGameForm.css';
 
+import { NEW_GAME } from '../socket';
+
 import { 
   changeLevel, 
   changeAnswer, 
@@ -47,10 +49,18 @@ class CreateGameForm extends Component {
   }
 
   render(){
-    const { token, level, answer, winningScore, userCreateGame } = this.props;
-
+    const { token, level, answer, winningScore, userCreateGame, userRunningGame, io } = this.props;
+    
+    // redirect the user after creating a game
     if(userCreateGame === true){
+      io.emit(NEW_GAME);
       return <Redirect to="game/running" />
+    }
+
+    // disable form in case the user is already inside a game
+    var disabled = true;
+    if(userRunningGame === false){
+      disabled = false;
     }
 
     return (
@@ -72,6 +82,7 @@ class CreateGameForm extends Component {
               margin="normal"
               variant="outlined"
               required
+              disabled={disabled}
             />
             <FormHelperText className="game_create_text" >The smaller is it, the more famous the animes are</FormHelperText>
           </div>
@@ -89,6 +100,7 @@ class CreateGameForm extends Component {
               margin="normal"
               variant="outlined"
               required
+              disabled={disabled}
             />
             <FormHelperText className="game_create_text">Number of answers of the mCQ ! Min: 4, Max: 15</FormHelperText>
           </div>
@@ -106,11 +118,12 @@ class CreateGameForm extends Component {
               margin="normal"
               variant="outlined"
               required
+              disabled={disabled}
             />
           </div>
           <div className="create_game_button">
             <div>
-            <Button type="submit" size="large" variant="contained" color="primary">
+            <Button type="submit" size="large" variant="contained" color="primary" disabled={disabled}>
               Create
             </Button>
             </div>

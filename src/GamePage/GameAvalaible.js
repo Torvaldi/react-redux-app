@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import { pagination, getCurrentPage, getPaginationInputData } from '../helper/game';
 import { getGameAvalaible, userJoinGame, getUserRunningGame, userReJoinGame } from '../actions/game';
+import { NEW_GAME, JOIN_GAME } from '../socket';
 
 import GameList from '../components/GameList/GameList';
 import Pagination from '../components/Pagination/Pagination';
@@ -29,9 +30,20 @@ class GameAvalaible extends Component {
      * Initialise the list of the games waiting for player and the game the auth user might have stated
      */
     componentDidMount = () => {
-        const { token } = this.props;
+        const { io, token } = this.props;
         this.props.onGameAvailable(token);
         this.props.onUserRunningGame(token);
+
+        // refresh value when a user create a new game
+        io.on(NEW_GAME, () => {
+            this.props.onGameAvailable(token);
+            this.props.onUserRunningGame(token);
+        });
+
+        io.on(JOIN_GAME, () => {
+            this.props.onGameAvailable(token);
+            this.props.onUserRunningGame(token);
+        });
     }
 
     /**
@@ -39,10 +51,11 @@ class GameAvalaible extends Component {
      */
     joinGame = (gameId) => (event) => {
         event.preventDefault();
-        const { token } = this.props;
         // check if the user is not already in a game, so they can't rejoin a game twice
         if(this.props.userRunningGame === false){
+            const { token, io } = this.props;
             this.props.onUserJoinGame(token, gameId);
+            io.emit(JOIN_GAME);
         }
     }
 
@@ -68,14 +81,14 @@ class GameAvalaible extends Component {
         let currentGame = gamesPaginate[currentPage];
 
         let gameType = '';
-        if(this.props.userRunningGame == true){
+        if(this.props.userRunningGame === true){
             gameType = 'disable';
         }
 
         return(
             <ul className="gamelist_list">
                 {currentGame.map((game) => {
-                    return <GameList game={game} joinGame={this.joinGame} gameType={gameType} />;
+                   return <GameList game={game} joinGame={this.joinGame} gameType={gameType} />;
                 })}
             </ul>
         );
@@ -117,7 +130,7 @@ class GameAvalaible extends Component {
         const { games, userRunningGame, runningGame } = this.props;
 
         return (
-         <section className="layout">
+         <Fragment>
             <h1 className="title_game_avalaible">Join a game</h1>
             {userRunningGame === true ? this.printRunningGame(runningGame) : ''}
 
@@ -128,7 +141,7 @@ class GameAvalaible extends Component {
                 {games ? this.printPagination(games): ''}
             </section>
             
-         </section>
+         </Fragment>
         );
     }
 }
