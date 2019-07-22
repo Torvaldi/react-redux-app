@@ -1,7 +1,6 @@
 import { SECRET_KEY } from '../config';
 
 const jwtJsDecode = require('jwt-js-decode');
-
 /**
  * @param {*string} token 
  * @return bool
@@ -19,10 +18,10 @@ export async function tokenVerify(token){
  */
 export const splitCookie = (value, name) => {
     var parts = value.split("; " + name + "=");
-    if (parts.length == 2){
+    if (parts.length === 2){
         return parts.pop().split(";").shift();
     }
-    return "";
+    return null;
 }
 
 export const getCookie = (name) => {

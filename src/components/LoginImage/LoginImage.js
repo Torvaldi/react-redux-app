@@ -5,7 +5,7 @@ import './loginImage.css';
 
 const LoginImage = (props) => {
   return (
-      <img src={props.image} alt="image" className="imageLogin" />
+      <img src={props.image} alt="login_ilustration" className="imageLogin" />
   );
 }
 

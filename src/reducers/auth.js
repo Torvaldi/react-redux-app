@@ -10,7 +10,12 @@ import {
     RESET_SUCESS_REGISTER,
 } from '../actions/auth';
 
-export default (state = {}, action) => {
+let defaultState = {
+    username: null,
+    password: null
+}
+
+export default (state = defaultState, action) => {
     switch(action.type) {
         case UPDATE_FIELD_USERNAME:
             return {

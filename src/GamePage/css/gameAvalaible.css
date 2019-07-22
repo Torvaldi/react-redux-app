@@ -1,0 +1,31 @@
+
+.title_game_avalaible {
+    color: var(--primary);
+    margin: 0;
+    font-size: 2rem;
+}
+
+.text {
+
+}
+
+/* reset ul default padding for gamelist list*/
+.gamelist_list {
+    padding: 0px
+}
+
+.runningGame {
+    margin: 25px 0 50px 0;
+}
+
+.runningGame_title {
+    font-size: 1.3rem;
+    color: var(--secondary);
+    font-weight: bold;
+}
+
+.gamelist_pagination_layout {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}

@@ -109,7 +109,7 @@ class LoginForm extends Component {
                       Login
                     </Button>
                       <Link to="/register">
-                        <Button size="large" variant="outlined" color="primary">
+                        <Button className="buttonRegister" size="large" variant="outlined" color="primary">
                           Sign up 
                         </Button>
                       </Link>

@@ -1,0 +1,34 @@
+.gameLayout {
+    display: flex;
+    min-height: 100%;
+}
+
+.listBlock {
+    width: 85%;
+    background-color: var(--lighGrey);
+    padding: 50px 80px;
+}
+
+.createBlock {
+    width: 15%;
+    border-left: 2px solid var(--grey);
+    padding: 50px 100px;
+}
+
+/* tablet */
+@media only screen and (max-width: 1024px) {
+    .gameLayout {
+      flex-direction: column;
+    }
+
+    .createBlock {
+        width: 80%;
+    }
+}
+
+/* tablet */
+@media only screen and (max-width: 550px) {
+    .gameLayout {
+        align-items: center;
+    }
+}

@@ -1,0 +1,35 @@
+
+.form_create_game {
+    display: flex;
+    flex-direction: column;
+}
+
+.form_create_game_field {
+    margin-bottom: 20px;
+}
+
+.text_create_game {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.create_game_button {
+    display: flex;
+    justify-content: center;
+}
+
+.title_create_game {
+    color: var(--primary);
+    margin: 0;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.game_create_field {
+    width: 100%;
+    margin: 0;
+}
+
+.game_create_text {
+    text-align: center !important; /* important to overwrite defaul value (left)*/
+}

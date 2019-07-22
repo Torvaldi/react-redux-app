@@ -10,6 +10,7 @@ export const RESET_ERROR_LOGIN = 'RESET_ERROR_LOGIN';
 export const RESET_ERROR_REGISTER = 'RESET_ERROR_REGISTER';
 export const RESET_SUCESS_REGISTER = 'RESET_SUCESS_REGISTER';
 
+
 // LOGIN and REGISTER action
 export const login = (dispatch, data) => {
     fetch(API_LOGIN, {
@@ -46,7 +47,6 @@ export const register = (dispatch, data) => {
     })
   );
 };
-
 
 export function changeUsername(username){
   return {

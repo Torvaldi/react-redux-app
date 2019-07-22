@@ -49,11 +49,9 @@ class RegisterForm extends Component {
   resetFeedback = (errorRegister, messageRegister) => (event) => {
     event.preventDefault();
     if(errorRegister){
-      console.log(errorRegister)
       this.props.onResetErrorRegister();
     }
     if(messageRegister){
-      console.log(messageRegister)
       this.props.onResetSucessRegister()
     }
   }
@@ -146,5 +144,22 @@ class RegisterForm extends Component {
   }
 }
 
+RegisterForm.propTypes = {
+  onChangeUsername: propTypes.func,
+  onChangePassword: propTypes.func,
+  onChangePasswordConfirmation: propTypes.func,
+  onChangeMail: propTypes.func,
+  onSubmit: propTypes.func,
+  onResetErrorRegister: propTypes.func,
+  onResetSucessRegister: propTypes.func,
+
+  username: propTypes.string,
+  password: propTypes.string,
+  mail: propTypes.string,
+  passwordConfirmation: propTypes.string,
+
+  errorRegister: propTypes.string,
+  messageRegister: propTypes.string,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

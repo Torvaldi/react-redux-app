@@ -1,0 +1,8 @@
+.disable_pagination {
+    cursor: not-allowed;
+    background-color: #eeeeee;
+}
+
+.default_pagination {
+    font-size: 2rem;
+}
