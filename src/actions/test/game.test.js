@@ -1,6 +1,6 @@
 import * as actions from '../game';
 
-describe('Game reducer', () => {
+describe('Game action', () => {
     it('should create an action to changeLevel state, changeLevel()', () => {
         let level =  2;
         let expectedAction = {
