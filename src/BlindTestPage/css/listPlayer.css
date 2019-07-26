@@ -1,0 +1,66 @@
+.listPlayerLayout{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background:linear-gradient(0deg,rgba(22, 15, 53, 0.52),rgba(10, 84, 144, 0.315)),url(http://hdqwalls.com/wallpapers/anime-cityscape-landscape-scenery-5k-r6.jpg);
+    background-size: cover;
+    height: 100%;
+}
+
+
+.listPlayerInfo {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--grey);
+}
+
+
+.playerTitle {
+    font-size: 1.6rem;
+    margin: 20px 0;
+    color: white;
+}
+
+
+.playerScoreToWin, .playerLevelData {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.playerScoreToWinData, .playerLevelData {
+    font-weight: bold;
+}
+
+.listPlayer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    margin: O;
+    width: 100%;
+}
+
+.listPlayerLabel{
+    display: flex;
+    justify-content: space-around;
+    padding: 0 30px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.playerLabel, .playerScore {
+    color: var(--darkGrey);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.listPlayerImageLayout {
+    display: flex;
+    justify-content: center;;
+}
+
+.listPlayerImage {
+    width: 220%;
+}

@@ -1,0 +1,19 @@
+
+.chatMessageLayout {
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0;
+}
+
+.chatFormLayout {
+    height: 10%;
+    /*border-top: 2px solid var(--grey); */
+}
+
+.chatFormMessage {
+    width: 100%;
+    height: 100%;
+}
