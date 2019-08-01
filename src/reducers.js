@@ -6,6 +6,8 @@ import game from './reducers/game';
 import runningGame from './reducers/runningGame';
 import chat from './reducers/chat';
 import player from './reducers/player'
+import mainGame from './reducers/mainGame';
+import runningMusic from './reducers/mainGame/runningMusic';
 
 export default combineReducers({
     auth,
@@ -14,4 +16,6 @@ export default combineReducers({
     runningGame,
     chat,
     player,
+    mainGame,
+    runningMusic
 });

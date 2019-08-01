@@ -5,7 +5,7 @@ describe('auth reducer', () => {
 
     it('should uset game value, GET_GAME', () => {
         let previousState = { username: "bob" };
-        let game = { id: 1 };
+        let game = {id: 1, status: 1};
         let action = {
             type: runningGameAction.GET_GAME,
             payload: game
@@ -13,6 +13,7 @@ describe('auth reducer', () => {
         let expectedResult = {
             username: "bob",
             game,
+            gameStatus: 1,
         }
         let state = reducer(previousState, action);
         expect(state).toEqual(expectedResult)

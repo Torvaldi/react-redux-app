@@ -1,6 +1,7 @@
 import { API_USER_GAME, API_USER_RUNNING_GAME, getAuthorizationHeader } from '../helper/api';
 
 export const GET_GAME = 'GET_GAME';
+export const UPDATE_GAME_STATUS = 'UPDATE_GAME_STATUS';
 
 /**
  * get game data (level, answer etc)
@@ -19,4 +20,11 @@ export function getGame(dispatch, token){
         payload: result
       })
     );
+}
+
+export function updateStatusState(gameStatus){
+  return {
+    type: UPDATE_GAME_STATUS,
+    payload: gameStatus
+  }
 }
