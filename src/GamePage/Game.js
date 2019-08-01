@@ -7,8 +7,6 @@ import io from '../socket';
 
 const Game = ({token, user}) => {
     // pass user.payload as props to component
-
-    io.emit('NEW_PLAYER', user);
     return (
       <GameLayout
         left={

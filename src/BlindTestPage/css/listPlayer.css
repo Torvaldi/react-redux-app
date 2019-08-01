@@ -64,3 +64,7 @@
 .listPlayerImage {
     width: 220%;
 }
+
+.buttonLauchGame {
+    margin: 10px 0 !important; /* to rewrite default margin value */
+}
