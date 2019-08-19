@@ -1,0 +1,26 @@
+
+.messageLayout {
+    list-style-type: none;
+}
+
+.messageUsernameLayout {
+    margin-top: 25px;
+}
+
+.messageUsername, .messageAuthUsername {
+    font-weight: bold;
+}
+
+.messageUsername {
+    /**/
+}
+
+.messageAuthUsername {
+    color: var(--primary);
+}
+
+.messageContent{
+    padding-bottom: 12px;
+    margin-bottom: 0;
+    border-bottom: 2px solid var(--grey);
+}

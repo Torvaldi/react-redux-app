@@ -1,0 +1,18 @@
+
+.answerItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    list-style: none;
+    width: 25%;
+    background-color: white;
+    border: 2px solid var(--grey);
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.answerItem:hover {
+    background-color:var(--grey);
+}

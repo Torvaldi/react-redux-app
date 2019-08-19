@@ -1,0 +1,31 @@
+
+.player {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgba(255, 255, 255, .2);
+    /*padding: 20px 30px;*/
+    margin: 8px 0;
+    width: 100%;
+}
+
+.animatedPlayer {
+    width: 80%;
+}
+
+.playerListUsername, .playerListAuthUsername {
+    font-size: 1.2rem;
+    text-shadow: 2px 2px 2px #212121;
+    font-weight: bold;
+    padding: 20px 0;
+}
+
+.playerListUsername {
+    color: white;
+
+}
+
+.playerListAuthUsername {
+    color: var(--primary);
+    text-shadow: 2px 2px 5px black;
+}

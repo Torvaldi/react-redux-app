@@ -1,4 +1,4 @@
-import { API_LOGIN, API_REGISTER } from '../helper/api';
+import { API_LOGIN, API_REGISTER, getCrosHeader } from '../helper/api';
 
 export const UPDATE_FIELD_USERNAME = 'UPDATE_FIELD_USERNAME';
 export const UPDATE_FIELD_PASSWORD = 'UPDATE_FIELD_PASSWORD';
@@ -15,6 +15,7 @@ export const RESET_SUCESS_REGISTER = 'RESET_SUCESS_REGISTER';
 export const login = (dispatch, data) => {
     fetch(API_LOGIN, {
         method: 'POST',
+        headers: getCrosHeader(),
         body: JSON.stringify({
           'username': data.username, 
           'password' : data.password
@@ -32,6 +33,7 @@ export const login = (dispatch, data) => {
 export const register = (dispatch, data) => {
   fetch(API_REGISTER, {
     method: 'POST',
+    headers: getCrosHeader(),
     body: JSON.stringify({
       'username': data.username,
       'email': data.mail,

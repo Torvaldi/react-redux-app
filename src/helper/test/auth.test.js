@@ -36,10 +36,10 @@ describe('auth helper', () => {
 
     it('should match expected token value', () => {
         // acces debuger https://jwt.io/#debugger
-        let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ1c2VybmFtZSI6ImtldmluNCIsInRpbWUiOiIyMDE5LTA2LTI0IDE5OjIyOjUwIn0.YVSsyfOgx3_W2mXtl-4tAk-zkA0iFHEHgArJHNsVqk8";
+        let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywidXNlcm5hbWUiOiJrZXZpbjY5IiwidGltZSI6IjIwMTktMDctMjYgMTU6MTc6NDEifQ.TZDmUUHvl6PoVrmBrFX2L25vjs1b93TjO2hhP0ywACM";
         let decodedToken = auth.tokenDecode(token);
-        expect(decodedToken.payload.user_id).toEqual(5);
-        expect(decodedToken.payload.username).toEqual("kevin4");
+        expect(decodedToken.payload.id).toEqual(7);
+        expect(decodedToken.payload.username).toEqual("kevin69");
     });
 
 });
