@@ -5,16 +5,14 @@ import RunningWaiting from './Running/RunningWaiting';
 import RunningMusic from './Running/RunningMusic';
 import RunningResult from './Running/RunningResult';
 
-import { switchRunningStatus, setAnimeToGuess, setAnimeToGuessCall } from '../../actions/mainGame';
 import { getAnimeToGuess } from '../../helper/mainGame';
 
+import { setAnimeToGuess, setAnimeToGuessCall } from '../../actions/mainGame';
 import { SWITCH_RUNNING_STATUS, SEND_ANIME_TO_GUESS } from '../../socket';
 
 const mapStateToProps = (state, ownProps) => ({...state.mainGame, ...ownProps});
 
 const mapDispatchToProps = (dispatch) => ({
-    onSwitchRunningStatus: () =>
-      dispatch(switchRunningStatus()),
     onSetAnimeToGuess: (animeToGuess) =>
       dispatch(setAnimeToGuess(animeToGuess)),
     onSetAnimeToGuessCall : (bool) =>
@@ -26,12 +24,6 @@ class Running extends React.Component {
   componentDidMount = () => {
     // change every x second
     const { io } = this.props;
-
-    // switch running game status every x second
-    io.on(SWITCH_RUNNING_STATUS, () => {
-      console.log('client recieve status change')
-        this.props.onSwitchRunningStatus();
-    });
 
     // get animes to guess that were send by the creator
     io.on(SEND_ANIME_TO_GUESS, (animeToGuess) => {
@@ -53,21 +45,29 @@ class Running extends React.Component {
 
   changeStatus = () => {
     const { io, runningStatus, authUser, game : { id, creator } } = this.props;
+
     // the creator handle all the change status of the game
     if(authUser.username === creator){
       let data = { 
         gameId: id, 
-        runningStatus 
+        runningStatus,
       };
+
       io.emit(SWITCH_RUNNING_STATUS, data);
     }
   }
 
 
   render(){
-    const { authUser, runningStatus, game : { id,  creator }, animeToGuess, io, animeToGuessCall } = this.props;
+    const { authUser, 
+      runningStatus, 
+      game : { id,  creator }, 
+      animeToGuess, 
+      io, 
+      animeToGuessCall,
+      scores
+    } = this.props;
     // every turn load new anime opening to guess
-    console.log(runningStatus)
 
     // the creator of the game call the anime to guess and send it to the other player
     if(runningStatus === 0 && animeToGuessCall === false && authUser.username === creator){
@@ -81,22 +81,26 @@ class Running extends React.Component {
 
     return(
      <Fragment>
-       {runningStatus === 0 ? <RunningWaiting 
-        changeStatus={this.changeStatus} 
+       {runningStatus === 0 ? 
+        <RunningWaiting 
+          changeStatus={this.changeStatus} 
         /> : ''}
 
-       {runningStatus === 1 && animeToGuess ? <RunningMusic 
+       {runningStatus === 1 && animeToGuess ? 
+        <RunningMusic 
           gameId={id} 
           authUser={authUser} 
           io={io} 
           animeToGuess={animeToGuess}
           answerOnceDefault={false}
           changeStatus={this.changeStatus}
-          /> : ''}
+        /> : ''}
 
-        {runningStatus === 2 ? <RunningResult 
+        {runningStatus === 2 ? 
+        <RunningResult 
           changeStatus={this.changeStatus}
-          /> : ''}
+          scores={scores}
+        /> : ''}
           
      </Fragment>
     );

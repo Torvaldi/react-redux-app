@@ -1,5 +1,5 @@
 
-import { GET_PLAYERS, GET_SCORE } from '../actions/player';
+import { GET_PLAYERS } from '../actions/player';
 
 const initialState = {
     players: []
@@ -11,11 +11,6 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 players: action.payload,
-            }
-        case GET_SCORE:
-            return {
-                ...state,
-                scores: action.payload
             }
         default:
             return state;

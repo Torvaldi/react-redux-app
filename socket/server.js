@@ -4,8 +4,8 @@ const io = require('socket.io')(http);
 const redis = require('redis');
 
 const event = require('./event');
-const score = require('./helper/score');
-const status = require('./helper/status');
+const scoreHelper = require('./helper/score');
+const statusHelper = require('./helper/status');
 
 
 // Create Redis Client
@@ -40,16 +40,17 @@ io.on('connection', (socket) => {
     socket.join('game:' + game.id);
 
     // get user score
-    client.hget(score.gameScore(game.id), authUser.id, (error,response) => {
+    client.hget(scoreHelper.gameScore(game.id), authUser.username, (error,response) => {
       // if user doesn't have a score, initial it to zero
       
       if(response === null){
-        console.log('game null')
-        client.hset(score.gameScore(game.id), authUser.id, 0);
+        client.hset(scoreHelper.gameScore(game.id), authUser.username, 0);
       }
       // get all user score and send it back to client
-      client.hgetall(score.gameScore(game.id), (error, scores) => {
-        io.in('game:'+ game.id).emit(event.USER_JOIN_GAME, scores);
+      client.hgetall(scoreHelper.gameScore(game.id), (error, response) => {
+        let objectResponse = scoreHelper.hashToJson(response);
+        let responseData = { score: objectResponse };
+        io.in('game:'+ game.id).emit(event.USER_JOIN_GAME, responseData);
       });
     });
   });
@@ -64,6 +65,7 @@ io.on('connection', (socket) => {
    */
   socket.on(event.LAUCH_GAME, (gameId) => {
     socket.to(`game:${gameId}`).emit(event.LAUCH_GAME);
+    client.set(`scoreCounter:${gameId}`, 1);
     console.log('event lauch');
   });
 
@@ -81,13 +83,39 @@ io.on('connection', (socket) => {
    */
   socket.on(event.SWITCH_RUNNING_STATUS, (data) => {
     const { gameId, runningStatus } = data;
-
+    
     setTimeout( () => {
-      io.in(`game:${gameId}`).emit(event.SWITCH_RUNNING_STATUS);
-    }, status.getTimeout(runningStatus));
+      let responseData = {};
+
+      // the client need to recieve the score at the end of the turn
+      if(runningStatus === 1){
+        // get all players total score
+        client.hgetall(scoreHelper.gameScore(gameId), (error, response) => {
+
+          let objectResponse = scoreHelper.hashToJson(response);
+          responseData = {...responseData, score: objectResponse };
+          // get player rank of the turn
+          io.in('game:'+ gameId).emit(event.SWITCH_RUNNING_STATUS, responseData);
+        });
+
+      }
+      
+      if(runningStatus === 2){
+        // reset counter for next turn
+        client.set(`scoreCounter:${gameId}`, 1);
+        client.del(`scoreRank:${gameId}`);
+
+        io.in(`game:${gameId}`).emit(event.SWITCH_RUNNING_STATUS, responseData);
+      }
+      
+      if(runningStatus === 0){
+        // nothing needs to be send back to the client, send empty object
+        io.in(`game:${gameId}`).emit(event.SWITCH_RUNNING_STATUS, responseData);
+      }
+      
+    }, statusHelper.getTimeout(runningStatus)); // get second of the timeout depeding of runningStatus
 
   });
-
 
 
   /**
@@ -96,20 +124,48 @@ io.on('connection', (socket) => {
    */
   socket.on(event.CLICK_ANSWER, (data) => {
     const { gameId, authUser, findAnime } = data;
-    //let responseData = { authUser, findAnime };
     
-    // incremente score if findAnime is true (guess anime right)
-    if(findAnime === true){
-      client.hget(score.gameScore(gameId), authUser.id, (error, userScore) => {
-        let newScore = parseInt(userScore) + 1; // because redis store string only
-        client.hset(score.gameScore(gameId), authUser.id, newScore);
+    // if the players guess right
+    if(findAnime == true){
+      // get player position
+      client.get(`scoreCounter:${gameId}`, (error, counter) => {
+        
+        let rank = parseInt(counter);
+        client.set(`scoreCounter:${gameId}`, rank + 1);
+
+        let scoreTurn = scoreHelper.genereScore(rank);
+        // incremente total score
+        client.hget(scoreHelper.gameScore(gameId), authUser.username, (error, response) => {
+          let result = JSON.parse(response);
+          let currentScore = 0;
+          if(result.score){
+            currentScore = result.score;
+          }
+
+          let newData = {
+            ...result, 
+            username: authUser.username,
+            score: currentScore + scoreTurn,
+            scoreTurn,
+            rank,
+          };
+          client.hset(scoreHelper.gameScore(gameId), authUser.username, JSON.stringify(newData));
+        });
+      });
+      // player guess wrong
+    } else {
+      client.hget(scoreHelper.gameScore(gameId), authUser.username, (error, response) => {
+        let result = JSON.parse(response);
+        let newData = { 
+          ...result, 
+          scoreTurn: 0, 
+          rank: 0, 
+          username: authUser.username 
+        };
+        client.hset(scoreHelper.gameScore(gameId), authUser.username, JSON.stringify(newData));
       });
     }
-
-    // send to if x was right or wrong
-    //socket.to(`game:${gameId}`).emit(event.CLICK_ANSWER, responseData);
   });
-  
 
 });
 

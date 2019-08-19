@@ -3,7 +3,8 @@ import {
     GET_ANIMES, 
     SWITCH_RUNNING_STATUS,
     SET_ANIME_TO_GUESS,
-    SET_ANIME_TO_GUESS_CALL 
+    SET_ANIME_TO_GUESS_CALL,
+    SET_SCORE,
 } from '../actions/mainGame';
 
 const initialState = {
@@ -41,6 +42,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 animeToGuessCall: action.payload,
+            }
+        case SET_SCORE:
+            return {
+                ...state,
+                scores: action.payload,
             }
         default:
             return state;

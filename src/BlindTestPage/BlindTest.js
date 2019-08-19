@@ -9,7 +9,7 @@ import MainGame from './MainGame';
 import io from '../socket';
 import { GAME_UPDATE, LAUCH_GAME } from '../socket';
 
-import { getGame, updateStatusState } from '../actions/runningGame';
+import { getGame, updateStatusState, playerRefreshScore } from '../actions/runningGame';
 import { updateDatabaseGameStatus } from '../helper/runningGame';
 
 const mapStateToProps = (state, ownProps) => ({...state.runningGame, ...ownProps});
@@ -19,6 +19,8 @@ const mapDispatchToProps = (dispatch) => ({
     getGame(dispatch, token),
   onUpdateStatusState: (status) =>
     dispatch(updateStatusState(status)),
+  onPlayerRefreshScore: (scores) =>
+    dispatch(playerRefreshScore(scores))
 });
 
 class BlindTest extends React.Component {
@@ -32,6 +34,16 @@ class BlindTest extends React.Component {
     });
   }
 
+  /**
+   * Refresh the players scores, this method is call by children container when players score is updated
+   */
+  refreshScore = (scores) => {
+    this.props.onPlayerRefreshScore(scores);
+  }
+
+  /**
+   * Launch the game, called by the creator of the game from a child container (ListPlayer)
+   */
   launchGame = (event) => {
     event.preventDefault();
     const { token, game } = this.props;
@@ -47,12 +59,38 @@ class BlindTest extends React.Component {
     io.emit(LAUCH_GAME, game.id);
   }
 
+  /**
+   * Print all 3 part of the layout, each of them have their own state
+   * PlayerList : List of all player with their score and basic game information
+   * MainGame: The most important part of the game, divided in sub container, its where all the game happend
+   * Chat: A simple chat where players can talk to each other
+   */
   printGame = () => {
-    const { token, game, user, gameStatus } = this.props;
+    const { token, game, user, gameStatus, scores } = this.props;
+    
     return(
       <BlindTestLayout
-          left={<ListPlayer io={io} game={game} token={token} authUser={user} launchGame={this.launchGame} gameStatus={gameStatus} />}
-          center={<MainGame io={io} game={game} token={token} authUser={user} gameStatus={gameStatus}/>}
+          left={
+          <ListPlayer 
+            io={io} 
+            game={game} 
+            token={token} 
+            authUser={user} 
+            launchGame={this.launchGame} 
+            gameStatus={gameStatus}
+            refreshScore={this.refreshScore}
+            scores={scores}
+          />}
+          center={
+          <MainGame 
+            io={io} 
+            game={game} 
+            token={token} 
+            authUser={user} 
+            gameStatus={gameStatus}
+            refreshScore={this.refreshScore}
+            scores={scores}
+          />}
           right={<Chat io={io} game={game} authUser={user} />}
       />
     );

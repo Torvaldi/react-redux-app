@@ -12,10 +12,21 @@ class RunningResult extends React.Component {
     this.props.changeStatus();
   }
 
+  printScoreOfTheTurn = (scores) => {
+    return (
+      <ul>
+        {scores.map((score) => {
+          return <li>{score.data.username} - {score.data.scoreTurn}</li>
+        })}
+      </ul>
+    )
+  }
+
   render(){
+    const { scores } = this.props;
     return(
      <Fragment>
-       player score !
+       {scores ? this.printScoreOfTheTurn(scores) : ''}
      </Fragment>
     );
   }

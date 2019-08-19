@@ -5,6 +5,7 @@ export const GET_ANIMES = 'GET_ANIMES';
 export const SWITCH_RUNNING_STATUS = 'SWITCH_RUNNING_STATUS';
 export const SET_ANIME_TO_GUESS = 'SET_ANIME_TO_GUESS';
 export const SET_ANIME_TO_GUESS_CALL = 'SET_ANIME_TO_GUESS_CALL';
+export const SET_SCORE = 'SET_SCORE';
 
 export function getAnimes(dispatch, data){
     fetch(API_GET_ANIMES + '?level=' + data.level, {
@@ -40,5 +41,12 @@ export function setAnimeToGuessCall(bool){
   return {
     type: SET_ANIME_TO_GUESS_CALL,
     payload: bool,
+  }
+}
+
+export function setScore(score){
+  return {
+    type: SET_SCORE,
+    payload: score,
   }
 }

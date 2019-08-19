@@ -19,6 +19,9 @@ const mapDispatchToProps = (dispatch) => ({
 
 class Chat extends React.Component {
 
+  /**
+   * Handle socket event (message post)
+   */
   componentDidMount = () => {
     const { io } = this.props;
 
@@ -28,8 +31,13 @@ class Chat extends React.Component {
 
   }
 
+  /** update message change state */
   changeMessage = (event) => this.props.onChangeMessage(event.target.value);
 
+  /**
+   * handle message submit
+   * @param event
+   */
   handleSubmit = (event) => {
     event.preventDefault();
     const { authUser, message, io, game } = this.props;
@@ -56,6 +64,9 @@ class Chat extends React.Component {
     }
   }
 
+  /**
+   * Print all user message
+   */
   printChat = () => {
     const { chatMessage, authUser } = this.props;
     let count = 0;
@@ -67,7 +78,6 @@ class Chat extends React.Component {
           })}
       </Fragment>
       );
-    
   }
 
   render(){

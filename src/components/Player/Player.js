@@ -5,19 +5,19 @@ import './player.css';
 import RoundIcon from '../../components/RoundIcon/RoundIcon';
 import { Animated } from "react-animated-css";
 
-const Player = ({id, username, scores, authId}) => {
+const Player = ({player, scores, authUser}) => {
 
   // change class for the authUser username
   var usernameClass = 'playerListUsername';
-  if(parseInt(id) === parseInt(authId)){
-    var usernameClass = 'playerListAuthUsername';
+  if(player.username === authUser.username){
+    usernameClass = 'playerListAuthUsername';
   }
-  // get user score
   
-  let score = 'error';
-  scores.forEach( (element) => {
-    if(parseInt(element.id) === parseInt(id)){
-      score = element.score;
+  let playerScore = 0;
+
+  scores.forEach((item) => {
+    if(item.data.username === player.username && item.data.score){
+      playerScore = item.data.score;
     }
   });
 
@@ -25,8 +25,8 @@ const Player = ({id, username, scores, authId}) => {
     <Fragment>
       <Animated className="animatedPlayer" animationIn="bounceInLeft" animationOut="bounceInRight" >
         <li className="player" >
-            <span className={usernameClass}>{username}</span>
-            <RoundIcon data={score} />
+            <span className={usernameClass}>{player.username}</span>
+            <RoundIcon data={playerScore} />
         </li>
       </Animated>
     </Fragment>
@@ -34,9 +34,8 @@ const Player = ({id, username, scores, authId}) => {
 }
 
 Player.propTypes = {
-  id: propTypes.string.isRequired,
-  authId: propTypes.number.isRequired,
-  username: propTypes.string.isRequired,
+  authUser: propTypes.object.isRequired,
+  player: propTypes.object.isRequired,
   scores: propTypes.array.isRequired,
 }
 

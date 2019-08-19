@@ -35,20 +35,16 @@ class RunningMusic extends React.Component {
     event.preventDefault();
     const { animeToGuess : { animeToGuess }, authUser, io, gameId } = this.props;
 
-    let data = {
-      gameId,
-      authUser,
-    }
+    let data = { gameId, authUser };
     let findAnime;
     // won
     if(animeId === animeToGuess.id){
       findAnime = true;
-      data = {...data, findAnime };
     } else {
       // lost
       findAnime = false;
-      data = {...data, findAnime };
     }
+    data = {...data, findAnime };
     this.props.onClickAnswer(findAnime);
     io.emit(CLICK_ANSWER, data);
   }

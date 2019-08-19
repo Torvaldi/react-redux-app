@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
 
 import { USER_JOIN_GAME } from '../socket';
-import { getPlayer, playerSetScore } from '../actions/player';
+import { getPlayer } from '../actions/player';
 import { getGameStatus } from '../helper/game';
 
 import Player from '../components/Player/Player';
@@ -14,8 +14,6 @@ const mapStateToProps = (state, ownProps) => ({...state.player, ...ownProps});
 const mapDispatchToProps = (dispatch) => ({
   onGetPlayer: (data) => 
     getPlayer(dispatch, data),
-  onPlayerSetScore: (score) =>
-    dispatch(playerSetScore(score)),
 });
 
 class ListPlayer extends React.Component {
@@ -29,8 +27,8 @@ class ListPlayer extends React.Component {
     io.emit(USER_JOIN_GAME, {game, authUser})
     this.props.onGetPlayer({token, game});
 
-    io.on(USER_JOIN_GAME, (scores) => {
-      this.props.onPlayerSetScore(scores);
+    io.on(USER_JOIN_GAME, (data) => {
+      this.props.refreshScore(data.score);
       this.props.onGetPlayer({token, game});
     });
 
@@ -53,7 +51,7 @@ class ListPlayer extends React.Component {
    * Print player list with their name and score
    */
   printPlayers() {
-    const { players, authUser, scores, game, gameStatus } = this.props;
+    const { authUser, scores, game, gameStatus, players } = this.props;
 
     let status;
     if(gameStatus === 1) {
@@ -79,7 +77,7 @@ class ListPlayer extends React.Component {
             <span className="playerScore">Score</span>
           </section>
           {players.map((player) => {
-            return <Player key={player.id} id={player.id} username={player.username} authId={authUser.id} scores={scores} />;
+            return <Player key={player.id} player={player} scores={scores} authUser={authUser} />;
           })}
         </ul>
         
