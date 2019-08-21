@@ -4,21 +4,8 @@ function gameScore(gameId){
     return `score:${gameId}`;
 }
 
-
-function formatScore(scores){
-  let playerName = Object.keys(scores);
-  let playerScore = Object.values(scores)
-
-  let count = 0;
-  let result = playerName.map((value, index) => {
-    count++;
-    return {
-      id: count,
-      username: value, 
-      value: parseInt(playerScore[index])
-    }
-  });
-  return result;
+function scoreCounter(gameid){
+  return `scoreCounter:${gameid}`;
 }
 
 function genereScore(rank){
@@ -37,21 +24,47 @@ function genereScore(rank){
   return 1;
 }
 
-function hashToJson(hash){
+function hashToJson(hash, turnNumber){
   let data = Object.keys(hash);
   let username = Object.values(hash)
 
-  let result = data.map((value, index) => {
+  let globalScore = data.map((value, index) => {
+    let user = JSON.parse(username[index]);
     return {
-      data: JSON.parse(username[index])
+      data: {
+        username: user.username,
+        score: user.score,
+      }
     }
   });
-  return result;
+
+  let turnScore = data.map((value, index) => {
+    let user = JSON.parse(username[index]);
+    if(user.turnNumber === turnNumber){
+      return {
+        data: {
+          username: user.username,
+          turnScore: user.scoreTurn,
+          rank: user.rank
+        }
+      }
+    } else {
+      return {
+        data: {
+          username: user.username,
+          turnScore: 0,
+          rank: user.rank
+        }
+      }
+    }
+  });
+
+  return { globalScore, turnScore };
 }
 
 module.exports = {
     gameScore,
-    formatScore,
+    scoreCounter,
     genereScore,
     hashToJson,
 }

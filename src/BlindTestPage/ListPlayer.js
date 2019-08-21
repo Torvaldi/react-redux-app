@@ -52,7 +52,7 @@ class ListPlayer extends React.Component {
    */
   printPlayers() {
     const { authUser, scores, game, gameStatus, players } = this.props;
-
+    
     let status;
     if(gameStatus === 1) {
       status = getGameStatus(1);
@@ -77,7 +77,7 @@ class ListPlayer extends React.Component {
             <span className="playerScore">Score</span>
           </section>
           {players.map((player) => {
-            return <Player key={player.id} player={player} scores={scores} authUser={authUser} />;
+            return <Player key={player.id} player={player} scores={scores.globalScore} authUser={authUser} />;
           })}
         </ul>
         

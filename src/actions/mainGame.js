@@ -21,10 +21,10 @@ export function getAnimes(dispatch, data){
       );
   }
 
-export function switchRunningStatus(){
+export function switchRunningStatus(status){
   return {
     type: SWITCH_RUNNING_STATUS,
-    payload: {},
+    payload: status,
   }
 }
 
@@ -35,7 +35,6 @@ export function setAnimeToGuess(animeToGuess){
       payload: animeToGuess,
     }
 }
-
 
 export function setAnimeToGuessCall(bool){
   return {

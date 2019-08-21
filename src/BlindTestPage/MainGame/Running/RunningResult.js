@@ -16,7 +16,7 @@ class RunningResult extends React.Component {
     return (
       <ul>
         {scores.map((score) => {
-          return <li>{score.data.username} - {score.data.scoreTurn}</li>
+          return <li>{score.data.username} - {score.data.turnScore}</li>
         })}
       </ul>
     )
@@ -24,9 +24,10 @@ class RunningResult extends React.Component {
 
   render(){
     const { scores } = this.props;
+    
     return(
      <Fragment>
-       {scores ? this.printScoreOfTheTurn(scores) : ''}
+       {scores.turnScore ? this.printScoreOfTheTurn(scores.turnScore) : ''}
      </Fragment>
     );
   }

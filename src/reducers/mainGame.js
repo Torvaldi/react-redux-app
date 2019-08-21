@@ -21,17 +21,9 @@ export default (state = initialState, action) => {
                 animes: action.payload,
             }
         case SWITCH_RUNNING_STATUS:
-            let status;
-            if(state.runningStatus === 0){
-                status = 1;
-            } else if(state.runningStatus === 1) {
-                status = 2;
-            } else {
-                status = 0;
-            }
             return {
                 ...state,
-                runningStatus: status,
+                runningStatus: action.payload,
             }
         case SET_ANIME_TO_GUESS:
             return {

@@ -6,6 +6,7 @@ const redis = require('redis');
 const event = require('./event');
 const scoreHelper = require('./helper/score');
 const statusHelper = require('./helper/status');
+const gameHelper = require ('./helper/game');
 
 
 // Create Redis Client
@@ -29,7 +30,7 @@ io.on('connection', (socket) => {
 
   // GAME
   /**
-   * A user join the game
+   * A user join the game, keep in mind that they can join a game already running if there were already in the game before
    * @param data contain the game the user join and the authentificated user data
    * Check if user has a score, initial its score if they haven't
    * Send back all user scores to the react client
@@ -37,12 +38,12 @@ io.on('connection', (socket) => {
   socket.on(event.USER_JOIN_GAME, (data) => {
     // fetch player list (fetch api)
     const { game, authUser } = data;
-    socket.join('game:' + game.id);
+    socket.join(gameHelper.getGame(game.id));
 
     // get user score
     client.hget(scoreHelper.gameScore(game.id), authUser.username, (error,response) => {
+
       // if user doesn't have a score, initial it to zero
-      
       if(response === null){
         client.hset(scoreHelper.gameScore(game.id), authUser.username, 0);
       }
@@ -50,22 +51,35 @@ io.on('connection', (socket) => {
       client.hgetall(scoreHelper.gameScore(game.id), (error, response) => {
         let objectResponse = scoreHelper.hashToJson(response);
         let responseData = { score: objectResponse };
-        io.in('game:'+ game.id).emit(event.USER_JOIN_GAME, responseData);
+        io.in(gameHelper.getGame(game.id)).emit(event.USER_JOIN_GAME, responseData);
       });
+
+      // if the game is already running, the player might have press f5 ou alt+f4 and join during the game
+     if(parseInt(game.status) === 2){
+       // send game status to the players, just to be sure enveryone is on the same page
+       client.get(statusHelper.currentStatus(game.id), (error, status) => {
+         if(status){
+           io.in(gameHelper.getGame(game.id)).emit(event.SWITCH_RUNNING_STATUS, { status: parseInt(status) });
+         }
+       });
+     }
+
+
     });
   });
 
   socket.on(event.USER_POST_CHAT, (data) => {
     const { message, game } = data;
-    socket.to(`game:${game.id}`).emit(event.USER_POST_CHAT, message);
+    socket.to(gameHelper.getGame(game.id)).emit(event.USER_POST_CHAT, message);
   });
 
   /**
    * Event call when the game is launch
    */
   socket.on(event.LAUCH_GAME, (gameId) => {
-    socket.to(`game:${gameId}`).emit(event.LAUCH_GAME);
-    client.set(`scoreCounter:${gameId}`, 1);
+    socket.to(gameHelper.getGame(gameId)).emit(event.LAUCH_GAME);
+    //initialise score counter
+    client.set(scoreHelper.scoreCounter(gameId), 1);
     console.log('event lauch');
   });
 
@@ -74,7 +88,7 @@ io.on('connection', (socket) => {
    */
   socket.on(event.SEND_ANIME_TO_GUESS, (data) => {
     const { animeToGuess, gameId } = data;
-    io.in(`game:${gameId}`).emit(event.SEND_ANIME_TO_GUESS, animeToGuess);
+    io.in(gameHelper.getGame(gameId)).emit(event.SEND_ANIME_TO_GUESS, animeToGuess);
   });
 
   /**
@@ -84,33 +98,51 @@ io.on('connection', (socket) => {
   socket.on(event.SWITCH_RUNNING_STATUS, (data) => {
     const { gameId, runningStatus } = data;
     
+    client.set(statusHelper.currentStatus(gameId), runningStatus);
+
     setTimeout( () => {
-      let responseData = {};
+      // define the next status
+      let nextStatus = statusHelper.getNextStatus(runningStatus);
+      let responseData = { status: nextStatus };
 
       // the client need to recieve the score at the end of the turn
       if(runningStatus === 1){
         // get all players total score
         client.hgetall(scoreHelper.gameScore(gameId), (error, response) => {
 
-          let objectResponse = scoreHelper.hashToJson(response);
-          responseData = {...responseData, score: objectResponse };
-          // get player rank of the turn
-          io.in('game:'+ gameId).emit(event.SWITCH_RUNNING_STATUS, responseData);
+          client.get(gameHelper.getTurnNumber(gameId), (error, turnNumber) => {
+
+            // get all the scores
+            let objectResponse = scoreHelper.hashToJson(response, turnNumber);
+
+            // add scores to the response send back to the client
+            responseData = {...responseData, score: objectResponse };
+
+            io.in(gameHelper.getGame(gameId)).emit(event.SWITCH_RUNNING_STATUS, responseData);
+          });
         });
 
       }
       
       if(runningStatus === 2){
         // reset counter for next turn
-        client.set(`scoreCounter:${gameId}`, 1);
-        client.del(`scoreRank:${gameId}`);
-
-        io.in(`game:${gameId}`).emit(event.SWITCH_RUNNING_STATUS, responseData);
+        client.set(scoreHelper.scoreCounter(gameId), 1);
+        io.in(gameHelper.getGame(gameId)).emit(event.SWITCH_RUNNING_STATUS, responseData);
       }
       
       if(runningStatus === 0){
         // nothing needs to be send back to the client, send empty object
-        io.in(`game:${gameId}`).emit(event.SWITCH_RUNNING_STATUS, responseData);
+        
+        // incremente number of the turn
+        client.get(gameHelper.getTurnNumber(gameId), (error, turnNumber) => {
+          let newTurnNumber = 0;
+          if(turnNumber){
+            newTurnNumber = parseInt(turnNumber) + 1;
+          }
+          client.set(gameHelper.getTurnNumber(gameId), newTurnNumber);
+        });
+
+        io.in(gameHelper.getGame(gameId)).emit(event.SWITCH_RUNNING_STATUS, responseData);
       }
       
     }, statusHelper.getTimeout(runningStatus)); // get second of the timeout depeding of runningStatus
@@ -125,46 +157,59 @@ io.on('connection', (socket) => {
   socket.on(event.CLICK_ANSWER, (data) => {
     const { gameId, authUser, findAnime } = data;
     
-    // if the players guess right
-    if(findAnime == true){
-      // get player position
-      client.get(`scoreCounter:${gameId}`, (error, counter) => {
-        
-        let rank = parseInt(counter);
-        client.set(`scoreCounter:${gameId}`, rank + 1);
+    client.get(gameHelper.getTurnNumber(gameId), (error, turnNumber) => {
 
-        let scoreTurn = scoreHelper.genereScore(rank);
-        // incremente total score
+      // if the players guess right
+      if(findAnime == true){
+        // get player position
+        client.get(scoreHelper.scoreCounter(gameId), (error, counter) => {
+          
+          let rank = parseInt(counter); // ranking of the player during the turn
+          // incremente rank
+          client.set(scoreHelper.scoreCounter(gameId), rank + 1);
+
+          // get score of the turn depeding of the rank of the player
+          let scoreTurn = scoreHelper.genereScore(rank);
+
+          // incremente total score
+          client.hget(scoreHelper.gameScore(gameId), authUser.username, (error, response) => {
+            let result = JSON.parse(response);
+            
+            // get previous score, set it to 0 by default if the player doesn't have any 
+            let currentScore = 0;
+            if(result.score){
+              currentScore = result.score;
+            }
+
+            let newData = {
+              ...result, 
+              username: authUser.username,
+              score: currentScore + scoreTurn,
+              scoreTurn,
+              rank,
+              turnNumber,
+            };
+            client.hset(scoreHelper.gameScore(gameId), authUser.username, JSON.stringify(newData));
+          });
+        });
+        // player guess wrong
+      } else {
         client.hget(scoreHelper.gameScore(gameId), authUser.username, (error, response) => {
           let result = JSON.parse(response);
-          let currentScore = 0;
-          if(result.score){
-            currentScore = result.score;
-          }
-
-          let newData = {
+          let newData = { 
             ...result, 
+            scoreTurn: 0, 
+            rank: 0, 
             username: authUser.username,
-            score: currentScore + scoreTurn,
-            scoreTurn,
-            rank,
+            turnNumber,
           };
           client.hset(scoreHelper.gameScore(gameId), authUser.username, JSON.stringify(newData));
         });
-      });
-      // player guess wrong
-    } else {
-      client.hget(scoreHelper.gameScore(gameId), authUser.username, (error, response) => {
-        let result = JSON.parse(response);
-        let newData = { 
-          ...result, 
-          scoreTurn: 0, 
-          rank: 0, 
-          username: authUser.username 
-        };
-        client.hset(scoreHelper.gameScore(gameId), authUser.username, JSON.stringify(newData));
-      });
-    }
+      }
+
+    });
+
+
   });
 
 });

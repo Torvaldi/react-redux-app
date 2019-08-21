@@ -14,8 +14,8 @@ const mapStateToProps = (state, ownProps) => ({...state.mainGame, ...ownProps});
 const mapDispatchToProps = (dispatch) => ({
   onGetAnimes: (data) =>
     getAnimes(dispatch, data),
-  onSwitchRunningStatus: () =>
-    dispatch(switchRunningStatus()),
+  onSwitchRunningStatus: (status) =>
+    dispatch(switchRunningStatus(status)),
 });
 
 class MainGame extends React.Component {
@@ -30,11 +30,12 @@ class MainGame extends React.Component {
 
      // switch running game status every x second
      io.on(SWITCH_RUNNING_STATUS, (data) => {
-      const { score } = data;
+      const { score, status } = data;
+
       if(score){
         this.props.refreshScore(score);
       }
-      this.props.onSwitchRunningStatus();
+      this.props.onSwitchRunningStatus(status);
     });
   }
 
@@ -46,7 +47,7 @@ class MainGame extends React.Component {
    */
   render(){
     const { gameStatus, animes, io, game, authUser, runningStatus, scores } = this.props;
-
+    
     return(
      <section className="">
        {gameStatus === 1 ? <WaitingForPlayer /> : ''}

@@ -64,12 +64,15 @@ export const getUserRunningGame = (dispatch, token) => {
     headers: getAuthorizationHeader(token),
   })
   .then(response => response.json())
-  .then(result => 
-    dispatch({
-      type: USER_RUNNING_GAME,
-      payload: result
-    })
-  );
+  .then(result => {
+    // check if result.id exist, if so it means there are a result
+    if(result.id){
+      dispatch({
+        type: USER_RUNNING_GAME,
+        payload: result
+      });
+    }
+  });
 }
 
 export const storeGame = (dispatch, token, data) => {

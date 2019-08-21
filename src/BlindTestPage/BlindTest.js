@@ -12,6 +12,8 @@ import { GAME_UPDATE, LAUCH_GAME } from '../socket';
 import { getGame, updateStatusState, playerRefreshScore } from '../actions/runningGame';
 import { updateDatabaseGameStatus } from '../helper/runningGame';
 
+import { Prompt } from 'react-router'
+
 const mapStateToProps = (state, ownProps) => ({...state.runningGame, ...ownProps});
 
 const mapDispatchToProps = (dispatch) => ({
@@ -32,7 +34,9 @@ class BlindTest extends React.Component {
     io.on(LAUCH_GAME, () => {
       this.props.onUpdateStatusState(2);
     });
+
   }
+
 
   /**
    * Refresh the players scores, this method is call by children container when players score is updated
@@ -67,7 +71,7 @@ class BlindTest extends React.Component {
    */
   printGame = () => {
     const { token, game, user, gameStatus, scores } = this.props;
-    
+
     return(
       <BlindTestLayout
           left={
