@@ -2,7 +2,7 @@
 import { API_GET_ANIMES, getAuthorizationHeader } from '../helper/api';
 
 export const GET_ANIMES = 'GET_ANIMES';
-export const SWITCH_RUNNING_STATUS = 'SWITCH_RUNNING_STATUS';
+export const CHANGE_RUNNING_STATUS = 'CHANGE_RUNNING_STATUS';
 export const SET_ANIME_TO_GUESS = 'SET_ANIME_TO_GUESS';
 export const SET_ANIME_TO_GUESS_CALL = 'SET_ANIME_TO_GUESS_CALL';
 export const SET_SCORE = 'SET_SCORE';
@@ -23,7 +23,7 @@ export function getAnimes(dispatch, data){
 
 export function switchRunningStatus(status){
   return {
-    type: SWITCH_RUNNING_STATUS,
+    type: CHANGE_RUNNING_STATUS,
     payload: status,
   }
 }

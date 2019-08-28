@@ -1,7 +1,7 @@
 
 import { 
     GET_ANIMES, 
-    SWITCH_RUNNING_STATUS,
+    CHANGE_RUNNING_STATUS,
     SET_ANIME_TO_GUESS,
     SET_ANIME_TO_GUESS_CALL,
     SET_SCORE,
@@ -20,7 +20,7 @@ export default (state = initialState, action) => {
                 ...state,
                 animes: action.payload,
             }
-        case SWITCH_RUNNING_STATUS:
+        case CHANGE_RUNNING_STATUS:
             return {
                 ...state,
                 runningStatus: action.payload,
