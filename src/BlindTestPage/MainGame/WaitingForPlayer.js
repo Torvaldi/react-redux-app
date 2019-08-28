@@ -1,6 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Loading from '../../components/Loading/Loading';
+
+import './css/waitingForPlayer.css';
+
 const mapStateToProps = (state, ownProps) => ({...state.mainGame, ...ownProps});
 
 const mapDispatchToProps = (dispatch) => ({
@@ -10,8 +14,9 @@ class WaitingForPlayer extends React.Component {
 
   render(){
     return(
-     <section className="">
-       waiting for player
+     <section>
+       Waiting for player to join the game !
+       Wait until the creator launch the game
      </section>
     );
   }

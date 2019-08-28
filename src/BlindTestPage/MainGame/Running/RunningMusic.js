@@ -1,11 +1,16 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { getMoeLink } from '../../../helper/mainGame';
 import AnswerBlock from '../../../components/AnswerBlock/AnswerBlock';
- 
-import './css/runningMusic.css'
+
 import { CLICK_ANSWER } from '../../../socket';
 import { clickAnswer, setAnswerOnce } from '../../../actions/mainGame/runningMusic';
+import { getMoeLink, orderAnime } from '../../../helper/runningGame';
+
+import './css/runningMusic.css'
+
+import { 
+  CHANGE_STATUS_1_TO_2,
+} from '../../../socket';
 
 const mapStateToProps = (state, ownProps) => ({...state.runningMusic, ...ownProps});
 
@@ -25,20 +30,20 @@ class RunningMusic extends React.Component {
   componentDidMount = () => {
     const { answerOnceDefault } =  this.props;
     this.props.onSetAnswerOnce(answerOnceDefault);
-    this.props.changeStatus();
+    this.props.changeStatus(CHANGE_STATUS_1_TO_2);
   }
 
   /**
    * Handle click the click on an anime name
    */
-  clickAnswer = (animeId) => (event) => {
+  clickAnswer = (anime) => (event) => {
     event.preventDefault();
     const { animeToGuess : { animeToGuess }, authUser, io, gameId } = this.props;
 
-    let data = { gameId, authUser };
+    let data = { gameId, authUser, anime };
     let findAnime;
     // won
-    if(animeId === animeToGuess.id){
+    if(anime.id === animeToGuess.id){
       findAnime = true;
     } else {
       // lost
@@ -53,10 +58,11 @@ class RunningMusic extends React.Component {
    * print the answer of the CQM
    */
   printAnswer = (animes) => {
+    let orderedAnime = orderAnime(animes);
     return(
       <ul className="answerListBlock">
-        {animes.map((anime) => {
-          return <AnswerBlock key={anime.id} id={anime.id} name={anime.nameJap} clickAnswer={this.clickAnswer} />
+        {orderedAnime.map((anime) => {
+          return <AnswerBlock key={anime.id} id={anime} name={anime.nameJap} clickAnswer={this.clickAnswer} />
         })}
       </ul>
     )
@@ -77,18 +83,26 @@ class RunningMusic extends React.Component {
     )
   }
 
-  render(){
-    const { animeToGuess, answerOnce } = this.props;
+  printAudioPlayer = () => {
+    const { animeToGuess } = this.props;
     const url = getMoeLink(animeToGuess.openingToGuess.moeLink);
-    
+
     return(
-     <Fragment>
-       <audio id="player" autoPlay controls controlsList="nodownload">
+      <audio id="player_music" autoPlay controls controlsList="nodownload">
         <source src={url} type="audio/webm" />
       </audio>
+    )
+  }
+
+  render(){
+    const { animeToGuess, answerOnce } = this.props;
+    
+    return(
+     <section className="runningMusicBlock">
+        {animeToGuess ? this.printAudioPlayer() : ''}
         {answerOnce === true ? this.printFindAnimeResult() : ''}
-        {answerOnce === false ? this.printAnswer(animeToGuess.animes) : ''}
-     </Fragment>
+        {answerOnce === false && animeToGuess ? this.printAnswer(animeToGuess.animes) : ''}
+     </section>
     );
   }
 }

@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import BlindTestLayout from '../components/BlindTestLayout/BlindTestLayout';
 import Chat from './Chat';
@@ -9,10 +10,8 @@ import MainGame from './MainGame';
 import io from '../socket';
 import { GAME_UPDATE, LAUCH_GAME } from '../socket';
 
-import { getGame, updateStatusState, playerRefreshScore } from '../actions/runningGame';
-import { updateDatabaseGameStatus } from '../helper/runningGame';
-
-import { Prompt } from 'react-router'
+import { getGame, updateStatusState, playerRefreshScore, setWinners } from '../actions/runningGame';
+import { updateDatabaseGameStatus, userLeaveGameDatabase } from '../helper/runningGame';
 
 const mapStateToProps = (state, ownProps) => ({...state.runningGame, ...ownProps});
 
@@ -22,7 +21,9 @@ const mapDispatchToProps = (dispatch) => ({
   onUpdateStatusState: (status) =>
     dispatch(updateStatusState(status)),
   onPlayerRefreshScore: (scores) =>
-    dispatch(playerRefreshScore(scores))
+    dispatch(playerRefreshScore(scores)),
+  onSetWinners: (winners) => 
+    dispatch(setWinners(winners))
 });
 
 class BlindTest extends React.Component {
@@ -32,11 +33,18 @@ class BlindTest extends React.Component {
     this.props.onGetGame(token);
 
     io.on(LAUCH_GAME, () => {
+      // for other player, keep the game status up to date
+      console.log('game launch')
       this.props.onUpdateStatusState(2);
     });
-
   }
 
+  gameFinish = (winners) => {
+    const { token, game } = this.props;
+    updateDatabaseGameStatus(token, game.id, 3);
+    this.props.onUpdateStatusState(3);
+    this.props.onSetWinners(winners);
+  }
 
   /**
    * Refresh the players scores, this method is call by children container when players score is updated
@@ -54,13 +62,23 @@ class BlindTest extends React.Component {
     // update game status on the database
     updateDatabaseGameStatus(token, game.id, 2);
 
-    // set running state
+    // set running state (creator only here)
     this.props.onUpdateStatusState(2);
 
     // call event game update, so the game lobby will be re-render
     io.emit(GAME_UPDATE);
     // call launch game event 
     io.emit(LAUCH_GAME, game.id);
+  }
+
+  leaveGame = (event) => {
+    event.preventDefault();
+    if(window.confirm("Are you sure you want to leave ? You may not be able to join again and your score won't be save")){
+      const { token, game } = this.props;
+      userLeaveGameDatabase(token, game.id);
+      // todo redirect on game page
+      this.props.history.push('/game')
+    }
   }
 
   /**
@@ -70,10 +88,12 @@ class BlindTest extends React.Component {
    * Chat: A simple chat where players can talk to each other
    */
   printGame = () => {
-    const { token, game, user, gameStatus, scores } = this.props;
+    const { token, game, user, gameStatus, scores, winners } = this.props;
 
     return(
-      <BlindTestLayout
+      <Fragment>
+      { game.id ? 
+          <BlindTestLayout
           left={
           <ListPlayer 
             io={io} 
@@ -81,6 +101,7 @@ class BlindTest extends React.Component {
             token={token} 
             authUser={user} 
             launchGame={this.launchGame} 
+            leaveGame={this.leaveGame}
             gameStatus={gameStatus}
             refreshScore={this.refreshScore}
             scores={scores}
@@ -94,9 +115,12 @@ class BlindTest extends React.Component {
             gameStatus={gameStatus}
             refreshScore={this.refreshScore}
             scores={scores}
+            gameFinish={this.gameFinish}
+            winners={winners}
           />}
           right={<Chat io={io} game={game} authUser={user} />}
-      />
+        /> : '404'}
+      </Fragment>
     );
   }
 
@@ -110,4 +134,5 @@ class BlindTest extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BlindTest);
+let reduxComponent = connect(mapStateToProps, mapDispatchToProps)(BlindTest);
+export default withRouter(reduxComponent);

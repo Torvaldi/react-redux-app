@@ -80,7 +80,14 @@ class ListPlayer extends React.Component {
             return <Player key={player.id} player={player} scores={scores.globalScore} authUser={authUser} />;
           })}
         </ul>
-        
+          <Button 
+            variant="contained" 
+            color="primary"
+            size="small"
+            onClick={this.props.leaveGame}
+            >
+            Leave
+          </Button>
       </section>
     )
   }
