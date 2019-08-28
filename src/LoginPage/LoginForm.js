@@ -61,9 +61,8 @@ class LoginForm extends Component {
     if(errorLogin){
       alerteLogin = <Alert message={errorLogin} type={0} />;
     }
-
-    return (
-          <form className="formSmall" onSubmit={this.submitForm(username, password)}>
+    return(
+          <form className="containedformSmall" onSubmit={this.submitForm(username, password)}>
             {alerteLogin}
                 <div className="formField">
                   <TextField

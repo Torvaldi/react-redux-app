@@ -15,8 +15,8 @@ const Player = ({player, scores, authUser}) => {
   
   let playerScore = 0;
   scores.forEach((item) => {
-    if(item.data.username === player.username && item.data.score){
-      playerScore = item.data.score;
+    if(item.username === player.username && item.score){
+      playerScore = item.score;
     }
   });
 

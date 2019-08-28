@@ -1,0 +1,46 @@
+
+.turnResultBlock {
+    display: flex;
+    flex-direction: column;
+    margin: 60px 0 30px 0;
+    width: 50%;
+}
+
+.resultTitle {
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    margin: 0 0 35px 0;
+    text-align: center;
+}
+
+.resultInfoBlock {
+    border: var(--grey) solid 1px;
+}
+
+.resultInfoList {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    background-color: var(--lightGrey);
+    margin: 0;
+    padding: 15px;
+}
+
+.resutltInfoItemLabel {
+    font-weight: bold;
+}
+
+.resultInfoItem {
+    list-style: none;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.resultVideo {
+    width: 100%;
+}
+
+.scoreTurnTable {
+    width: 50%;
+}

@@ -14,14 +14,11 @@ export const API_USER_GAME = API_URL + 'api/game.user.show';
 export const API_GAME = API_URL + 'api/game.show';
 export const API_GAME_UPDATE_STATUS = API_URL + "api/game.status";
 export const API_GET_ANIMES = API_URL + "api/anime.index";
+export const API_USER_LEAVE = API_URL + "api/game.user.leave";
 
 // API header
 export const getAuthorizationHeader = (token) => {
     return {
-        'Access-Control-Allow-Origin':'*',
-        'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, DELETE, PUT',
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Headers' : "content-type, access-control-allow-origin, access-control-allow-credentials, access-control-allow-headers, access-control-allow-methods, Authorization",
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': token,
@@ -30,10 +27,6 @@ export const getAuthorizationHeader = (token) => {
 
 export const getCrosHeader = () => {
     return {
-        'Access-Control-Allow-Origin':'*',
-        'mode': 'no-cors',
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, DELETE, PUT',
         'Content-Type': 'application/json',
         'Accept': 'application/json',
     }

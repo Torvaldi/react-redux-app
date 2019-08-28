@@ -1,0 +1,12 @@
+
+.counterBlock {
+
+}
+
+.counterText {
+    color: var(--darkGrey);
+}
+
+.counterSecond {
+    font-weight: bold;
+}
