@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
 import BlindTestLayout from '../components/BlindTestLayout/BlindTestLayout';
 import Chat from './Chat';
@@ -12,6 +11,7 @@ import { GAME_UPDATE, LAUCH_GAME } from '../socket';
 
 import { getGame, updateStatusState, playerRefreshScore, setWinners } from '../actions/runningGame';
 import { updateDatabaseGameStatus, userLeaveGameDatabase } from '../helper/runningGame';
+import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = (state, ownProps) => ({...state.runningGame, ...ownProps});
 
@@ -134,5 +134,5 @@ class BlindTest extends React.Component {
   }
 }
 
-let reduxComponent = connect(mapStateToProps, mapDispatchToProps)(BlindTest);
-export default withRouter(reduxComponent);
+let component = connect(mapStateToProps, mapDispatchToProps)(BlindTest);
+export default withRouter(component);

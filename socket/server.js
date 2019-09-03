@@ -116,8 +116,6 @@ io.on('connection', (socket) => {
    * @param data, contain the gameId and the runningStatus of this game
    * send back the switch event in (5, 15 or 30) seconds, depending of the runningStatus
    */
-aying to result of the turn
-   */
   socket.on(event.CHANGE_STATUS_1_TO_2, (data) => {
     const { gameId } = data;
 
@@ -147,14 +145,10 @@ aying to result of the turn
   });
 
   /**
-   * Change status from result of the turn to waiting time
-   */
-  socket.on(event.CHANGE_STATUS_
-    /**
      * @param data, contain the gameId and the runningStatus of this game
      * send back the switch event in (5, 15 or 30) seconds, depending of the runningStatus
-     */
-  2_TO_0, (data) => {
+    */
+  socket.on(event.CHANGE_STATUS_2_TO_0, (data) => {
     const { gameId } = data;
 
     redis.getGameStatus(gameId).then( (gameStatus) => {
