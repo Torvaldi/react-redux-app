@@ -1,6 +1,14 @@
 
 
 /**
+ * get number of the timeout function in second
+ * @param {int} timeout, number used in the timeout function
+ */
+function getTimeOutInSecond(status){
+    return getTimeout(status)/1000;
+}
+
+/**
  * get second to wait between each round
  * @param {*} runningStatus 
  */
@@ -33,4 +41,5 @@ function getNextStatus(status){;
 module.exports = {
     getTimeout,
     getNextStatus,
+    getTimeOutInSecond,
 }

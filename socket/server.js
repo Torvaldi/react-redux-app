@@ -89,7 +89,12 @@ io.on('connection', (socket) => {
     const { gameId } = data;
     
     redis.getGameStatus(gameId).then( (gameStatus) => {
+
       if(gameStatus == 0){
+
+        let timeToWait = statusHelper.getTimeOutInSecond(1);
+        let timeout = statusHelper.getTimeout(0)
+
         setTimeout( () => {
           redis.setGameStatus(gameId, 1);
       
@@ -101,9 +106,9 @@ io.on('connection', (socket) => {
             }
             redis.setTurnNumber(gameId, newTurnNumber)
           })
-          io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_0_TO_1, {});
+          io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_0_TO_1, { timeToWait });
     
-        }, statusHelper.getTimeout(0) );
+        }, timeout);
       }
     });
 
@@ -121,6 +126,9 @@ io.on('connection', (socket) => {
 
     redis.getGameStatus(gameId).then( (gameStatus) => {
       if(gameStatus == 1){
+
+        let timeToWait = statusHelper.getTimeOutInSecond(2);
+        let timeout = statusHelper.getTimeout(1)
         setTimeout( () => {
           redis.setGameStatus(gameId, 2);
   
@@ -135,11 +143,11 @@ io.on('connection', (socket) => {
           })
           .then( (turnNumber) => {
             let scoreJson = scoreHelper.hashToJson(data.usersScores, turnNumber);
-            let response = { score: scoreJson };
+            let response = { score: scoreJson, timeToWait };
   
             io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_1_TO_2, response);
           });
-        }, statusHelper.getTimeout(1));
+        }, timeout);
       }
     });
   });
@@ -152,14 +160,17 @@ io.on('connection', (socket) => {
     const { gameId } = data;
 
     redis.getGameStatus(gameId).then( (gameStatus) => {
+      
       if(gameStatus == 2){
+        let timeToWait = statusHelper.getTimeOutInSecond(0);
+        let timeout = statusHelper.getTimeout(2)
         setTimeout( () => {
           redis.setGameStatus(gameId, 0);
   
           redis.setScoreCounter(gameId, 1);
-          io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, {});
+          io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, { timeToWait });
   
-        }, statusHelper.getTimeout(2));
+        }, timeout);
 
       }
     });

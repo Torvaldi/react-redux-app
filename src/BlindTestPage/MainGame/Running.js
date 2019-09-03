@@ -79,7 +79,8 @@ class Running extends React.Component {
       io, 
       animeToGuessCall,
       scores,
-      turnNumber
+      turnNumber,
+      timeToWait,
     } = this.props;
     // every turn load new anime opening to guess
 
@@ -116,6 +117,7 @@ class Running extends React.Component {
           changeStatus={this.changeStatus}
           scores={scores}
           turnNumber={turnNumber}
+          timeToWait={timeToWait}
         /> : ''}
           
      </Fragment>

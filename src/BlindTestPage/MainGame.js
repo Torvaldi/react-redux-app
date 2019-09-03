@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import './css/mainGame.css';
-import { getAnimes } from '../actions/mainGame';
 import WaitingForPlayer from './MainGame/WaitingForPlayer';
 import Running  from './MainGame/Running';
 import EndGame from './MainGame/EndGame';
@@ -14,7 +13,7 @@ import {
   SET_DEFAULT_STATUS
 } from '../socket';
 
-import { switchRunningStatus } from '../actions/mainGame';
+import { switchRunningStatus, setTimeToWait, getAnimes } from '../actions/mainGame';
 import { checkWinner } from '../helper/mainGame';
 
 const mapStateToProps = (state, ownProps) => ({...state.mainGame, ...ownProps});
@@ -24,6 +23,8 @@ const mapDispatchToProps = (dispatch) => ({
     getAnimes(dispatch, data),
   onSwitchRunningStatus: (status) =>
     dispatch(switchRunningStatus(status)),
+  onSetTimeToWait: (timeToWait) =>
+    dispatch(setTimeToWait(timeToWait))
 });
 
 class MainGame extends React.Component {
@@ -42,19 +43,23 @@ class MainGame extends React.Component {
     });
 
     io.on(CHANGE_STATUS_1_TO_2, (data) => {
-      const { score } = data;
+      const { score, timeToWait } = data;
       if(score){
         this.props.refreshScore(score);
       }
+      this.props.onSetTimeToWait(timeToWait);
       this.props.onSwitchRunningStatus(2);
     });
 
     io.on(CHANGE_STATUS_2_TO_0, (data) => {
+      const { timeToWait } = data;
+      this.props.onSetTimeToWait(timeToWait);
       this.props.onSwitchRunningStatus(0);
     });
 
     io.on(SET_DEFAULT_STATUS, (data) => {
-      const { status } = data;
+      const { status, timeToWait } = data;
+      this.props.onSetTimeToWait(timeToWait);
       this.props.onSwitchRunningStatus(status);
     });
   }
@@ -77,7 +82,7 @@ class MainGame extends React.Component {
    * 3 finish
    */
   render(){
-    const { gameStatus, animes, io, game, authUser, runningStatus, scores, winners } = this.props;
+    const { gameStatus, animes, io, game, authUser, runningStatus, scores, winners, timeToWait } = this.props;
     return(
      <Fragment>
        {gameStatus === 1 ? <WaitingForPlayer /> : ''}
@@ -89,6 +94,7 @@ class MainGame extends React.Component {
           runningStatus={runningStatus}
           scores={scores}
           checkIfWinner={this.checkIfWinner}
+          timeToWait={timeToWait}
         /> : ''}
         {gameStatus === 3 && winners ? <EndGame winners={winners} /> : ''}
         {gameStatus === undefined ? 'Loading' : ''}

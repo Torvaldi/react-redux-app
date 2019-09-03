@@ -48,13 +48,17 @@ class RunningResult extends React.Component {
     )
   }
 
+  printCounter = (timeToWait) => {
+    return( <Counter startingNumber={timeToWait} />)
+  }
+
   render(){
-    const { scores, animeToGuess } = this.props;
+    const { scores, animeToGuess, timeToWait } = this.props;
     return(
      <section className="runningResultBlock">
        { animeToGuess ? this.printAnimeInformation(animeToGuess) : ''}
        { scores.turnScore ? this.printScoreOfTheTurn(scores.turnScore) : ''}
-       <Counter startingNumber={15} />
+       { timeToWait ? this.printCounter(timeToWait) : '' }
      </section>
     );
   }

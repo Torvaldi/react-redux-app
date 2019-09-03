@@ -5,6 +5,7 @@ import {
     SET_ANIME_TO_GUESS,
     SET_ANIME_TO_GUESS_CALL,
     SET_SCORE,
+    SET_TIME_TO_WAIT,
 } from '../actions/mainGame';
 
 const initialState = {
@@ -39,6 +40,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 scores: action.payload,
+            }
+        case SET_TIME_TO_WAIT:
+            return {
+                ...state,
+                timeToWait: action.payload,
             }
         default:
             return state;
