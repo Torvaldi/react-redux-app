@@ -24,3 +24,15 @@
     margin-bottom: 0;
     border-bottom: 2px solid var(--grey);
 }
+
+.messageAutoRight {
+    color: #8bc34a
+}
+
+.messageAutoWrong {
+    color: red;
+}
+
+.messageAutoWrong, .messageAutoRight {
+    font-style: italic;
+}

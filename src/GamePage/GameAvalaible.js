@@ -7,9 +7,9 @@ import { NEW_GAME, GAME_UPDATE } from '../socket';
 
 import GameList from '../components/GameList/GameList';
 import Pagination from '../components/Pagination/Pagination';
-import { Redirect } from 'react-router-dom';
 import Alert from '../components/Alerte/Alert';
 import './css/gameAvalaible.css';
+import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = (state, ownProps) => ({...state.game, ...ownProps});
 
@@ -56,6 +56,7 @@ class GameAvalaible extends Component {
             const { token, io } = this.props;
             this.props.onUserJoinGame(token, gameId);
             io.emit(GAME_UPDATE);
+            this.props.history.push('/game/running')
         }
     }
 
@@ -66,6 +67,7 @@ class GameAvalaible extends Component {
     reJoinGame = (gameId) => (event) => {
         event.preventDefault();
         this.props.onUserReJoinGame(gameId);
+        this.props.history.push('/game/running');
     }
 
     /**
@@ -122,10 +124,6 @@ class GameAvalaible extends Component {
     }
 
     render(){
-        // redirect if the user join a game
-        if(this.props.userJoinGame === true){
-            return <Redirect to="game/running" />
-        }
 
         const { games, userRunningGame, runningGame } = this.props;
 
@@ -146,4 +144,5 @@ class GameAvalaible extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(GameAvalaible);
+let component = connect(mapStateToProps, mapDispatchToProps)(GameAvalaible);
+export default withRouter(component);

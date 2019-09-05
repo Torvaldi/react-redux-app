@@ -1,0 +1,17 @@
+
+.scoreTurnTable {
+    margin-bottom: 30px;
+    background-color: var(--lighGrey)
+}
+
+.tableRowScoreRight  {
+    background-color: #8bc34a;
+}
+
+.tableRowScore {
+    /**/
+}
+
+.tableCellScore{
+   /**/
+}

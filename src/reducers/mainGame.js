@@ -1,10 +1,11 @@
 
 import { 
     GET_ANIMES, 
-    SWITCH_RUNNING_STATUS,
+    CHANGE_RUNNING_STATUS,
     SET_ANIME_TO_GUESS,
     SET_ANIME_TO_GUESS_CALL,
     SET_SCORE,
+    SET_TIME_TO_WAIT,
 } from '../actions/mainGame';
 
 const initialState = {
@@ -20,18 +21,10 @@ export default (state = initialState, action) => {
                 ...state,
                 animes: action.payload,
             }
-        case SWITCH_RUNNING_STATUS:
-            let status;
-            if(state.runningStatus === 0){
-                status = 1;
-            } else if(state.runningStatus === 1) {
-                status = 2;
-            } else {
-                status = 0;
-            }
+        case CHANGE_RUNNING_STATUS:
             return {
                 ...state,
-                runningStatus: status,
+                runningStatus: action.payload,
             }
         case SET_ANIME_TO_GUESS:
             return {
@@ -47,6 +40,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 scores: action.payload,
+            }
+        case SET_TIME_TO_WAIT:
+            return {
+                ...state,
+                timeToWait: action.payload,
             }
         default:
             return state;

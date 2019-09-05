@@ -1,26 +1,9 @@
 
 
-function gameScore(gameId){
-    return `score:${gameId}`;
-}
-
-
-function formatScore(scores){
-  let playerName = Object.keys(scores);
-  let playerScore = Object.values(scores)
-
-  let count = 0;
-  let result = playerName.map((value, index) => {
-    count++;
-    return {
-      id: count,
-      username: value, 
-      value: parseInt(playerScore[index])
-    }
-  });
-  return result;
-}
-
+/**
+ * @param {*int} rank,
+ * @return {*int} score
+ */
 function genereScore(rank){
   if(rank === 1){
     return 4;
@@ -37,21 +20,48 @@ function genereScore(rank){
   return 1;
 }
 
-function hashToJson(hash){
+/**
+ * Parse redis hash to json formatted data
+ * @param {*} hash redis has result
+ * @param {*} turnNumber number of turn
+ */
+function hashToJson(hash, turnNumber){
   let data = Object.keys(hash);
-  let username = Object.values(hash)
+  let username = Object.values(hash);
 
-  let result = data.map((value, index) => {
+  // represent players with their scores
+  let globalScore = data.map((value, index) => {
+    let user = JSON.parse(username[index]);
     return {
-      data: JSON.parse(username[index])
+        username: user.username,
+        score: user.score,
     }
   });
-  return result;
+
+  // represent players with their score of the current turn
+  let turnScore = data.map((value, index) => {
+    let user = JSON.parse(username[index]);
+    // check if the player has anwser to the QCM during the turn
+    if(user.turnNumber === turnNumber){
+      return {
+          username: user.username,
+          turnScore: user.scoreTurn,
+          rank: user.rank,
+          anime: user.anime
+      }
+    } else {
+      return {
+          username: user.username,
+          turnScore: 0,
+          rank: 0,
+      }
+    }
+  });
+
+  return { globalScore, turnScore };
 }
 
 module.exports = {
-    gameScore,
-    formatScore,
     genereScore,
     hashToJson,
 }

@@ -2,10 +2,11 @@
 import { API_GET_ANIMES, getAuthorizationHeader } from '../helper/api';
 
 export const GET_ANIMES = 'GET_ANIMES';
-export const SWITCH_RUNNING_STATUS = 'SWITCH_RUNNING_STATUS';
+export const CHANGE_RUNNING_STATUS = 'CHANGE_RUNNING_STATUS';
 export const SET_ANIME_TO_GUESS = 'SET_ANIME_TO_GUESS';
 export const SET_ANIME_TO_GUESS_CALL = 'SET_ANIME_TO_GUESS_CALL';
 export const SET_SCORE = 'SET_SCORE';
+export const SET_TIME_TO_WAIT = 'SET_TIME_TO_WAIT';
 
 export function getAnimes(dispatch, data){
     fetch(API_GET_ANIMES + '?level=' + data.level, {
@@ -21,10 +22,10 @@ export function getAnimes(dispatch, data){
       );
   }
 
-export function switchRunningStatus(){
+export function switchRunningStatus(status){
   return {
-    type: SWITCH_RUNNING_STATUS,
-    payload: {},
+    type: CHANGE_RUNNING_STATUS,
+    payload: status,
   }
 }
 
@@ -35,7 +36,6 @@ export function setAnimeToGuess(animeToGuess){
       payload: animeToGuess,
     }
 }
-
 
 export function setAnimeToGuessCall(bool){
   return {
@@ -48,5 +48,12 @@ export function setScore(score){
   return {
     type: SET_SCORE,
     payload: score,
+  }
+}
+
+export function setTimeToWait(timeToWait){
+  return {
+    type: SET_TIME_TO_WAIT,
+    payload: timeToWait,
   }
 }

@@ -1,7 +1,16 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 
-const mapStateToProps = (state, ownProps) => ({...state.mainGame, ...ownProps});
+import Loading from '../../../components/Loading/Loading';
+import Counter from '../../../components/Counter/Counter';
+
+import { WAITING_TURN_1 } from '../../../config';
+
+import { 
+  CHANGE_STATUS_0_TO_1,
+} from '../../../socket';
+
+const mapStateToProps = (state, ownProps) => ({...state.runningMusic, ...ownProps});
 
 const mapDispatchToProps = (dispatch) => ({
 });
@@ -9,14 +18,16 @@ const mapDispatchToProps = (dispatch) => ({
 class RunningWaiting extends React.Component {
 
   componentDidMount = () => {
-    this.props.changeStatus();
+    this.props.changeStatus(CHANGE_STATUS_0_TO_1);
   }
 
   render(){
+    const { timeToWait } = this.props;
     return(
-     <Fragment>
-       loading before next music
-     </Fragment>
+     <section>
+      { timeToWait ? <Counter startingNumber={WAITING_TURN_1} /> : '' }
+       <Loading />
+     </section>
     );
   }
 }

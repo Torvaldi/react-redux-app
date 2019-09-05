@@ -14,11 +14,11 @@ class App extends React.Component {
     return (
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/register" component={Register} />
-            <Route path="/login" component={Login} />
-            <Route exact path='/game/running' component={() => <AuthRoute component={BlindTest} />} />
-            <Route path='/game' component={() => <AuthRoute component={Game} />} />
+              <Route exact path="/" component={Home} />
+              <Route path="/register" component={Register} />
+              <Route path="/login" component={Login} />
+              <Route exact path='/game' component={() => <AuthRoute component={Game} />} />
+              <Route path='/game/running' component={() => <AuthRoute component={BlindTest} />} />
           </Switch>
         </BrowserRouter>
     );

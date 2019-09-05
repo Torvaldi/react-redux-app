@@ -3,7 +3,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: rgba(255, 255, 255, .2);
+    background-color: rgba(0, 0, 0, .2);
     /*padding: 20px 30px;*/
     margin: 8px 0;
     width: 100%;
@@ -15,17 +15,17 @@
 
 .playerListUsername, .playerListAuthUsername {
     font-size: 1.2rem;
-    text-shadow: 2px 2px 2px #212121;
     font-weight: bold;
     padding: 20px 0;
 }
 
 .playerListUsername {
     color: white;
-
+    text-shadow: 2px 2px 2px #212121;
 }
 
 .playerListAuthUsername {
     color: var(--primary);
-    text-shadow: 2px 2px 5px black;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #212121;
 }

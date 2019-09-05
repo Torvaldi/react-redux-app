@@ -14,7 +14,9 @@ export function changeMessage(message){
       type: ADD_MESSAGE_TO_CHAT,
       payload: [{
         player: data.player,
-        message: data.message
+        message: data.message,
+        autoMessage: data.autoMessage,
+        findAnime: data.findAnime,
       }]
     }
   }

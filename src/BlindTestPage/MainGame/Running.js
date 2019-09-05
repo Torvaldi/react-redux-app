@@ -8,7 +8,7 @@ import RunningResult from './Running/RunningResult';
 import { getAnimeToGuess } from '../../helper/mainGame';
 
 import { setAnimeToGuess, setAnimeToGuessCall } from '../../actions/mainGame';
-import { SWITCH_RUNNING_STATUS, SEND_ANIME_TO_GUESS } from '../../socket';
+import { SEND_ANIME_TO_GUESS } from '../../socket';
 
 const mapStateToProps = (state, ownProps) => ({...state.mainGame, ...ownProps});
 
@@ -31,6 +31,10 @@ class Running extends React.Component {
     });
   }
 
+  /**
+   * Send animes that can be played during this game to users
+   * So every players has the possibility to "host" the game in case the creator leave
+   */
   sendAnimeToGuess = () => {
     const { io, animes, game : { id, answer } } = this.props;
     // search new anime opening random
@@ -43,7 +47,11 @@ class Running extends React.Component {
     io.emit(SEND_ANIME_TO_GUESS, data);
   }
 
-  changeStatus = () => {
+  /**
+   * Change game status
+   * This method is called by children compenent
+   */
+  changeStatus = (ioStatusEvent) => {
     const { io, runningStatus, authUser, game : { id, creator } } = this.props;
 
     // the creator handle all the change status of the game
@@ -52,11 +60,15 @@ class Running extends React.Component {
         gameId: id, 
         runningStatus,
       };
+      io.emit(ioStatusEvent, data);
 
-      io.emit(SWITCH_RUNNING_STATUS, data);
+      if(runningStatus === 0){
+        this.props.checkIfWinner();
+      }
+
     }
+    
   }
-
 
   render(){
     const { authUser, 
@@ -65,7 +77,9 @@ class Running extends React.Component {
       animeToGuess, 
       io, 
       animeToGuessCall,
-      scores
+      scores,
+      turnNumber,
+      timeToWait,
     } = this.props;
     // every turn load new anime opening to guess
 
@@ -78,15 +92,16 @@ class Running extends React.Component {
     if(runningStatus === 2){
       this.props.onSetAnimeToGuessCall(false);
     }
-
     return(
      <Fragment>
+
        {runningStatus === 0 ? 
         <RunningWaiting 
           changeStatus={this.changeStatus} 
+          timeToWait={timeToWait}
         /> : ''}
 
-       {runningStatus === 1 && animeToGuess ? 
+       {runningStatus === 1 ? 
         <RunningMusic 
           gameId={id} 
           authUser={authUser} 
@@ -94,12 +109,16 @@ class Running extends React.Component {
           animeToGuess={animeToGuess}
           answerOnceDefault={false}
           changeStatus={this.changeStatus}
+          timeToWait={timeToWait}
         /> : ''}
 
         {runningStatus === 2 ? 
-        <RunningResult 
+        <RunningResult
+          animeToGuess={animeToGuess}
           changeStatus={this.changeStatus}
           scores={scores}
+          turnNumber={turnNumber}
+          timeToWait={timeToWait}
         /> : ''}
           
      </Fragment>

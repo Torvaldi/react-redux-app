@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Message from '../components/Message/Message';
 import './css/chat.css';
 
-import { USER_POST_CHAT } from '../socket';
+import { USER_POST_CHAT, CLICK_ANSWER } from '../socket';
 import { changeMessage, addMessageToChat } from '../actions/chat';
 
 const mapStateToProps = (state, ownProps) => ({...state.chat, ...ownProps});
@@ -13,8 +13,8 @@ const mapStateToProps = (state, ownProps) => ({...state.chat, ...ownProps});
 const mapDispatchToProps = (dispatch) => ({
   onChangeMessage: (message) =>
     dispatch(changeMessage(message)),
-  onAddMessageToChat: (data) =>
-    dispatch(addMessageToChat(data)),
+  onAddMessageToChat: (messageData) =>
+    dispatch(addMessageToChat(messageData)),
 });
 
 class Chat extends React.Component {
@@ -25,8 +25,15 @@ class Chat extends React.Component {
   componentDidMount = () => {
     const { io } = this.props;
 
-    io.on(USER_POST_CHAT, (message) => {
-      this.props.onAddMessageToChat(message);
+    io.on(USER_POST_CHAT, (messageServer) => {
+      let messageData = {...messageServer, autoMessage: false, findAnime: null };
+      this.props.onAddMessageToChat(messageData);
+    });
+
+    io.on(CLICK_ANSWER, (data) => {
+      const { authUser, findAnime } = data;
+
+      this.props.onAddMessageToChat({ player: authUser, message: null, autoMessage: true, findAnime });
     });
 
   }
@@ -47,6 +54,8 @@ class Chat extends React.Component {
       let messageData = {
         player: authUser,
         message,
+        autoMessage: false, 
+        findAnime: null
       }
       this.props.onAddMessageToChat(messageData);
 
@@ -68,13 +77,13 @@ class Chat extends React.Component {
    * Print all user message
    */
   printChat = () => {
-    const { chatMessage, authUser } = this.props;
+    const { chatMessage, authUser} = this.props;
     let count = 0;
     return(
       <Fragment>
           {chatMessage.map((chat) => {
             count++;
-            return <Message key={count} authUser={authUser} user={chat.player} message={chat.message} />;
+            return <Message key={count} authUser={authUser} user={chat.player} message={chat.message} autoMessage={chat.autoMessage} findAnime={chat.findAnime} />;
           })}
       </Fragment>
       );
