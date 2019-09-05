@@ -189,6 +189,10 @@ io.on('connection', (socket) => {
       anime,
     };
 
+    socket.broadcast.emit(event.CLICK_ANSWER, {
+      authUser, findAnime
+    });
+
     // if the user has right or wrong
     if(findAnime === true){
       redis.getScoreCounter(gameId)

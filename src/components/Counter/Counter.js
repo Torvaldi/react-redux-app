@@ -15,6 +15,13 @@ class Counter extends React.Component {
     setInterval(this.timer, 1000);
   }
 
+  componentDidUpdate = () => {
+    const { fastPass } = this.props;
+    if(fastPass === true && this.state.currentCount > 5){
+      this.setState({currentCount : 5});
+    }
+  }
+
   timer = () => {
     this.setState({currentCount: this.state.currentCount - 1});
   }

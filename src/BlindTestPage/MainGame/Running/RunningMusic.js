@@ -6,6 +6,10 @@ import { CLICK_ANSWER } from '../../../socket';
 import { clickAnswer, setAnswerOnce } from '../../../actions/mainGame/runningMusic';
 import { getMoeLink, orderAnime } from '../../../helper/runningGame';
 
+import { WAITING_TURN_2 } from '../../../config';
+
+import Counter from '../../../components/Counter/Counter';
+
 import './css/runningMusic.css'
 
 import { 
@@ -95,10 +99,11 @@ class RunningMusic extends React.Component {
   }
 
   render(){
-    const { animeToGuess, answerOnce } = this.props;
-    
+    const { animeToGuess, answerOnce, timeToWait } = this.props;
+
     return(
      <section className="runningMusicBlock">
+        {timeToWait ? <Counter startingNumber={WAITING_TURN_2} fastPass={true} /> : '' }
         {animeToGuess ? this.printAudioPlayer() : ''}
         {answerOnce === true ? this.printFindAnimeResult() : ''}
         {answerOnce === false && animeToGuess ? this.printAnswer(animeToGuess.animes) : ''}

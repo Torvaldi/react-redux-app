@@ -2,6 +2,9 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import Loading from '../../../components/Loading/Loading';
+import Counter from '../../../components/Counter/Counter';
+
+import { WAITING_TURN_1 } from '../../../config';
 
 import { 
   CHANGE_STATUS_0_TO_1,
@@ -19,8 +22,10 @@ class RunningWaiting extends React.Component {
   }
 
   render(){
+    const { timeToWait } = this.props;
     return(
      <section>
+      { timeToWait ? <Counter startingNumber={WAITING_TURN_1} /> : '' }
        <Loading />
      </section>
     );

@@ -70,7 +70,6 @@ class Running extends React.Component {
     
   }
 
-
   render(){
     const { authUser, 
       runningStatus, 
@@ -93,12 +92,13 @@ class Running extends React.Component {
     if(runningStatus === 2){
       this.props.onSetAnimeToGuessCall(false);
     }
-    
     return(
      <Fragment>
+
        {runningStatus === 0 ? 
         <RunningWaiting 
           changeStatus={this.changeStatus} 
+          timeToWait={timeToWait}
         /> : ''}
 
        {runningStatus === 1 ? 
@@ -109,6 +109,7 @@ class Running extends React.Component {
           animeToGuess={animeToGuess}
           answerOnceDefault={false}
           changeStatus={this.changeStatus}
+          timeToWait={timeToWait}
         /> : ''}
 
         {runningStatus === 2 ? 

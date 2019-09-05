@@ -5,6 +5,9 @@ import { orderScoreTurn, getMoeLink, getAnimeSeason, getAnimeType, getMusicType,
 import OpeningVideo from '../../../components/OpeningVideo/OpeningVideo';
 import ScoreTable from '../../../components/ScoreTable/ScoreTable';
 import Counter from '../../../components/Counter/Counter';
+
+import { WAITING_TURN_3 } from '../../../config';
+
 import './css/runningResult.css';
 
 import { 
@@ -48,17 +51,13 @@ class RunningResult extends React.Component {
     )
   }
 
-  printCounter = (timeToWait) => {
-    return( <Counter startingNumber={timeToWait} />)
-  }
-
   render(){
     const { scores, animeToGuess, timeToWait } = this.props;
     return(
      <section className="runningResultBlock">
+       { timeToWait ? <Counter startingNumber={WAITING_TURN_3} /> : '' }
        { animeToGuess ? this.printAnimeInformation(animeToGuess) : ''}
        { scores.turnScore ? this.printScoreOfTheTurn(scores.turnScore) : ''}
-       { timeToWait ? this.printCounter(timeToWait) : '' }
      </section>
     );
   }

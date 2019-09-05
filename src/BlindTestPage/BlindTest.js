@@ -37,6 +37,7 @@ class BlindTest extends React.Component {
       console.log('game launch')
       this.props.onUpdateStatusState(2);
     });
+
   }
 
   gameFinish = (winners) => {

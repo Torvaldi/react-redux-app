@@ -39,7 +39,9 @@ class MainGame extends React.Component {
 
      // switch running game status every x second
      io.on(CHANGE_STATUS_0_TO_1, (data) => {
+      const { timeToWait } = data;
       this.props.onSwitchRunningStatus(1);
+      this.props.onSetTimeToWait(timeToWait);
     });
 
     io.on(CHANGE_STATUS_1_TO_2, (data) => {
@@ -58,15 +60,14 @@ class MainGame extends React.Component {
     });
 
     io.on(SET_DEFAULT_STATUS, (data) => {
-      const { status, timeToWait } = data;
-      this.props.onSetTimeToWait(timeToWait);
+      const { status } = data;
       this.props.onSwitchRunningStatus(status);
     });
   }
 
   checkIfWinner = () => {
     const { scores, game } = this.props;
-    console.log(scores)
+    
     if(scores.globalScore){
       let winners = checkWinner(scores.globalScore, game.score_to_win);
       if(winners.length > 0){
@@ -83,6 +84,7 @@ class MainGame extends React.Component {
    */
   render(){
     const { gameStatus, animes, io, game, authUser, runningStatus, scores, winners, timeToWait } = this.props;
+    
     return(
      <Fragment>
        {gameStatus === 1 ? <WaitingForPlayer /> : ''}
