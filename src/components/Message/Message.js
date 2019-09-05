@@ -2,23 +2,41 @@ import React from 'react';
 import propTypes from 'prop-types';
 import './message.css';
 
-const Message = ({authUser, user, message}) => {
+import MessageBasic from './MessageBasic';
+import MessageAuto from './MessageAuto';
 
-  let usernameClass = 'messageUsername';
-  if(authUser.id === user.id){
-    usernameClass = 'messageAuthUsername'
+const Message = ({authUser, user, message, autoMessage, findAnime}) => {
+
+  if(autoMessage === false){
+    let usernameClass = 'messageUsername';
+
+    if(authUser.id === user.id){
+      usernameClass = 'messageAuthUsername'
+    }
+
+    return(
+      <li className="messageLayout">
+        <MessageBasic usernameClass={usernameClass} username={user.username} message={message} />
+      </li>
+    );
+  } else {
+
+    let messageAuto = ' failed';
+    let messageClass = 'messageAutoWrong'
+    if(findAnime === true){
+      messageAuto = 'got it right !';
+      messageClass = 'messageAutoRight';
+    }
+
+    return(
+      <li className="messageLayout">
+        <MessageAuto username={user.username} message={messageAuto} messageClass={messageClass} />
+      </li>
+    );
+
   }
 
-  return(
-    <li className="messageLayout">
-        <section className="messageUsernameLayout">
-            <span className={usernameClass}>{user.username}</span>
-        </section>
-        <section>
-            <p className="messageContent">{message}</p>
-        </section>
-    </li>
-  );
+
 }
 
 
