@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { pagination, getCurrentPage, getPaginationInputData } from '../helper/game';
 import { getGameAvalaible, userJoinGame, getUserRunningGame, userReJoinGame } from '../actions/game';
-import { NEW_GAME, GAME_UPDATE } from '../socket';
+import socketEvent from '../socketEvent.json';
 
 import GameList from '../components/GameList/GameList';
 import Pagination from '../components/Pagination/Pagination';
@@ -35,12 +35,12 @@ class GameAvalaible extends Component {
         this.props.onUserRunningGame(token);
 
         // refresh value when a user create a new game
-        io.on(NEW_GAME, () => {
+        io.on( socketEvent.NEW_GAME, () => {
             this.props.onGameAvailable(token);
             this.props.onUserRunningGame(token);
         });
 
-        io.on(GAME_UPDATE, () => {
+        io.on( socketEvent.GAME_UPDATE, () => {
             this.props.onGameAvailable(token);
             this.props.onUserRunningGame(token);
         });
@@ -55,7 +55,7 @@ class GameAvalaible extends Component {
         if(this.props.userRunningGame === false){
             const { token, io } = this.props;
             this.props.onUserJoinGame(token, gameId);
-            io.emit(GAME_UPDATE);
+            io.emit( socketEvent.GAME_UPDATE);
             this.props.history.push('/game/running')
         }
     }

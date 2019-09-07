@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Message from '../components/Message/Message';
 import './css/chat.css';
 
-import { USER_POST_CHAT, CLICK_ANSWER } from '../socket';
+import socketEvent from '../socketEvent.json';
 import { changeMessage, addMessageToChat } from '../actions/chat';
 
 const mapStateToProps = (state, ownProps) => ({...state.chat, ...ownProps});
@@ -25,12 +25,12 @@ class Chat extends React.Component {
   componentDidMount = () => {
     const { io } = this.props;
 
-    io.on(USER_POST_CHAT, (messageServer) => {
+    io.on(socketEvent.USER_POST_CHAT, (messageServer) => {
       let messageData = {...messageServer, autoMessage: false, findAnime: null };
       this.props.onAddMessageToChat(messageData);
     });
 
-    io.on(CLICK_ANSWER, (data) => {
+    io.on(socketEvent.CLICK_ANSWER, (data) => {
       const { authUser, findAnime } = data;
 
       this.props.onAddMessageToChat({ player: authUser, message: null, autoMessage: true, findAnime });
@@ -69,7 +69,7 @@ class Chat extends React.Component {
         game,
       }
 
-      io.emit(USER_POST_CHAT, socketData);
+      io.emit(socketEvent.USER_POST_CHAT, socketData);
     }
   }
 

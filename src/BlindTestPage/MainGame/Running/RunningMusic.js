@@ -1,20 +1,16 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import AnswerBlock from '../../../components/AnswerBlock/AnswerBlock';
 
-import { CLICK_ANSWER } from '../../../socket';
+import socketEvent from '../../../socketEvent.json';
 import { clickAnswer, setAnswerOnce } from '../../../actions/mainGame/runningMusic';
 import { getMoeLink, orderAnime } from '../../../helper/runningGame';
 
-import { WAITING_TURN_2 } from '../../../config';
+import waitingTurn from '../../../waitingTrun.json';
 
 import Counter from '../../../components/Counter/Counter';
 
 import './css/runningMusic.css'
-
-import { 
-  CHANGE_STATUS_1_TO_2,
-} from '../../../socket';
 
 const mapStateToProps = (state, ownProps) => ({...state.runningMusic, ...ownProps});
 
@@ -34,7 +30,7 @@ class RunningMusic extends React.Component {
   componentDidMount = () => {
     const { answerOnceDefault } =  this.props;
     this.props.onSetAnswerOnce(answerOnceDefault);
-    this.props.changeStatus(CHANGE_STATUS_1_TO_2);
+    this.props.changeStatus(socketEvent.CHANGE_STATUS_1_TO_2);
   }
 
   /**
@@ -55,7 +51,7 @@ class RunningMusic extends React.Component {
     }
     data = {...data, findAnime };
     this.props.onClickAnswer(findAnime);
-    io.emit(CLICK_ANSWER, data);
+    io.emit(socketEvent.CLICK_ANSWER, data);
   }
 
   /**
@@ -99,11 +95,11 @@ class RunningMusic extends React.Component {
   }
 
   render(){
-    const { animeToGuess, answerOnce, timeToWait } = this.props;
+    const { animeToGuess, answerOnce } = this.props;
 
     return(
      <section className="runningMusicBlock">
-        {timeToWait ? <Counter startingNumber={WAITING_TURN_2} fastPass={true} /> : '' }
+       <Counter startingNumber={waitingTurn.WAITING_TURN_2} fastPass={false} />
         {animeToGuess ? this.printAudioPlayer() : ''}
         {answerOnce === true ? this.printFindAnimeResult() : ''}
         {answerOnce === false && animeToGuess ? this.printAnswer(animeToGuess.animes) : ''}

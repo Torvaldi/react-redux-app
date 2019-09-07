@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Loading from '../../components/Loading/Loading';
-
 import './css/waitingForPlayer.css';
 
 const mapStateToProps = (state, ownProps) => ({...state.mainGame, ...ownProps});

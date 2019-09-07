@@ -14,7 +14,10 @@ const OpeningVideo = (props) => {
             <li className="resultInfoItem"><span className="resutltInfoItemLabel">Season :</span> {props.animeSeason} {props.anime.year}</li>
             <li className="resultInfoItem"><span className="resutltInfoItemLabel">Type :</span> {props.animeType}</li>
             <li className="resultInfoItem"><span className="resutltInfoItemLabel">
-              <a href={props.myAnimListUrl} target="_blank" ><img src={malLogo} width="15" />MyAnimeList</a>
+              <a href={props.myAnimListUrl} rel="noopener noreferrer" target="_blank" >
+                <img src={malLogo} width="15" alt="my_anime_list_logo" />
+                MyAnimeList
+                </a>
               </span>
             </li>
           </ul>

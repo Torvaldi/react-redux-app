@@ -6,18 +6,16 @@ import OpeningVideo from '../../../components/OpeningVideo/OpeningVideo';
 import ScoreTable from '../../../components/ScoreTable/ScoreTable';
 import Counter from '../../../components/Counter/Counter';
 
-import { WAITING_TURN_3 } from '../../../config';
+import waitingTrun from '../../../waitingTrun.json';
 
 import './css/runningResult.css';
 
-import { 
-  CHANGE_STATUS_2_TO_0,
-} from '../../../socket';
+import socketEvent from '../../../socketEvent.json';
 
 class RunningResult extends React.Component {
 
   componentDidMount = () => {
-    this.props.changeStatus(CHANGE_STATUS_2_TO_0);
+    this.props.changeStatus(socketEvent.CHANGE_STATUS_2_TO_0);
   }
 
   printAnimeInformation = (animes) => {
@@ -52,10 +50,10 @@ class RunningResult extends React.Component {
   }
 
   render(){
-    const { scores, animeToGuess, timeToWait } = this.props;
+    const { scores, animeToGuess } = this.props;
     return(
      <section className="runningResultBlock">
-       { timeToWait ? <Counter startingNumber={WAITING_TURN_3} /> : '' }
+       <Counter startingNumber={waitingTrun.WAITING_TURN_3} />
        { animeToGuess ? this.printAnimeInformation(animeToGuess) : ''}
        { scores.turnScore ? this.printScoreOfTheTurn(scores.turnScore) : ''}
      </section>

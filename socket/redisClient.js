@@ -36,6 +36,10 @@ async function getGameStatus(gameId){
     return result;
 }
 
+function setGameStatus(gameId, status){
+    client.set(redisHelper.currentStatus(gameId), status)
+}
+
 function setScoreCounter(gameId, value){
     client.set(redisHelper.scoreCounter(gameId), 1);
 }
@@ -55,10 +59,6 @@ function setScoreCounter(gameId, value){
 
 function setTurnNumber(gameId, turnNumber){
     client.set(redisHelper.getTurnNumber(gameId), turnNumber);
-}
-
-function setGameStatus(gameId, status){
-    client.set(redisHelper.currentStatus(gameId), status)
 }
 
 module.exports = {

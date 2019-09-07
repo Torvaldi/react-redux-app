@@ -1,6 +1,4 @@
 import React, { Fragment } from 'react';
-import propTypes from 'prop-types';
-
 import './loading.css';
 
 /**
@@ -11,7 +9,6 @@ const Loading = (props) => {
 
   return(
     <Fragment>
-      <h1>{props.title}</h1>
       <div className="loader">
         <span></span>
         <span></span>
@@ -19,10 +16,6 @@ const Loading = (props) => {
     </div>
     </Fragment>
   );
-}
-
-Loading.propTypes = {
-  title: propTypes.string.isRequired,
 }
 
 export default Loading;

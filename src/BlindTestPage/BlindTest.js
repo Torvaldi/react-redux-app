@@ -7,7 +7,7 @@ import ListPlayer from './ListPlayer';
 import MainGame from './MainGame';
 
 import io from '../socket';
-import { GAME_UPDATE, LAUCH_GAME } from '../socket';
+import socketEvent from './../socketEvent.json'
 
 import { getGame, updateStatusState, playerRefreshScore, setWinners } from '../actions/runningGame';
 import { updateDatabaseGameStatus, userLeaveGameDatabase } from '../helper/runningGame';
@@ -32,7 +32,7 @@ class BlindTest extends React.Component {
     const { token } = this.props;
     this.props.onGetGame(token);
 
-    io.on(LAUCH_GAME, () => {
+    io.on(socketEvent.LAUCH_GAME, () => {
       // for other player, keep the game status up to date
       console.log('game launch')
       this.props.onUpdateStatusState(2);
@@ -67,9 +67,9 @@ class BlindTest extends React.Component {
     this.props.onUpdateStatusState(2);
 
     // call event game update, so the game lobby will be re-render
-    io.emit(GAME_UPDATE);
+    io.emit( socketEvent.GAME_UPDATE);
     // call launch game event 
-    io.emit(LAUCH_GAME, game.id);
+    io.emit( socketEvent.LAUCH_GAME, game.id);
   }
 
   leaveGame = (event) => {

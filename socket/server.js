@@ -1,7 +1,7 @@
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const event = require('./event');
+const event = require('./../src/socketEvent.json');
 const redis = require('./redisClient')
 
 const ioHelper = require('./helper/io');
@@ -92,7 +92,6 @@ io.on('connection', (socket) => {
 
       if(gameStatus == 0){
 
-        let timeToWait = statusHelper.getTimeOutInSecond(1);
         let timeout = statusHelper.getTimeout(0)
 
         setTimeout( () => {
@@ -105,8 +104,8 @@ io.on('connection', (socket) => {
               newTurnNumber = parseInt(turnNumber) + 1;
             }
             redis.setTurnNumber(gameId, newTurnNumber)
+            io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_0_TO_1, {});
           })
-          io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_0_TO_1, { timeToWait });
     
         }, timeout);
       }
@@ -127,7 +126,6 @@ io.on('connection', (socket) => {
     redis.getGameStatus(gameId).then( (gameStatus) => {
       if(gameStatus == 1){
 
-        let timeToWait = statusHelper.getTimeOutInSecond(2);
         let timeout = statusHelper.getTimeout(1)
         setTimeout( () => {
           redis.setGameStatus(gameId, 2);
@@ -135,6 +133,7 @@ io.on('connection', (socket) => {
           let data = {};
           redis.getAllUserScore(gameId)
           .then( (usersScores) => {
+            
             data = {
               ...data,
               usersScores,
@@ -143,7 +142,7 @@ io.on('connection', (socket) => {
           })
           .then( (turnNumber) => {
             let scoreJson = scoreHelper.hashToJson(data.usersScores, turnNumber);
-            let response = { score: scoreJson, timeToWait };
+            let response = { score: scoreJson };
   
             io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_1_TO_2, response);
           });
@@ -157,18 +156,18 @@ io.on('connection', (socket) => {
      * send back the switch event in (5, 15 or 30) seconds, depending of the runningStatus
     */
   socket.on(event.CHANGE_STATUS_2_TO_0, (data) => {
+
     const { gameId } = data;
 
     redis.getGameStatus(gameId).then( (gameStatus) => {
       
       if(gameStatus == 2){
-        let timeToWait = statusHelper.getTimeOutInSecond(0);
         let timeout = statusHelper.getTimeout(2)
         setTimeout( () => {
           redis.setGameStatus(gameId, 0);
   
           redis.setScoreCounter(gameId, 1);
-          io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, { timeToWait });
+          io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, {});
   
         }, timeout);
 
@@ -182,7 +181,6 @@ io.on('connection', (socket) => {
    */
   socket.on(event.CLICK_ANSWER, (data) => {
     const { gameId, authUser, findAnime, anime } = data;
-
     // return value, set default data
     let newScore = {
       username: authUser.username,
@@ -192,7 +190,6 @@ io.on('connection', (socket) => {
     socket.broadcast.emit(event.CLICK_ANSWER, {
       authUser, findAnime
     });
-
     // if the user has right or wrong
     if(findAnime === true){
       redis.getScoreCounter(gameId)
