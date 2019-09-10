@@ -1,7 +1,6 @@
 import React from 'react';
 
 import './scoreTable.css';
-import propTypes from 'prop-types';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 
 const ScoreTable = ( {scores} ) => {
 
+  let count = 0;
   return (
     <section className="scoreTurnTable">
         <Table >
@@ -29,9 +29,9 @@ const ScoreTable = ( {scores} ) => {
             if(score.turnScore > 0){
               rowCss = 'tableRowScoreRight'
             }
-
+            count++;
             return(
-              <TableRow className={rowCss}>
+              <TableRow key={count} className={rowCss}>
                 <TableCell className="tableCellScore" align="center">{score.rank}</TableCell>
                 <TableCell className="tableCellScore"  align="center">{score.username}</TableCell>
                 <TableCell className="tableCellScore"  align="center">{score.turnScore}</TableCell>

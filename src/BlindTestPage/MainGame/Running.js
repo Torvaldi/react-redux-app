@@ -8,7 +8,7 @@ import RunningResult from './Running/RunningResult';
 import { getAnimeToGuess } from '../../helper/mainGame';
 
 import { setAnimeToGuess, setAnimeToGuessCall } from '../../actions/mainGame';
-import { SEND_ANIME_TO_GUESS } from '../../socket';
+import socketEvent from '../../socketEvent.json';
 
 const mapStateToProps = (state, ownProps) => ({...state.mainGame, ...ownProps});
 
@@ -26,7 +26,7 @@ class Running extends React.Component {
     const { io } = this.props;
 
     // get animes to guess that were send by the creator
-    io.on(SEND_ANIME_TO_GUESS, (animeToGuess) => {
+    io.on(socketEvent.SEND_ANIME_TO_GUESS, (animeToGuess) => {
         this.props.onSetAnimeToGuess(animeToGuess);
     });
   }
@@ -44,7 +44,7 @@ class Running extends React.Component {
 
     this.props.onSetAnimeToGuess(animeToGuess);
 
-    io.emit(SEND_ANIME_TO_GUESS, data);
+    io.emit(socketEvent.SEND_ANIME_TO_GUESS, data);
   }
 
   /**
@@ -79,7 +79,6 @@ class Running extends React.Component {
       animeToGuessCall,
       scores,
       turnNumber,
-      timeToWait,
     } = this.props;
     // every turn load new anime opening to guess
 
@@ -98,7 +97,6 @@ class Running extends React.Component {
        {runningStatus === 0 ? 
         <RunningWaiting 
           changeStatus={this.changeStatus} 
-          timeToWait={timeToWait}
         /> : ''}
 
        {runningStatus === 1 ? 
@@ -109,7 +107,6 @@ class Running extends React.Component {
           animeToGuess={animeToGuess}
           answerOnceDefault={false}
           changeStatus={this.changeStatus}
-          timeToWait={timeToWait}
         /> : ''}
 
         {runningStatus === 2 ? 
@@ -118,7 +115,6 @@ class Running extends React.Component {
           changeStatus={this.changeStatus}
           scores={scores}
           turnNumber={turnNumber}
-          timeToWait={timeToWait}
         /> : ''}
           
      </Fragment>

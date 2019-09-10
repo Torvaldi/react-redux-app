@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import './css/createGameForm.css';
 
-import { NEW_GAME } from '../socket';
+import socketEvent from '../socketEvent.json';
 
 import { 
   changeLevel, 
@@ -53,7 +53,7 @@ class CreateGameForm extends Component {
     
     // redirect the user after creating a game
     if(userCreateGame === true){
-      io.emit(NEW_GAME);
+      io.emit( socketEvent.NEW_GAME);
       return <Redirect to="game/running" />
     }
 
