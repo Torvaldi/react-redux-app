@@ -1,4 +1,4 @@
-import { SECRET_KEY } from '../config';
+import config from '../config.json';
 
 const jwtJsDecode = require('jwt-js-decode');
 /**
@@ -6,7 +6,7 @@ const jwtJsDecode = require('jwt-js-decode');
  * @return bool
  */
 export async function tokenVerify(token){
-    let response = await jwtJsDecode.jwtVerify(token, SECRET_KEY);
+    let response = await jwtJsDecode.jwtVerify(token, config.secret_key);
     return response;
 }
 

@@ -1,0 +1,5 @@
+{
+    "api_url": "http://localhost:8000/",
+    "secret_key": "yoursuperkey",
+    "socket_url": "http://localhost:5000/"
+}

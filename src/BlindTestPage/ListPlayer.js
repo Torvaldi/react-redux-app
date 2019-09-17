@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
 
-import { USER_JOIN_GAME } from '../socket';
+import socketEvent from '../socketEvent.json';
 import { getPlayer } from '../actions/player';
 import { getGameStatus } from '../helper/game';
 
@@ -24,10 +24,10 @@ class ListPlayer extends React.Component {
   componentDidMount = () => {
     const { io, token, game, authUser } = this.props;
 
-    io.emit(USER_JOIN_GAME, {game, authUser})
+    io.emit(socketEvent.USER_JOIN_GAME, {game, authUser})
     this.props.onGetPlayer({token, game});
 
-    io.on(USER_JOIN_GAME, (data) => {
+    io.on(socketEvent.USER_JOIN_GAME, (data) => {
       this.props.refreshScore(data.score);
       this.props.onGetPlayer({token, game});
     });

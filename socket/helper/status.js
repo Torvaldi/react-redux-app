@@ -1,11 +1,8 @@
 
+const waitingTrun = require('./../../src/waitingTrun.json');
 
-/**
- * get number of the timeout function in second
- * @param {int} timeout, number used in the timeout function
- */
-function getTimeOutInSecond(status){
-    return getTimeout(status)/1000;
+function getTimeMilisecond(time){
+    return time*1000;
 }
 
 /**
@@ -14,14 +11,14 @@ function getTimeOutInSecond(status){
  */
 function getTimeout(runningStatus){
     if(runningStatus === 0){
-        return 5000;
+        return getTimeMilisecond(waitingTrun.WAITING_TURN_1);
     }
 
     if(runningStatus === 1){
-        return 10000
+        return getTimeMilisecond(waitingTrun.WAITING_TURN_2);
     }
 
-    return 10000;
+    return getTimeMilisecond(waitingTrun.WAITING_TURN_3);
 }
 
 /**
@@ -41,5 +38,4 @@ function getNextStatus(status){;
 module.exports = {
     getTimeout,
     getNextStatus,
-    getTimeOutInSecond,
 }

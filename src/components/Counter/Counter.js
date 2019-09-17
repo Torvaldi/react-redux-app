@@ -1,7 +1,5 @@
 import React from 'react';
-
 import './counter.css'
-import propTypes from 'prop-types';
 
 class Counter extends React.Component {
 
@@ -34,6 +32,5 @@ class Counter extends React.Component {
       );
   }
 }
-
 
 export default Counter;
