@@ -2,13 +2,14 @@
 
 body {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Noto mono', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* see Material UI custom theme */
-  --primary: #2196f3;
-  --secondary: #673ab7;
+  --primary: #3f51b5;
+  --secondary: #7e57c2;
   --lighGrey: #fafafa;
+  --darkBlue: #1F2D4E;
   --grey: #eeeeee;
   --darkGrey: #9e9e9e;
   --tablet: 1024px;
