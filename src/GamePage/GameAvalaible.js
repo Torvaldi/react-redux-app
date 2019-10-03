@@ -5,6 +5,7 @@ import { pagination, getCurrentPage, getPaginationInputData } from '../helper/ga
 import { getGameAvalaible, userJoinGame, getUserRunningGame, userReJoinGame } from '../actions/game';
 import socketEvent from '../socketEvent.json';
 
+import Button from '@material-ui/core/Button';
 import GameList from '../components/GameList/GameList';
 import Pagination from '../components/Pagination/Pagination';
 import Alert from '../components/Alerte/Alert';
@@ -128,18 +129,28 @@ class GameAvalaible extends Component {
         const { games, userRunningGame, runningGame } = this.props;
 
         return (
-         <Fragment>
-            <h1 className="title_game_avalaible">Join a game</h1>
-            {userRunningGame === true ? this.printRunningGame(runningGame) : ''}
+         <section class="joinGame_container" >
+             <article class="joinGame_block">
+                 <article class="joinGame_block_title">
+                    <h1 className="title_game_avalaible">Join a game</h1>
+                    <Button 
+                        type="submit" 
+                        size="medium" 
+                        variant="contained" 
+                        color="secondary"
+                        >
+                            Create a game
+                        </Button>
+                 </article>
+                {userRunningGame === true ? this.printRunningGame(runningGame) : ''}
 
-            <span className="text">Waiting for players</span>
-            {games ? this.printGameList(games) : '' }
+                {games ? this.printGameList(games) : '' }
 
-            <section className="gamelist_pagination_layout">
-                {games ? this.printPagination(games): ''}
-            </section>
-            
-         </Fragment>
+                <section className="gamelist_pagination_layout">
+                    {games ? this.printPagination(games): ''}
+                </section>
+             </article>
+         </section>
         );
     }
 }

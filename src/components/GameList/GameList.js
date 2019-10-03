@@ -33,7 +33,7 @@ const GameList = ({
           <li className={block_gamelist} key={id}>
             <section className="gamelist_info">
               <h2 className="gamelist_title">
-              {creator} 's game
+              {creator}'s game
               {TextStatus ? TextStatus : ''}
               </h2>
               <span className="gamelist_time"> 
