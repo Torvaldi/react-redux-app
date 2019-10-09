@@ -8,6 +8,11 @@ import './gameList.css'
 import Button from '@material-ui/core/Button';
 import {Animated} from "react-animated-css";
 
+import GroupIcon from '@material-ui/icons/Group';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import ViewModuleIcon from '@material-ui/icons/ViewModule';
+import StarIcon from '@material-ui/icons/Star';
+
 const GameList = ({
   joinGame, 
   gameType, 
@@ -42,19 +47,19 @@ const GameList = ({
             </section>
             <section className="gamelist_config">
               <article className="config_detail">
-                <span className="config_detail_title">Players</span>
+                <span className="config_detail_title"><GroupIcon /><span className="config_detail_title_text">Players</span></span>
                 <span className="config_detail_data" >{total_player}/10</span>
               </article>
               <article className="config_detail">
-                <span className="config_detail_title">Level</span>
+                <span className="config_detail_title"> <TrendingUpIcon /><span className="config_detail_title_text">Level</span></span>
                 <span className="config_detail_data" >{level}</span>
               </article>
               <article className="config_detail">
-                <span className="config_detail_title">Answers</span>
+                <span className="config_detail_title"> <ViewModuleIcon /><span className="config_detail_title_text">Answers</span></span>
                 <span className="config_detail_data">{answer}</span>
               </article>
               <article className="config_detail">
-                <span className="config_detail_title">Winning Score</span>
+                <span className="config_detail_title"> <StarIcon /><span className="config_detail_title_text"></span>Winning Score</span>
                 <span className="config_detail_data">{score_to_win}</span>
               </article>
             </section>

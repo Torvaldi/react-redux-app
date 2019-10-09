@@ -62,6 +62,12 @@
 .config_detail_title {
     color: var(--darkGrey);
     font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.config_detail_title_text {
+    margin-left: 3px;
 }
 
 .config_detail_data {
