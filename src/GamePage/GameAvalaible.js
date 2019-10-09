@@ -2,8 +2,9 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import { pagination, getCurrentPage, getPaginationInputData } from '../helper/game';
-import { getGameAvalaible, userJoinGame, getUserRunningGame, userReJoinGame } from '../actions/game';
+import { getGameAvalaible, userJoinGame, getUserRunningGame, userReJoinGame, openCreateForm } from '../actions/game';
 import socketEvent from '../socketEvent.json';
+import CreateGameForm from './CreateGameForm';
 
 import Button from '@material-ui/core/Button';
 import GameList from '../components/GameList/GameList';
@@ -22,7 +23,9 @@ const mapDispatchToProps = (dispatch) => ({
     onUserRunningGame: (token) =>
       getUserRunningGame(dispatch, token),
     onUserReJoinGame: (gameId) =>
-      dispatch(userReJoinGame(gameId))
+      dispatch(userReJoinGame(gameId)),
+    onOpenCreateForm : (bool) =>
+        dispatch(openCreateForm(bool))
 });
 
 class GameAvalaible extends Component {
@@ -45,6 +48,12 @@ class GameAvalaible extends Component {
             this.props.onGameAvailable(token);
             this.props.onUserRunningGame(token);
         });
+    }
+
+    createGameButton = () => (event) => {
+        event.preventDefault();
+        const { isOpenCreateForm } = this.props;
+        this.props.onOpenCreateForm(isOpenCreateForm);
     }
 
     /**
@@ -110,7 +119,7 @@ class GameAvalaible extends Component {
         );
     }
 
-    /**
+    /**isOpenCreateForm
      * Print pagination if needed
      * @param {*object} game
      */
@@ -124,9 +133,14 @@ class GameAvalaible extends Component {
         return '';
     }
 
-    render(){
+    printCreateForm = () => {
+        const { user, token, io } = this.props;
+        return <CreateGameForm user={user} token={token} io={io} />;
+    }
 
-        const { games, userRunningGame, runningGame } = this.props;
+    render(){
+        const { games, userRunningGame, runningGame, isOpenCreateForm } = this.props;
+        console.log(isOpenCreateForm);
 
         return (
          <section class="joinGame_container" >
@@ -138,6 +152,7 @@ class GameAvalaible extends Component {
                         size="medium" 
                         variant="contained" 
                         color="secondary"
+                        onClick={this.createGameButton()}
                         >
                             Create a game
                         </Button>
@@ -150,6 +165,9 @@ class GameAvalaible extends Component {
                     {games ? this.printPagination(games): ''}
                 </section>
              </article>
+
+             {isOpenCreateForm === true ? this.printCreateForm() : ''}
+
          </section>
         );
     }

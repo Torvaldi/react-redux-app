@@ -64,72 +64,74 @@ class CreateGameForm extends Component {
     }
 
     return (
-      <Fragment>
-        <h2 className="title_create_game">Create Game</h2>
-        <p className="text_create_game">You want to create your own game ? </p>
-        <form className="form_create_game" onSubmit={this.submitForm(token, level, answer, winningScore)} >
-          <div className="form_create_game_field">
-            <TextField
-              id="outlined-number"
-              label="Level"
-              type="number"
-              className="game_create_field"
-              onChange={this.changeLevel}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              InputProps={{ inputProps: { min: 1, max: 3 } }}
-              margin="normal"
-              variant="outlined"
-              required
-              disabled={disabled}
-            />
-            <FormHelperText className="game_create_text" >The smaller is it, the more famous the animes are</FormHelperText>
-          </div>
-          <div className="form_create_game_field">
-            <TextField
-              id="outlined-number"
-              label="Answers"
-              type="number"
-              className="game_create_field"
-              onChange={this.changeAnswer}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              InputProps={{ inputProps: { min: 4, max: 15 } }}
-              margin="normal"
-              variant="outlined"
-              required
-              disabled={disabled}
-            />
-            <FormHelperText className="game_create_text">Number of answers of the mCQ ! Min: 4, Max: 15</FormHelperText>
-          </div>
-          <div className="form_create_game_field">
-            <TextField
-              id="outlined-number"
-              label="Winning Score"
-              type="number"
-              className="game_create_field"
-              onChange={this.changeWinningScore}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              InputProps={{ inputProps: { min: 10 } }}
-              margin="normal"
-              variant="outlined"
-              required
-              disabled={disabled}
-            />
-          </div>
-          <div className="create_game_button">
-            <div>
-            <Button type="submit" size="large" variant="contained" color="primary" disabled={disabled}>
-              Create
-            </Button>
+      <article className="create_form_block">
+        <section class="create_form_content">
+          <h2 className="title_create_game">Create Game</h2>
+          <p className="text_create_game">You want to create your own game ? </p>
+          <form className="form_create_game" onSubmit={this.submitForm(token, level, answer, winningScore)} >
+            <div className="form_create_game_field">
+              <TextField
+                id="outlined-number"
+                label="Level"
+                type="number"
+                className="game_create_field"
+                onChange={this.changeLevel}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                InputProps={{ inputProps: { min: 1, max: 3 } }}
+                margin="normal"
+                variant="outlined"
+                required
+                disabled={disabled}
+              />
+              <FormHelperText className="game_create_text" >The smaller is it, the more famous the animes are</FormHelperText>
             </div>
-          </div>
-        </form>
-      </Fragment>
+            <div className="form_create_game_field">
+              <TextField
+                id="outlined-number"
+                label="Answers"
+                type="number"
+                className="game_create_field"
+                onChange={this.changeAnswer}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                InputProps={{ inputProps: { min: 4, max: 15 } }}
+                margin="normal"
+                variant="outlined"
+                required
+                disabled={disabled}
+              />
+              <FormHelperText className="game_create_text">Number of answers of the mCQ ! Min: 4, Max: 15</FormHelperText>
+            </div>
+            <div className="form_create_game_field">
+              <TextField
+                id="outlined-number"
+                label="Winning Score"
+                type="number"
+                className="game_create_field"
+                onChange={this.changeWinningScore}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                InputProps={{ inputProps: { min: 10 } }}
+                margin="normal"
+                variant="outlined"
+                required
+                disabled={disabled}
+              />
+            </div>
+            <div className="create_game_button">
+              <div>
+              <Button type="submit" size="large" variant="contained" color="primary" disabled={disabled}>
+                Create
+              </Button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </article>
     );
   }
     

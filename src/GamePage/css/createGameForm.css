@@ -1,4 +1,21 @@
 
+.create_form_block {
+    z-index: 10;
+    position: absolute;
+    background-color: var(--darkBlue);
+    width: 50%;
+    height: 100%;
+    left:0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.create_form_content {
+    width: 75%;
+    height: 75%;
+}
+
 .form_create_game {
     display: flex;
     flex-direction: column;
