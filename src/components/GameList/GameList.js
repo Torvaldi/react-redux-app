@@ -6,7 +6,7 @@ import { getGameStatus } from '../../helper/game';
 
 import './gameList.css'
 import Button from '@material-ui/core/Button';
-import {Animated} from "react-animated-css";
+import { Animated } from "react-animated-css";
 
 import GroupIcon from '@material-ui/icons/Group';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';

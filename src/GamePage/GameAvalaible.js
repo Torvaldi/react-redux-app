@@ -50,7 +50,7 @@ class GameAvalaible extends Component {
         });
     }
 
-    createGameButton = () => (event) => {
+    openCreateGame = () => (event) => {
         event.preventDefault();
         const { isOpenCreateForm } = this.props;
         this.props.onOpenCreateForm(isOpenCreateForm);
@@ -127,15 +127,21 @@ class GameAvalaible extends Component {
         let page = getPaginationInputData(games)
         if(page.max > 0){
             return(
-                <Pagination left={page.left} right={page.right} max={page.max} current={page.current} />
+                <Fragment>
+                    <section className="gamelist_pagination_layout">
+                        <Pagination left={page.left} right={page.right} max={page.max} current={page.current} />
+                    </section>
+                 </Fragment>
             )
         }
         return '';
     }
 
     printCreateForm = () => {
-        const { user, token, io } = this.props;
-        return <CreateGameForm user={user} token={token} io={io} />;
+        const { user, token, io,  } = this.props;
+        return (
+            <CreateGameForm  user={user} token={token} io={io} openCreateGame={this.openCreateGame} />
+        );
     }
 
     render(){
@@ -145,6 +151,8 @@ class GameAvalaible extends Component {
         return (
          <section class="joinGame_container" >
              <article class="joinGame_block">
+
+                {/* Title and create ame button */}
                  <article class="joinGame_block_title">
                     <h1 className="title_game_avalaible">Join a game</h1>
                     <Button 
@@ -152,21 +160,25 @@ class GameAvalaible extends Component {
                         size="medium" 
                         variant="contained" 
                         color="secondary"
-                        onClick={this.createGameButton()}
+                        onClick={this.openCreateGame()}
                         >
                             Create a game
                         </Button>
                  </article>
+
+                {/* Print the current game of the user, if they have any */}
                 {userRunningGame === true ? this.printRunningGame(runningGame) : ''}
 
+                {/* Print available game to join */}
                 {games ? this.printGameList(games) : '' }
 
-                <section className="gamelist_pagination_layout">
-                    {games ? this.printPagination(games): ''}
-                </section>
+                {/* if necessary, print the pagination */}
+                {games ? this.printPagination(games): ''}
+               
              </article>
 
-             {isOpenCreateForm === true ? this.printCreateForm() : ''}
+            {/* Call by an evenement, print the create game form */}
+            {isOpenCreateForm === true ? this.printCreateForm() : '' }
 
          </section>
         );

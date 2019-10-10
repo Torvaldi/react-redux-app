@@ -1,8 +1,6 @@
 import React from 'react';
 
-import GameLayout from './../components/GameLayout/GameLayout';
 import GameAvalaible from './GameAvalaible';
-import CreateGameForm from './CreateGameForm';
 import io from '../socket';
 
 const Game = ({token, user}) => {
