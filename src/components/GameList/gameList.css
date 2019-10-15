@@ -1,4 +1,5 @@
 
+/** General block **/
 .block_gamelist, .block_gamelist_disable {
     list-style: none;
     display: flex;
@@ -6,14 +7,32 @@
     margin: 20px 0;
     padding: 20px;
     box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+    animation-name: fadeIn;
+    animation-duration: 800ms;
 }
 
-.block_gamelist_disable {
-    background-color: var(--grey)
-}
-
+/** Default block **/
 .block_gamelist {
     background-color:var(--darkBlue);
+}
+
+/** Disable block **/
+.block_gamelist_disable {
+    background-color: rgba(90, 90, 90, 0.75);
+}
+
+.block_gamelist_disable .config_detail_data {
+    color: grey;
+}
+
+.block_gamelist_disable .gamelist_title {
+    color: grey;
+}
+
+.gamelist_info_block {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 5px;
 }
 
 .gamelist_title{
@@ -79,6 +98,7 @@
 
 .status_title {
     color: var(--secondary);
+    margin-left: 10px;
 }
 
 /* mobile */

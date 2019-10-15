@@ -1,9 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import propTypes from 'prop-types';
 
 import './player.css';
 import RoundIcon from '../../components/RoundIcon/RoundIcon';
-import { Animated } from "react-animated-css";
 
 const Player = ({player, scores, authUser}) => {
 
@@ -21,14 +20,10 @@ const Player = ({player, scores, authUser}) => {
   });
 
   return(
-    <Fragment>
-      <Animated className="animatedPlayer" animationIn="bounceInLeft" animationOut="bounceInRight" >
-        <li className="player" >
-            <span className={usernameClass}>{player.username}</span>
-            <RoundIcon data={playerScore} />
-        </li>
-      </Animated>
-    </Fragment>
+    <li className="player" >
+      <span className={usernameClass}>{player.username}</span>
+      <RoundIcon data={playerScore} />
+    </li>
   );
 }
 

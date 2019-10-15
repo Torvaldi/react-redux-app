@@ -6,11 +6,9 @@
     background-color: rgba(0, 0, 0, .2);
     /*padding: 20px 30px;*/
     margin: 8px 0;
-    width: 100%;
-}
-
-.animatedPlayer {
     width: 80%;
+    animation-name: bounceInLeft;
+    animation-duration: 800ms;
 }
 
 .playerListUsername, .playerListAuthUsername {

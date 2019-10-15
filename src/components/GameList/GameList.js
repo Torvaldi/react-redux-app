@@ -6,7 +6,6 @@ import { getGameStatus } from '../../helper/game';
 
 import './gameList.css'
 import Button from '@material-ui/core/Button';
-import { Animated } from "react-animated-css";
 
 import GroupIcon from '@material-ui/icons/Group';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
@@ -30,17 +29,16 @@ const GameList = ({
       }
 
       if(gameType === 'running'){
-        var TextStatus = <span className="status_title"> - {getGameStatus(status)}</span>
+        var TextStatus = <span className="status_title">{getGameStatus(status)}</span>
       }
       
       return(
-        <Animated isVisible={true}>
           <li className={block_gamelist} key={id}>
             <section className="gamelist_info">
-              <h2 className="gamelist_title">
-              {creator}'s game
-              {TextStatus ? TextStatus : ''}
-              </h2>
+              <div className="gamelist_info_block">
+                <h2 className="gamelist_title">{creator}'s game</h2>
+                {TextStatus ? TextStatus : ''}
+              </div>
               <span className="gamelist_time"> 
                 {textCreationDate}
               </span>
@@ -77,7 +75,6 @@ const GameList = ({
               </form>
             </section>
           </li>
-        </Animated>
       );
     
 }

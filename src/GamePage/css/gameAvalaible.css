@@ -25,6 +25,7 @@
 .joinGame_block {
     width: 70%;
     margin: 80px 0;
+    z-index: 10;
 }
 
 .joinGame_block_title {

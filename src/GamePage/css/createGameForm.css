@@ -7,8 +7,6 @@
     right: 0;
     top: 0;
     z-index: 10;
-    animation-name: fadeInRight;
-    animation-duration: 450ms;
 }
 
 .create_form_block {
