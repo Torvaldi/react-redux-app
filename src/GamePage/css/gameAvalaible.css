@@ -73,3 +73,12 @@
         width: 100%;
     }
 }
+
+@media only screen and (max-width: 375px) {
+    .create_block_dark_background {
+        display: none;
+    }
+    .create_form_block {
+        width: 100%;
+    }
+}

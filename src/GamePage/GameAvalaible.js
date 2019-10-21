@@ -161,6 +161,7 @@ class GameAvalaible extends Component {
                         variant="contained" 
                         color="secondary"
                         onClick={this.openCreateGame()}
+                        disabled={userRunningGame}
                         >
                             Create a game
                         </Button>

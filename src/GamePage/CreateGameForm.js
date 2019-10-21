@@ -58,12 +58,6 @@ class CreateGameForm extends Component {
       return <Redirect to="game/running" />
     }
 
-    // disable form in case the user is already inside a game
-    var disabled = true;
-    if(userRunningGame === false){
-      disabled = false;
-    }
-
     return(
       <section className="create_game_block">
         <article className="create_block_dark_background" onClick={this.props.openCreateGame()}></article>
@@ -89,7 +83,7 @@ class CreateGameForm extends Component {
                   margin="normal"
                   variant="filled"
                   required
-                  disabled={disabled}
+                  disabled={userRunningGame}
                 />
                 <FormHelperText className="game_create_text" >The smaller is it, the more famous the animes are</FormHelperText>
               </div>
@@ -107,7 +101,7 @@ class CreateGameForm extends Component {
                   margin="normal"
                   variant="filled"
                   required
-                  disabled={disabled}
+                  disabled={userRunningGame}
                 />
                 <FormHelperText className="game_create_text">Number of answers of the mCQ ! Min: 4, Max: 15</FormHelperText>
               </div>
@@ -125,11 +119,11 @@ class CreateGameForm extends Component {
                   margin="normal"
                   variant="filled"
                   required
-                  disabled={disabled}
+                  disabled={userRunningGame}
                 />
               </div>
               <div className="create_game_button">
-                <Button type="submit" size="large" variant="contained" color="secondary" disabled={disabled}>
+                <Button type="submit" size="large" variant="contained" color="secondary" disabled={userRunningGame}>
                   Create
                 </Button>
               </div>
