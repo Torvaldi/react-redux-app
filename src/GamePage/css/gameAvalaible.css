@@ -64,3 +64,12 @@
     justify-content: center;
     margin-top: 30px;
 }
+
+@media only screen and (max-width: 550px) {
+    .create_block_dark_background {
+        display: none;
+    }
+    .create_form_block {
+        width: 100%;
+    }
+}

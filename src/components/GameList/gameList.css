@@ -102,19 +102,48 @@
 }
 
 /* mobile */
-@media only screen and (max-width: 550px) {
-    .block_gamelist, .block_gamelist_disable, .gamelist_config {
+@media only screen and (max-width: 1024px) {
+    /* Gamelist container */
+    .block_gamelist, .block_gamelist_disable {
       flex-direction: column;
       align-items: center;
       
     }
 
+    /* Date and title block */
     .gamelist_info{
         text-align: center;
         width: 100%;
-        margin-bottom: 5px;
+        margin-bottom: 25px;
     }
 
+    .gamelist_config {
+        margin-bottom: 25px;
+        width: 100%;
+        justify-content: space-around;
+    }
 
+    /* block title and (game statut if any) */
+    .gamelist_info_block {
+        justify-content: center;
+    }
 
+}
+
+@media only screen and (max-width: 550px) {
+    .gamelist_config {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    .joinGame_block_title {
+        flex-direction: column;
+    }
+
+    .title_game_avalaible {
+       text-align: center;
+       margin-bottom: 15px !important; /* overide default value*/
+    }
 }
