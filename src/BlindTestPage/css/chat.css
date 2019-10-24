@@ -6,6 +6,8 @@
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    
 }
 
 .chatFormLayout {
@@ -15,5 +17,7 @@
 
 .chatFormMessage {
     width: 100%;
-    height: 100%;
+    margin: 0;
+    background-color: var(--lighGrey);
+    border-radius: 5px;
 }

@@ -8,7 +8,7 @@ const MessageBasic = ({usernameClass, username, message}) => {
             <section className="messageUsernameLayout">
                 <span className={usernameClass}>{username}</span>
             </section>
-            <section>
+            <section className="messageContentLayout">
                 <p className="messageContent">{message}</p>
             </section>
         </Fragment>
