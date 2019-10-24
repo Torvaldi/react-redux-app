@@ -146,7 +146,6 @@ class GameAvalaible extends Component {
 
     render(){
         const { games, userRunningGame, runningGame, isOpenCreateForm } = this.props;
-        console.log(isOpenCreateForm);
 
         return (
          <section class="joinGame_container" >
