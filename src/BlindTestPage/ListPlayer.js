@@ -67,8 +67,8 @@ class ListPlayer extends React.Component {
           <section className="listPlayerInfo">
             <h1 className="playerTitle">{game.creator} 's game</h1>
             <span className="playerScoreToWin">Winning score : <span className="playerScoreToWinData">{game.score_to_win}</span></span>
-            <span className="playerScoreToWin">Level : <span className="playerLevelData">{game.level}</span></span>
-            <span className="playerScoreToWin">Status :  <span className="playerLevelData">{status}</span></span>
+            <span className="playerLevel">Level : <span className="playerLevelData">{game.level}</span></span>
+            <span className="playerStatus">Status :  <span className="playerStatusData">{status}</span></span>
             {game.creator === authUser.username && gameStatus === 1 ? this.printLauchButton() : ''}
           </section>
         <ul className="listPlayer">
@@ -82,7 +82,7 @@ class ListPlayer extends React.Component {
         </ul>
           <Button 
             variant="contained" 
-            color="primary"
+            color="secondary"
             size="small"
             onClick={this.props.leaveGame}
             >

@@ -2,9 +2,11 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import { pagination, getCurrentPage, getPaginationInputData } from '../helper/game';
-import { getGameAvalaible, userJoinGame, getUserRunningGame, userReJoinGame } from '../actions/game';
+import { getGameAvalaible, userJoinGame, getUserRunningGame, userReJoinGame, openCreateForm } from '../actions/game';
 import socketEvent from '../socketEvent.json';
+import CreateGameForm from './CreateGameForm';
 
+import Button from '@material-ui/core/Button';
 import GameList from '../components/GameList/GameList';
 import Pagination from '../components/Pagination/Pagination';
 import Alert from '../components/Alerte/Alert';
@@ -21,7 +23,9 @@ const mapDispatchToProps = (dispatch) => ({
     onUserRunningGame: (token) =>
       getUserRunningGame(dispatch, token),
     onUserReJoinGame: (gameId) =>
-      dispatch(userReJoinGame(gameId))
+      dispatch(userReJoinGame(gameId)),
+    onOpenCreateForm : (bool) =>
+        dispatch(openCreateForm(bool))
 });
 
 class GameAvalaible extends Component {
@@ -44,6 +48,12 @@ class GameAvalaible extends Component {
             this.props.onGameAvailable(token);
             this.props.onUserRunningGame(token);
         });
+    }
+
+    openCreateGame = () => (event) => {
+        event.preventDefault();
+        const { isOpenCreateForm } = this.props;
+        this.props.onOpenCreateForm(isOpenCreateForm);
     }
 
     /**
@@ -109,7 +119,7 @@ class GameAvalaible extends Component {
         );
     }
 
-    /**
+    /**isOpenCreateForm
      * Print pagination if needed
      * @param {*object} game
      */
@@ -117,29 +127,60 @@ class GameAvalaible extends Component {
         let page = getPaginationInputData(games)
         if(page.max > 0){
             return(
-                <Pagination left={page.left} right={page.right} max={page.max} current={page.current} />
+                <Fragment>
+                    <section className="gamelist_pagination_layout">
+                        <Pagination left={page.left} right={page.right} max={page.max} current={page.current} />
+                    </section>
+                 </Fragment>
             )
         }
         return '';
     }
 
-    render(){
+    printCreateForm = () => {
+        const { user, token, io,  } = this.props;
+        return (
+            <CreateGameForm  user={user} token={token} io={io} openCreateGame={this.openCreateGame} />
+        );
+    }
 
-        const { games, userRunningGame, runningGame } = this.props;
+    render(){
+        const { games, userRunningGame, runningGame, isOpenCreateForm } = this.props;
 
         return (
-         <Fragment>
-            <h1 className="title_game_avalaible">Join a game</h1>
-            {userRunningGame === true ? this.printRunningGame(runningGame) : ''}
+         <section class="joinGame_container" >
+             <article class="joinGame_block">
 
-            <span className="text">Waiting for players</span>
-            {games ? this.printGameList(games) : '' }
+                {/* Title and create ame button */}
+                 <article class="joinGame_block_title">
+                    <h1 className="title_game_avalaible">Join a game</h1>
+                    <Button 
+                        type="submit" 
+                        size="medium" 
+                        variant="contained" 
+                        color="secondary"
+                        onClick={this.openCreateGame()}
+                        disabled={userRunningGame}
+                        >
+                            Create a game
+                        </Button>
+                 </article>
 
-            <section className="gamelist_pagination_layout">
+                {/* Print the current game of the user, if they have any */}
+                {userRunningGame === true ? this.printRunningGame(runningGame) : ''}
+
+                {/* Print available game to join */}
+                {games ? this.printGameList(games) : '' }
+
+                {/* if necessary, print the pagination */}
                 {games ? this.printPagination(games): ''}
-            </section>
-            
-         </Fragment>
+               
+             </article>
+
+            {/* Call by an evenement, print the create game form */}
+            {isOpenCreateForm === true ? this.printCreateForm() : '' }
+
+         </section>
         );
     }
 }

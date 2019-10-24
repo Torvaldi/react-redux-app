@@ -17,9 +17,13 @@ import { ThemeProvider } from '@material-ui/styles';
 
 const theme = createMuiTheme({
     palette: {
-        primary: blue,
-        secondary: deepPurple,
+        primary: {
+           main: '#3f51b5',
+        },
+        secondary: {
+            main: '#7e57c2',
       },
+    }
 });
 
 ReactDOM.render((

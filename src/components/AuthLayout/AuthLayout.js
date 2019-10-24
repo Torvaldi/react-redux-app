@@ -8,8 +8,10 @@ const AuthLayout = (props) => {
   return (
     <section className="authLayout" >
           <article className="authBlock">
-            <BlockText text={props.text} />
-            {props.left}
+            <article class="authBlock_left">
+              <BlockText text={props.text} />
+              {props.left}
+            </article>
           </article>
           <article className="imageLayout">
             {props.right}

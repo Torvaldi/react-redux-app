@@ -73,7 +73,7 @@ class RegisterForm extends Component {
     }
 
     return (
-      <form className="formBig" onSubmit={this.submitForm(username, mail, password, passwordConfirmation)}>
+      <form onSubmit={this.submitForm(username, mail, password, passwordConfirmation)}>
         {alerte}
         {alerteSucess}
         <div className="formField">
@@ -85,7 +85,7 @@ class RegisterForm extends Component {
           onChange={this.changeUsername}
           onClick={this.resetFeedback(errorRegister, messageRegister)}
           margin="normal"
-          variant="outlined"
+          variant="filled"
           required
         />
       </div>
@@ -99,7 +99,7 @@ class RegisterForm extends Component {
           onChange={this.changeMail}
           onClick={this.resetFeedback(errorRegister, messageRegister)}
           margin="normal"
-          variant="outlined"
+          variant="filled"
           required
         />
         </div>
@@ -112,7 +112,7 @@ class RegisterForm extends Component {
           onChange={this.changePassword}
           onClick={this.resetFeedback(errorRegister, messageRegister)}
           margin="normal"
-          variant="outlined"
+          variant="filled"
           required
         />
         </div>
@@ -125,16 +125,16 @@ class RegisterForm extends Component {
           onChange={this.changePasswordConfirmation}
           onClick={this.resetFeedback(errorRegister, messageRegister)}
           margin="normal"
-          variant="outlined"
+          variant="filled"
           required
         />
         </div>
         <div className="buttonField">
-          <Button className="buttonLogin" type="submit" size="large" variant="contained" color="primary">
+          <Button className="buttonLogin" type="submit" size="large" variant="contained" color="secondary">
           Sign up
           </Button>
           <Link to="/login">
-            <Button size="large" variant="outlined" color="primary">
+            <Button size="large" variant="outlined" color="secondary">
             Login
             </Button>
           </Link>

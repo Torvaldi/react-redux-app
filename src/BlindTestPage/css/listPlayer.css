@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background:linear-gradient(0deg,rgba(22, 15, 53, 0.52),rgba(10, 84, 144, 0.315)),url(http://hdqwalls.com/wallpapers/anime-cityscape-landscape-scenery-5k-r6.jpg);
+    background: linear-gradient(0deg, rgba(31,45,78,1) 0%, rgba(63,81,181,1) 64%, rgba(126,87,194,1) 100%);
     background-size: cover;
     height: 100%;
 }
@@ -24,12 +24,13 @@
 }
 
 
-.playerScoreToWin, .playerLevelData {
+.playerScoreToWin, .playerLevel, .playerStatus {
     font-size: 1rem;
     margin-bottom: 10px;
+    color: #212121;
 }
 
-.playerScoreToWinData, .playerLevelData {
+.playerScoreToWinData, .playerLevelData, .playerStatusData {
     font-weight: bold;
 }
 

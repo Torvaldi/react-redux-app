@@ -6,12 +6,14 @@ import {
     UPDATE_FIELD_LEVEL,
     UPDATE_FIELD_ANSWER,
     UPDATE_FIELD_WINNING_SCORE,
+    OPEN_CREATE_FORM,
 } from '../actions/game';
 
 const initialState = {
     userJoinGame: false,
     userRunningGame: false,
     userCreateGame: false,
+    isOpenCreateForm: false,
 }
 
 export default (state = initialState, action) => {
@@ -58,6 +60,17 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 userCreateGame: false,
+            }
+        case OPEN_CREATE_FORM:
+            if(action.payload.isOpenCreateForm === true){
+                return {
+                    ...state,
+                    isOpenCreateForm: false 
+                }
+            }
+            return {
+                ...state,
+                isOpenCreateForm: true 
             }
         default:
             return state;
