@@ -6,7 +6,11 @@ import { getGameStatus } from '../../helper/game';
 
 import './gameList.css'
 import Button from '@material-ui/core/Button';
-import {Animated} from "react-animated-css";
+
+import GroupIcon from '@material-ui/icons/Group';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import ViewModuleIcon from '@material-ui/icons/ViewModule';
+import StarIcon from '@material-ui/icons/Star';
 
 const GameList = ({
   joinGame, 
@@ -25,36 +29,35 @@ const GameList = ({
       }
 
       if(gameType === 'running'){
-        var TextStatus = <span className="status_title"> - {getGameStatus(status)}</span>
+        var TextStatus = <span className="status_title">{getGameStatus(status)}</span>
       }
       
       return(
-        <Animated isVisible={true}>
           <li className={block_gamelist} key={id}>
             <section className="gamelist_info">
-              <h2 className="gamelist_title">
-              {creator} 's game
-              {TextStatus ? TextStatus : ''}
-              </h2>
+              <div className="gamelist_info_block">
+                <h2 className="gamelist_title">{creator}'s game</h2>
+                {TextStatus ? TextStatus : ''}
+              </div>
               <span className="gamelist_time"> 
                 {textCreationDate}
               </span>
             </section>
             <section className="gamelist_config">
               <article className="config_detail">
-                <span className="config_detail_title">Players</span>
+                <span className="config_detail_title"><GroupIcon /><span className="config_detail_title_text">Players</span></span>
                 <span className="config_detail_data" >{total_player}/10</span>
               </article>
               <article className="config_detail">
-                <span className="config_detail_title">Level</span>
+                <span className="config_detail_title"> <TrendingUpIcon /><span className="config_detail_title_text">Level</span></span>
                 <span className="config_detail_data" >{level}</span>
               </article>
               <article className="config_detail">
-                <span className="config_detail_title">Answers</span>
+                <span className="config_detail_title"> <ViewModuleIcon /><span className="config_detail_title_text">Answers</span></span>
                 <span className="config_detail_data">{answer}</span>
               </article>
               <article className="config_detail">
-                <span className="config_detail_title">Winning Score</span>
+                <span className="config_detail_title"> <StarIcon /><span className="config_detail_title_text"></span>Winning Score</span>
                 <span className="config_detail_data">{score_to_win}</span>
               </article>
             </section>
@@ -72,7 +75,6 @@ const GameList = ({
               </form>
             </section>
           </li>
-        </Animated>
       );
     
 }

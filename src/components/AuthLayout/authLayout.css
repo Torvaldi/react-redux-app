@@ -4,6 +4,11 @@
     width: 35%;
     justify-content: center;
     align-items: center;
+    background-color: var(--darkBlue);
+}
+
+.authBlock_left {
+    width: 60%;
 }
 
 .authLayout {
@@ -27,5 +32,6 @@
     }
     .authBlock {
         width: 100%;
+        height: 100%;
     }
 }

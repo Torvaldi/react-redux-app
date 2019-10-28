@@ -62,7 +62,7 @@ class LoginForm extends Component {
       alerteLogin = <Alert message={errorLogin} type={0} />;
     }
     return(
-          <form className="containedformSmall" onSubmit={this.submitForm(username, password)}>
+          <form  onSubmit={this.submitForm(username, password)}>
             {alerteLogin}
                 <div className="formField">
                   <TextField
@@ -73,7 +73,7 @@ class LoginForm extends Component {
                     onChange={this.changeUsername}
                     onClick={this.resetError(errorLogin)}
                     margin="normal"
-                    variant="outlined"
+                    variant="filled"
                     required
                   />
                 </div>
@@ -87,7 +87,7 @@ class LoginForm extends Component {
                     onChange={this.changePassword}
                     onClick={this.resetError(errorLogin)}
                     margin="normal"
-                    variant="outlined"
+                    variant="filled"
                     required
                   />
                 </div>
@@ -96,19 +96,19 @@ class LoginForm extends Component {
                     control={
                       <Checkbox
                         value="checkedB"
-                        color="primary"
+                        color="secondary"
                       />
                       }
                       label="Remember me"
                     />
-                    <a href="#" className="rememberMe" href="#">Forget Password ?</a>
+                    <a href="#" className="forgetPassword" href="#">Forget Password ?</a>
                 </div>
                 <div className="buttonField">
-                    <Button className="buttonLogin" type="submit" size="large" variant="contained" color="primary">
+                    <Button className="buttonLogin" type="submit" size="large" variant="contained" color="secondary">
                       Login
                     </Button>
                       <Link to="/register">
-                        <Button className="buttonRegister" size="large" variant="outlined" color="primary">
+                        <Button className="buttonRegister" size="large" variant="outlined" color="secondary">
                           Sign up 
                         </Button>
                       </Link>

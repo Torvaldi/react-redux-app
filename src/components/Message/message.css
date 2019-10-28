@@ -1,14 +1,23 @@
 
 .messageLayout {
     list-style-type: none;
+    /*
+    background-color: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #212121;
+    */
+    padding: 10px 15px;
 }
 
 .messageUsernameLayout {
-    margin-top: 25px;
+}
+
+.messageContentLayout {
 }
 
 .messageUsername, .messageAuthUsername {
     font-weight: bold;
+    color: white;
+   
 }
 
 .messageUsername {
@@ -16,13 +25,14 @@
 }
 
 .messageAuthUsername {
-    color: var(--primary);
+    color: #212121;
 }
 
 .messageContent{
-    padding-bottom: 12px;
-    margin-bottom: 0;
-    border-bottom: 2px solid var(--grey);
+    margin: 5px 0 0 0;
+    color: white;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .messageAutoRight {

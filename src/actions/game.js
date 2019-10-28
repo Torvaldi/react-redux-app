@@ -13,6 +13,7 @@ export const USER_RUNNING_GAME = 'USER_RUNNING_GAME';
 export const UPDATE_FIELD_LEVEL = 'UPDATE_FIELD_LEVEL';
 export const UPDATE_FIELD_ANSWER = 'UPDATE_FIELD_ANSWER';
 export const UPDATE_FIELD_WINNING_SCORE = 'UPDATE_FIELD_WINNING_SCORE';
+export const OPEN_CREATE_FORM = 'OPEN_CREATE_FORM';
 
 /**
  * get all game waiting for player
@@ -149,5 +150,12 @@ export function userReJoinGame(gameId){
   return {
     type: USER_JOIN_GAME,
     payload: { gameId }
+  }
+}
+
+export function openCreateForm(isOpenCreateForm){
+  return {
+    type: OPEN_CREATE_FORM,
+    payload: { isOpenCreateForm }
   }
 }

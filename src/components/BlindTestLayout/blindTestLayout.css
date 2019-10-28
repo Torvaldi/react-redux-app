@@ -19,4 +19,5 @@
     display: flex;
     flex-direction: column;
     padding: 30px;
+    background: linear-gradient(0deg, rgba(31,45,78,1) 0%, rgba(63,81,181,1) 64%, rgba(126,87,194,1) 100%);
 }
