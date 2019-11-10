@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
 
 import socketEvent from '../socketEvent.json';
-import { getPlayer } from '../actions/player';
+import { getPlayer, addPlayer } from '../actions/player';
 import { getGameStatus } from '../helper/game';
 
 import Player from '../components/Player/Player';
@@ -14,6 +14,8 @@ const mapStateToProps = (state, ownProps) => ({...state.player, ...ownProps});
 const mapDispatchToProps = (dispatch) => ({
   onGetPlayer: (data) => 
     getPlayer(dispatch, data),
+  onAddPlayer: (data) => 
+    dispatch(addPlayer(data)),
 });
 
 class ListPlayer extends React.Component {
@@ -24,14 +26,15 @@ class ListPlayer extends React.Component {
   componentDidMount = () => {
     const { io, token, game, authUser } = this.props;
 
-    io.emit(socketEvent.USER_JOIN_GAME, {game, authUser})
-    this.props.onGetPlayer({token, game});
+    io.emit(socketEvent.USER_JOIN_GAME, {game, authUser});
 
     io.on(socketEvent.USER_JOIN_GAME, (data) => {
-      this.props.refreshScore(data.score);
-      this.props.onGetPlayer({token, game});
+      this.props.onAddPlayer(data.score);
     });
 
+    io.on(socketEvent.GAME_JOINED_SUCCESSFULLY, (data) => {
+      this.props.refreshScore(data.score);
+    });
   }
 
   printLauchButton = () => {
@@ -76,8 +79,8 @@ class ListPlayer extends React.Component {
             <span className="playerLabel">Players</span>
             <span className="playerScore">Score</span>
           </section>
-          {players.map((player) => {
-            return <Player key={player.id} player={player} scores={scores.globalScore} authUser={authUser} />;
+          {scores.map((score, userName) => {
+            return <Player userName={userName} score={score} authUser={authUser} />;
           })}
         </ul>
           <Button 

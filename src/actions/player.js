@@ -21,4 +21,3 @@ export function getPlayer(dispatch, data){
         })
       );
 }
-

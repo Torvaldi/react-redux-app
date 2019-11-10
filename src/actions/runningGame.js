@@ -2,8 +2,9 @@ import { API_USER_RUNNING_GAME, getAuthorizationHeader } from '../helper/api';
 
 export const GET_GAME = 'GET_GAME';
 export const UPDATE_GAME_STATUS = 'UPDATE_GAME_STATUS';
-export const GET_SCORE = 'GET_SCORE';
+export const GET_ALL_PLAYERS = 'GET_ALL_PLAYERS';
 export const GET_WINNERS = 'GET_WINNERS';
+export const ADD_NEW_PLAYER = 'ADD_NEW_PLAYER';
 
 /**
  * get game data (level, answer etc)
@@ -31,10 +32,17 @@ export function updateStatusState(gameStatus){
   }
 }
 
-export function playerRefreshScore(scores){
+export function refreshPlayers(players){
   return {
-    type: GET_SCORE,
-    payload: scores
+    type: GET_ALL_PLAYERS,
+    payload: players
+  }
+}
+
+export function addPlayer(player){
+  return {
+    type: ADD_NEW_PLAYER,
+    payload: player
   }
 }
 
@@ -44,4 +52,3 @@ export function setWinners(winners){
     payload: winners,
   }
 }
-

@@ -2,13 +2,18 @@ const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const event = require('./../src/socketEvent.json');
-const redis = require('./redisClient')
+//const redis = require('./redisClient')
 
 const ioHelper = require('./helper/io');
 const statusHelper = require('./helper/status');
 const scoreHelper = require('./helper/score');
 
+const Game = require('./classes/Game.js');
+const Player = require('./classes/Player.js');
+const Answer = require('./classes/Answer.js');
+
 io.on('connection', (socket) => {
+  let currentGames = new Map();
 
   // GAME SELECTION
  socket.on(event.NEW_GAME, () => {
@@ -19,12 +24,12 @@ io.on('connection', (socket) => {
     socket.broadcast.emit(event.GAME_UPDATE);
   });
 
-
   // GAME
   /**
-   * A user join the game, keep in mind that they can join a game already running if there were already in the game before
+   * A user join the game, keep in mind that they can join a game already running
+   * if they were already in the game before
    * @param data contain the game the user join and the authentificated user data
-   * Check if user has a score, initial its score if they haven't
+   * Check if user has a score, initialize its score if they haven't
    * Send back all user scores to the react client
    */
   socket.on(event.USER_JOIN_GAME, (data) => {
@@ -33,6 +38,31 @@ io.on('connection', (socket) => {
 
     socket.join(ioHelper.getRoom(game.id));
 
+    // Check if this is a new game, otherwise create it
+    // using given game parameters
+    if (currentGames.has(game.id) === false) {
+      currentGames.set(game.id, new Game(game.id, game.creator, game.level, game.answer));
+    }
+
+    let player = null;
+    // Check if this player already existed in this game
+    if (currentGames[game.id].playerExists(authUser.username) === true) {
+      player = currentGames[game.id].getPlayer(authUser.username);
+    }
+    // Otherwise create it
+    else {
+      player = currentGames[game.id].newPlayer(authUser.username);
+    }
+
+    // Notify the new player that his that he successfully
+    // joined the game and send him all the scores
+    socket.emit(event.GAME_JOINED_SUCCESSFULLY, currentGames[game.id].getTotalScores());
+
+    // Send notification to other players that a new player joined
+    // as well as he's score
+    socket.to(ioHelper.getRoom(game.id)).emit(event.USER_JOIN_GAME, player.serialize());
+
+    /*
     redis.getUserScore(game.id, authUser.username)
     .then((userScore) => {
       if(userScore === null){
@@ -54,7 +84,7 @@ io.on('connection', (socket) => {
         io.in(ioHelper.getRoom(game.id)).emit(event.SET_DEFAULT_STATUS, { status: parseInt(gameStatus) });
       }
     });
-
+    */
   });
 
   socket.on(event.USER_POST_CHAT, (data) => {

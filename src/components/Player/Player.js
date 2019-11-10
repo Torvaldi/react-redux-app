@@ -4,25 +4,18 @@ import propTypes from 'prop-types';
 import './player.css';
 import RoundIcon from '../../components/RoundIcon/RoundIcon';
 
-const Player = ({player, scores, authUser}) => {
+const Player = ({userName, score, authUser}) => {
 
   // change class for the authUser username
   var usernameClass = 'playerListUsername';
-  if(player.username === authUser.username){
+  if(userName === authUser.username){
     usernameClass = 'playerListAuthUsername';
   }
-  
-  let playerScore = 0;
-  scores.forEach((item) => {
-    if(item.username === player.username && item.score){
-      playerScore = item.score;
-    }
-  });
 
   return(
     <li className="player" >
-      <span className={usernameClass}>{player.username}</span>
-      <RoundIcon data={playerScore} />
+      <span className={usernameClass}>{userName}</span>
+      <RoundIcon data={score} />
     </li>
   );
 }

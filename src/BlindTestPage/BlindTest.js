@@ -82,6 +82,10 @@ class BlindTest extends React.Component {
     }
   }
 
+  addNewPlayer = (player) => {
+    this.props.onAddNewPlayer();
+  }
+
   /**
    * Print all 3 part of the layout, each of them have their own state
    * PlayerList : List of all player with their score and basic game information
@@ -106,6 +110,7 @@ class BlindTest extends React.Component {
             gameStatus={gameStatus}
             refreshScore={this.refreshScore}
             scores={scores}
+            addNewPlayer={this.addNewPlayer}
           />}
           center={
           <MainGame 
