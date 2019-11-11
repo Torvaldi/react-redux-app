@@ -11,13 +11,13 @@ export const ADD_NEW_PLAYER = 'ADD_NEW_PLAYER';
  * @param {*function} dispatch 
  * @param {*string} token 
  */
-export function getGame(dispatch, token){
+export function getGame(dispatch, token) {
   fetch(API_USER_RUNNING_GAME, {
-      method: 'GET',
-      headers: getAuthorizationHeader(token),
-    })
+    method: 'GET',
+    headers: getAuthorizationHeader(token),
+  })
     .then(response => response.json())
-    .then(result => 
+    .then(result =>
       dispatch({
         type: GET_GAME,
         payload: result
@@ -25,30 +25,30 @@ export function getGame(dispatch, token){
     );
 }
 
-export function updateStatusState(gameStatus){
+export function updateStatusState(gameStatus) {
   return {
     type: UPDATE_GAME_STATUS,
     payload: gameStatus
-  }
+  };
 }
 
-export function refreshPlayers(players){
+export function refreshPlayers(players) {
   return {
     type: GET_ALL_PLAYERS,
     payload: players
-  }
+  };
 }
 
-export function addPlayer(player){
+export function addPlayer(player) {
   return {
     type: ADD_NEW_PLAYER,
     payload: player
-  }
+  };
 }
 
-export function setWinners(winners){
+export function setWinners(winners) {
   return {
     type: GET_WINNERS,
     payload: winners,
-  }
+  };
 }

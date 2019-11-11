@@ -9,7 +9,7 @@ import MainGame from './MainGame';
 import io from '../socket';
 import socketEvent from './../socketEvent.json'
 
-import { getGame, updateStatusState, playerRefreshScore, setWinners } from '../actions/runningGame';
+import { getGame, updateStatusState, refreshPlayers, setWinners } from '../actions/runningGame';
 import { updateDatabaseGameStatus, userLeaveGameDatabase } from '../helper/runningGame';
 import { withRouter } from 'react-router-dom';
 
@@ -20,8 +20,8 @@ const mapDispatchToProps = (dispatch) => ({
     getGame(dispatch, token),
   onUpdateStatusState: (status) =>
     dispatch(updateStatusState(status)),
-  onPlayerRefreshScore: (scores) =>
-    dispatch(playerRefreshScore(scores)),
+  onRefreshPlayers: (scores) =>
+    dispatch(refreshPlayers(scores)),
   onSetWinners: (winners) => 
     dispatch(setWinners(winners))
 });
@@ -51,7 +51,7 @@ class BlindTest extends React.Component {
    * Refresh the players scores, this method is call by children container when players score is updated
    */
   refreshScore = (scores) => {
-    this.props.onPlayerRefreshScore(scores);
+    this.props.onRefreshPlayers(scores);
   }
 
   /**

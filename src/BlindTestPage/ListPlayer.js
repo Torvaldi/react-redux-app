@@ -2,7 +2,8 @@ import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
 
 import socketEvent from '../socketEvent.json';
-import { getPlayer, addPlayer } from '../actions/player';
+import { getPlayer } from '../actions/player';
+import { addPlayer } from '../actions/runningGame';
 import { getGameStatus } from '../helper/game';
 
 import Player from '../components/Player/Player';
@@ -23,7 +24,7 @@ class ListPlayer extends React.Component {
   /**
    * Emit and receipe join game related evenement
    */
-  componentDidMount = () => {
+  componentDidMount() {
     const { io, token, game, authUser } = this.props;
 
     io.emit(socketEvent.USER_JOIN_GAME, {game, authUser});
@@ -37,7 +38,7 @@ class ListPlayer extends React.Component {
     });
   }
 
-  printLauchButton = () => {
+  printLauchButton() {
     return(
       <Button 
         className="buttonLauchGame" 
