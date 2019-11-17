@@ -2,7 +2,7 @@ import { API_USER_RUNNING_GAME, getAuthorizationHeader } from '../helper/api';
 
 export const GET_GAME = 'GET_GAME';
 export const UPDATE_GAME_STATUS = 'UPDATE_GAME_STATUS';
-export const GET_ALL_PLAYERS = 'GET_ALL_PLAYERS';
+export const SET_ALL_PLAYERS = 'SET_ALL_PLAYERS';
 export const GET_WINNERS = 'GET_WINNERS';
 export const ADD_NEW_PLAYER = 'ADD_NEW_PLAYER';
 
@@ -32,9 +32,9 @@ export function updateStatusState(gameStatus) {
   };
 }
 
-export function refreshPlayers(players) {
+export function setPlayers(players) {
   return {
-    type: GET_ALL_PLAYERS,
+    type: SET_ALL_PLAYERS,
     payload: players
   };
 }

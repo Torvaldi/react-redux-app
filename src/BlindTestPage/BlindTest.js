@@ -9,7 +9,7 @@ import MainGame from './MainGame';
 import io from '../socket';
 import socketEvent from './../socketEvent.json'
 
-import { getGame, updateStatusState, refreshPlayers, setWinners } from '../actions/runningGame';
+import { getGame, updateStatusState, setPlayers, setWinners } from '../actions/runningGame';
 import { updateDatabaseGameStatus, userLeaveGameDatabase } from '../helper/runningGame';
 import { withRouter } from 'react-router-dom';
 
@@ -20,8 +20,8 @@ const mapDispatchToProps = (dispatch) => ({
     getGame(dispatch, token),
   onUpdateStatusState: (status) =>
     dispatch(updateStatusState(status)),
-  onRefreshPlayers: (scores) =>
-    dispatch(refreshPlayers(scores)),
+  onSetPlayers: (players) =>
+    dispatch(setPlayers(players)),
   onSetWinners: (winners) => 
     dispatch(setWinners(winners))
 });
@@ -38,6 +38,8 @@ class BlindTest extends React.Component {
       this.props.onUpdateStatusState(2);
     });
 
+
+
   }
 
   gameFinish = (winners) => {
@@ -50,8 +52,8 @@ class BlindTest extends React.Component {
   /**
    * Refresh the players scores, this method is call by children container when players score is updated
    */
-  refreshScore = (scores) => {
-    this.props.onRefreshPlayers(scores);
+  setPlayers = (players) => {
+    this.props.onSetPlayers(players);
   }
 
   /**
@@ -86,6 +88,18 @@ class BlindTest extends React.Component {
     this.props.onAddNewPlayer();
   }
 
+  printPlayerList = () => {
+    const { players } = this.props;
+
+    return(
+      <Fragment>
+        { players ? <Fragment>okok</Fragment> : '' }
+      </Fragment>
+
+    );
+
+  }
+
   /**
    * Print all 3 part of the layout, each of them have their own state
    * PlayerList : List of all player with their score and basic game information
@@ -93,14 +107,14 @@ class BlindTest extends React.Component {
    * Chat: A simple chat where players can talk to each other
    */
   printGame = () => {
-    const { token, game, user, gameStatus, scores, winners } = this.props;
+    const { token, game, user, gameStatus, players, winners } = this.props;
+    console.log(players)
 
     return(
       <Fragment>
       { game.id ? 
           <BlindTestLayout
-          left={
-          <ListPlayer 
+          left={ players ? <ListPlayer 
             io={io} 
             game={game} 
             token={token} 
@@ -108,10 +122,10 @@ class BlindTest extends React.Component {
             launchGame={this.launchGame} 
             leaveGame={this.leaveGame}
             gameStatus={gameStatus}
-            refreshScore={this.refreshScore}
-            scores={scores}
+            setPlayers={this.setPlayers}
+            players={players}
             addNewPlayer={this.addNewPlayer}
-          />}
+          /> : ''}
           center={
           <MainGame 
             io={io} 
@@ -119,8 +133,8 @@ class BlindTest extends React.Component {
             token={token} 
             authUser={user} 
             gameStatus={gameStatus}
-            refreshScore={this.refreshScore}
-            scores={scores}
+            refreshScore={this.onSetPlayers} // fix name
+            scores={players} // fix name
             gameFinish={this.gameFinish}
             winners={winners}
           />}

@@ -6,9 +6,11 @@ class Player {
         this.userName = userName;
         this.score = 0;
         this.lastAnswer = null;
+
+        this.serialize = this.serialize.bind(this);
     }
 
-    serialize = () => {
+    serialize(){
         return {
             userName: this.userName,
             score: this.score,

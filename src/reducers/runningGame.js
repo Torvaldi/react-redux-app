@@ -1,5 +1,5 @@
 
-import { GET_GAME, UPDATE_GAME_STATUS, GET_ALL_PLAYERS, ADD_NEW_PLAYER, GET_WINNERS } from '../actions/runningGame';
+import { GET_GAME, UPDATE_GAME_STATUS, SET_ALL_PLAYERS, ADD_NEW_PLAYER, GET_WINNERS } from '../actions/runningGame';
 
 let initialState = {
     gameStatus: 1,
@@ -28,15 +28,15 @@ export default (state = initialState, action) => {
                 ...state,
                 gameStatus: action.payload,
             };
-        case GET_ALL_PLAYERS:
+        case SET_ALL_PLAYERS:
             return {
                 ...state,
-                scores: action.payload
+                players: action.payload
             };
         case ADD_NEW_PLAYER:
             return {
                 ...state,
-                scores: { ...state.scores, ...action.payload }
+                players: { ...state.players, ...action.payload }
             };
         case GET_WINNERS:
             return {

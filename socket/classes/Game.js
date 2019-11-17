@@ -1,4 +1,7 @@
 
+const Player = require('./Player');
+const Turn = require('./Turn');
+
 const gameStatus = {
     wt: "waiting",
     ld: "loading",
@@ -11,6 +14,11 @@ class Game {
 
     constructor (id, creatorUserName, difficultyLevel, answersCount)
     {
+        this.playerExists = this.playerExists.bind(this);
+        this.newPlayer = this.newPlayer.bind(this);
+        this.getPlayer = this.getPlayer.bind(this);
+        this.getAllPlayers = this.getAllPlayers.bind(this);
+
         this.id = id;
         this.creatorUserName = creatorUserName;
         this.difficultyLevel = difficultyLevel;
@@ -19,38 +27,38 @@ class Game {
         this.players = new Map();
         this.players.set(creatorUserName, new Player(creatorUserName));
         this.turns = new Map();
-        this.turns.set(1, new Turn());
+        this.turns.set(1, new Turn(this.players));
     }
 
-    playerExists = (userName) => {
+    playerExists(userName){
         if (this.players.has(userName)) {
             return true;
         }
         return false;
     }
 
-    newPlayer = (userName) => {
+    newPlayer(userName){
         if (this.playerExists(userName) === true) {
             return null;
         }
         this.players.set(userName, new Player(userName));
-        return this.players[userName];
+        return this.players.get(userName);
     }
 
-    getPlayer = (userName) => {
+    getPlayer(userName){
         if (this.playerExists(userName) === true) {
-            return this.players[userName];
+            return this.players.get(userName);
         }
         return null;
     }
 
-    getTotalScores = () => {
-        let totalScores = {};
-        for (let player of this.players)
-        {
-            totalScores[player.userName] = player.score;
-        }
-        return totalScores;
+    getAllPlayers(){
+        let players = [];
+        this.players.forEach(function(player){
+            players.push(player.serialize());
+        });
+        
+        return players;
     }
 }
 

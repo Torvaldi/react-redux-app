@@ -33,10 +33,11 @@ class ListPlayer extends React.Component {
       this.props.onAddPlayer(data.score);
     });
 
-    io.on(socketEvent.GAME_JOINED_SUCCESSFULLY, (data) => {
-      this.props.refreshScore(data.score);
+    io.on(socketEvent.GAME_JOINED_SUCCESSFULLY, (players) => {
+      this.props.setPlayers(players);
     });
   }
+
 
   printLauchButton() {
     return(
@@ -54,8 +55,8 @@ class ListPlayer extends React.Component {
   /**
    * Print player list with their name and score
    */
-  printPlayers() {
-    const { authUser, scores, game, gameStatus, players } = this.props;
+  printLeftBar() {
+    const { authUser, game, gameStatus, players } = this.props;
     
     let status;
     if(gameStatus === 1) {
@@ -80,7 +81,7 @@ class ListPlayer extends React.Component {
             <span className="playerLabel">Players</span>
             <span className="playerScore">Score</span>
           </section>
-          {scores.map((score, userName) => {
+          {players.map((userName, score) => {
             return <Player userName={userName} score={score} authUser={authUser} />;
           })}
         </ul>
@@ -100,7 +101,7 @@ class ListPlayer extends React.Component {
     const { players, scores } = this.props;
     return(
       <Fragment>
-        { players && scores ? this.printPlayers() : '' }
+        { players && scores ? this.printLeftBar() : '' }
       </Fragment>
     );
   }
