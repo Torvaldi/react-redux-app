@@ -9,7 +9,7 @@ import MainGame from './MainGame';
 import io from '../socket';
 import socketEvent from './../socketEvent.json'
 
-import { getGame, updateStatusState, setPlayers, setWinners } from '../actions/runningGame';
+import { getGame, updateStatusState, setPlayers, setWinners, addPlayer } from '../actions/runningGame';
 import { updateDatabaseGameStatus, userLeaveGameDatabase } from '../helper/runningGame';
 import { withRouter } from 'react-router-dom';
 
@@ -23,13 +23,16 @@ const mapDispatchToProps = (dispatch) => ({
   onSetPlayers: (players) =>
     dispatch(setPlayers(players)),
   onSetWinners: (winners) => 
-    dispatch(setWinners(winners))
+    dispatch(setWinners(winners)),
+  onAddNewPlayer : (player) =>
+    dispatch(addPlayer(player))
 });
 
 class BlindTest extends React.Component {
   
   componentDidMount = () => {
-    const { token } = this.props;
+    const { token} = this.props;
+
     this.props.onGetGame(token);
 
     io.on(socketEvent.LAUCH_GAME, () => {
@@ -38,7 +41,7 @@ class BlindTest extends React.Component {
       this.props.onUpdateStatusState(2);
     });
 
-
+    
 
   }
 
@@ -54,6 +57,10 @@ class BlindTest extends React.Component {
    */
   setPlayers = (players) => {
     this.props.onSetPlayers(players);
+  }
+
+  addNewPlayer = (player) => {
+    this.props.onAddNewPlayer(player);
   }
 
   /**
@@ -84,10 +91,6 @@ class BlindTest extends React.Component {
     }
   }
 
-  addNewPlayer = (player) => {
-    this.props.onAddNewPlayer();
-  }
-
   printPlayerList = () => {
     const { players } = this.props;
 
@@ -108,13 +111,12 @@ class BlindTest extends React.Component {
    */
   printGame = () => {
     const { token, game, user, gameStatus, players, winners } = this.props;
-    console.log(players)
-
+    
     return(
       <Fragment>
-      { game.id ? 
+      { game ? 
           <BlindTestLayout
-          left={ players ? <ListPlayer 
+          left={<ListPlayer 
             io={io} 
             game={game} 
             token={token} 
@@ -125,7 +127,7 @@ class BlindTest extends React.Component {
             setPlayers={this.setPlayers}
             players={players}
             addNewPlayer={this.addNewPlayer}
-          /> : ''}
+          />}
           center={
           <MainGame 
             io={io} 
@@ -145,10 +147,11 @@ class BlindTest extends React.Component {
   }
 
   render(){
-    const { game } = this.props;
+    const { game, players } = this.props;
+    console.log(players)
     return(
       <Fragment>
-        { game ? this.printGame() : <Fragment>loading</Fragment> }
+        { game && players ? this.printGame() : <Fragment>loading</Fragment> }
       </Fragment>
     )
   }

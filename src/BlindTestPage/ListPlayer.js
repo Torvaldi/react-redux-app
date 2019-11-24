@@ -2,8 +2,6 @@ import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
 
 import socketEvent from '../socketEvent.json';
-import { getPlayer } from '../actions/player';
-import { addPlayer } from '../actions/runningGame';
 import { getGameStatus } from '../helper/game';
 
 import Player from '../components/Player/Player';
@@ -12,12 +10,7 @@ import './css/listPlayer.css';
 
 const mapStateToProps = (state, ownProps) => ({...state.player, ...ownProps});
 
-const mapDispatchToProps = (dispatch) => ({
-  onGetPlayer: (data) => 
-    getPlayer(dispatch, data),
-  onAddPlayer: (data) => 
-    dispatch(addPlayer(data)),
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 class ListPlayer extends React.Component {
 
@@ -25,17 +18,20 @@ class ListPlayer extends React.Component {
    * Emit and receipe join game related evenement
    */
   componentDidMount() {
-    const { io, token, game, authUser } = this.props;
-
+    const { io, game, authUser } = this.props;
+    
     io.emit(socketEvent.USER_JOIN_GAME, {game, authUser});
 
-    io.on(socketEvent.USER_JOIN_GAME, (data) => {
-      this.props.onAddPlayer(data.score);
+    io.on(socketEvent.USER_JOIN_GAME, (player) => {
+      this.props.addNewPlayer(player);
+      console.log('user join game')
     });
 
     io.on(socketEvent.GAME_JOINED_SUCCESSFULLY, (players) => {
       this.props.setPlayers(players);
+      console.log('you join game')
     });
+    
   }
 
 
@@ -57,7 +53,7 @@ class ListPlayer extends React.Component {
    */
   printLeftBar() {
     const { authUser, game, gameStatus, players } = this.props;
-    
+
     let status;
     if(gameStatus === 1) {
       status = getGameStatus(1);
@@ -81,8 +77,8 @@ class ListPlayer extends React.Component {
             <span className="playerLabel">Players</span>
             <span className="playerScore">Score</span>
           </section>
-          {players.map((userName, score) => {
-            return <Player userName={userName} score={score} authUser={authUser} />;
+          {players.map((player) => {
+            return <Player player={player} authUser={authUser} />;
           })}
         </ul>
           <Button 
@@ -98,10 +94,11 @@ class ListPlayer extends React.Component {
   }
 
   render(){
-    const { players, scores } = this.props;
+    const { players } = this.props;
+    console.log(players)
     return(
       <Fragment>
-        { players && scores ? this.printLeftBar() : '' }
+        { players ? this.printLeftBar() : '' }
       </Fragment>
     );
   }

@@ -3,6 +3,7 @@ import { GET_GAME, UPDATE_GAME_STATUS, SET_ALL_PLAYERS, ADD_NEW_PLAYER, GET_WINN
 
 let initialState = {
     gameStatus: 1,
+    players : [],
 }
 
 export default (state = initialState, action) => {
@@ -17,7 +18,6 @@ export default (state = initialState, action) => {
             if (databaseStatus === 3) {
                 gameStatus = 3;
             }
-
             return {
                 ...state,
                 game: action.payload,
@@ -34,9 +34,16 @@ export default (state = initialState, action) => {
                 players: action.payload
             };
         case ADD_NEW_PLAYER:
+
+            // prevent from adding the same player more than one time
+            let newUser = state.players.find(player => player.userName === action.payload.userName);
+            let players = state.players;
+            if(newUser === undefined){
+                players = [...state.players, action.payload]
+            }
             return {
                 ...state,
-                players: { ...state.players, ...action.payload }
+                players: players
             };
         case GET_WINNERS:
             return {

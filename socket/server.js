@@ -53,11 +53,12 @@ io.on('connection', (socket) => {
     // Otherwise create it
     else {
       player = currentGames.get(game.id).newPlayer(authUser.username);
+      
     }
-
+    console.log(currentGames.get(game.id))
     // Notify the new player that they successfully
     // joined the game and send him all the players with their scores
-    socket.emit(event.GAME_JOINED_SUCCESSFULLY, currentGames.get(game.id).getAllPlayers());
+    socket.emit(event.GAME_JOINED_SUCCESSFULLY, currentGames.get(game.id).getAllPlayers()); 
 
     // Send notification to other players that a new player joined
     // as well as he's score

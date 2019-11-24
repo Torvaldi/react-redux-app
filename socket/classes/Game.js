@@ -53,6 +53,7 @@ class Game {
     }
 
     getAllPlayers(){
+        console.log(this.players);
         let players = [];
         this.players.forEach(function(player){
             players.push(player.serialize());
