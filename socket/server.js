@@ -12,11 +12,12 @@ const Game = require('./classes/Game.js');
 const Player = require('./classes/Player.js');
 const Answer = require('./classes/Answer.js');
 
+let currentGames = new Map();
+
 io.on('connection', (socket) => {
-  let currentGames = new Map();
 
   // GAME SELECTION
- socket.on(event.NEW_GAME, () => {
+  socket.on(event.NEW_GAME, () => {
     socket.broadcast.emit(event.NEW_GAME);
   });
 
@@ -44,7 +45,7 @@ io.on('connection', (socket) => {
       currentGames.set(game.id, new Game(game.id, game.creator, game.level, game.answer));
     }
 
-  
+
     let player;
     // Check if this player already existed in this game
     if (currentGames.get(game.id).playerExists(authUser.username) === true) {
@@ -53,12 +54,11 @@ io.on('connection', (socket) => {
     // Otherwise create it
     else {
       player = currentGames.get(game.id).newPlayer(authUser.username);
-      
     }
     console.log(currentGames.get(game.id))
     // Notify the new player that they successfully
     // joined the game and send him all the players with their scores
-    socket.emit(event.GAME_JOINED_SUCCESSFULLY, currentGames.get(game.id).getAllPlayers()); 
+    socket.emit(event.GAME_JOINED_SUCCESSFULLY, currentGames.get(game.id).getAllPlayers());
 
     // Send notification to other players that a new player joined
     // as well as he's score
@@ -100,9 +100,9 @@ io.on('connection', (socket) => {
   socket.on(event.LAUCH_GAME, (gameId) => {
     socket.to(ioHelper.getRoom(gameId)).emit(event.LAUCH_GAME);
     //initialise score counter
-    redis.setScoreCounter(gameId, 1);
+    //redis.setScoreCounter(gameId, 1);
     // initialise status
-    redis.setGameStatus(gameId, 0);
+    //redis.setGameStatus(gameId, 0);
   });
 
   /**
@@ -119,7 +119,8 @@ io.on('connection', (socket) => {
    */
   socket.on(event.CHANGE_STATUS_0_TO_1, (data) => {
     const { gameId } = data;
-    
+
+    /*
     redis.getGameStatus(gameId).then( (gameStatus) => {
 
       if(gameStatus == 0){
@@ -142,8 +143,7 @@ io.on('connection', (socket) => {
         }, timeout);
       }
     });
-
-    
+    */
   });
 
   /**
@@ -155,32 +155,34 @@ io.on('connection', (socket) => {
   socket.on(event.CHANGE_STATUS_1_TO_2, (data) => {
     const { gameId } = data;
 
-    redis.getGameStatus(gameId).then( (gameStatus) => {
-      if(gameStatus == 1){
+    /*
+    redis.getGameStatus(gameId).then((gameStatus) => {
+      if (gameStatus == 1) {
 
         let timeout = statusHelper.getTimeout(1)
-        setTimeout( () => {
+        setTimeout(() => {
           redis.setGameStatus(gameId, 2);
-  
+
           let data = {};
           redis.getAllUserScore(gameId)
-          .then( (usersScores) => {
-            
-            data = {
-              ...data,
-              usersScores,
-            }
-            return redis.getGameTurnNumber(gameId);
-          })
-          .then( (turnNumber) => {
-            let scoreJson = scoreHelper.hashToJson(data.usersScores, turnNumber);
-            let response = { score: scoreJson };
-  
-            io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_1_TO_2, response);
-          });
+            .then((usersScores) => {
+
+              data = {
+                ...data,
+                usersScores,
+              }
+              return redis.getGameTurnNumber(gameId);
+            })
+            .then((turnNumber) => {
+              let scoreJson = scoreHelper.hashToJson(data.usersScores, turnNumber);
+              let response = { score: scoreJson };
+
+              io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_1_TO_2, response);
+            });
         }, timeout);
       }
     });
+    */
   });
 
   /**
@@ -190,21 +192,22 @@ io.on('connection', (socket) => {
   socket.on(event.CHANGE_STATUS_2_TO_0, (data) => {
 
     const { gameId } = data;
-
-    redis.getGameStatus(gameId).then( (gameStatus) => {
-      
-      if(gameStatus == 2){
-        let timeout = statusHelper.getTimeout(2)
-        setTimeout( () => {
-          redis.setGameStatus(gameId, 0);
-  
-          redis.setScoreCounter(gameId, 1);
-          io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, {});
-  
-        }, timeout);
-
-      }
-    });
+    /*
+        redis.getGameStatus(gameId).then((gameStatus) => {
+    
+          if (gameStatus == 2) {
+            let timeout = statusHelper.getTimeout(2)
+            setTimeout(() => {
+              redis.setGameStatus(gameId, 0);
+    
+              redis.setScoreCounter(gameId, 1);
+              io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, {});
+    
+            }, timeout);
+    
+          }
+        });
+        */
   });
 
   /**
@@ -223,64 +226,68 @@ io.on('connection', (socket) => {
       authUser, findAnime
     });
     // if the user has right or wrong
-    if(findAnime === true){
+    if (findAnime === true) {
+      /*
       redis.getScoreCounter(gameId)
-      .then( (scoreCounter) => {
-        let rank = parseInt(scoreCounter); // ranking of the player during the turn
-        redis.setScoreCounter(gameId, rank + 1); // incremente rank
+        .then((scoreCounter) => {
+          let rank = parseInt(scoreCounter); // ranking of the player during the turn
+          redis.setScoreCounter(gameId, rank + 1); // incremente rank
 
-        // get score of the turn depeding of the rank of the player
-        let scoreTurn = scoreHelper.genereScore(rank);
-        newScore = {
-          ...newScore,
-          scoreTurn,
-          rank,
-        }
-        return redis.getUserScore(gameId, authUser.username);
-      })
-      .then( (userScore) => {
-        let jsonUserScore = JSON.parse(userScore);
+          // get score of the turn depeding of the rank of the player
+          let scoreTurn = scoreHelper.genereScore(rank);
+          newScore = {
+            ...newScore,
+            scoreTurn,
+            rank,
+          }
+          return redis.getUserScore(gameId, authUser.username);
+        })
+        .then((userScore) => {
+          let jsonUserScore = JSON.parse(userScore);
 
-        // get previous score, set it to 0 by default if the player doesn't have any 
-        let currentScore = 0;
-        if(jsonUserScore.score){
-          currentScore = jsonUserScore.score;
-        }
+          // get previous score, set it to 0 by default if the player doesn't have any 
+          let currentScore = 0;
+          if (jsonUserScore.score) {
+            currentScore = jsonUserScore.score;
+          }
 
-        newScore = {
-          ...jsonUserScore,
-          ...newScore,
-          score: currentScore + newScore.scoreTurn,
-        };
-        return redis.getGameTurnNumber(gameId);
-      })
-      .then( (turnNumber) => {
-        newScore = {
-          ...newScore,
-          turnNumber,
-        }
-        redis.setUserScore(gameId, authUser.username, JSON.stringify(newScore));
-      })
-      
+          newScore = {
+            ...jsonUserScore,
+            ...newScore,
+            score: currentScore + newScore.scoreTurn,
+          };
+          return redis.getGameTurnNumber(gameId);
+        })
+        .then((turnNumber) => {
+          newScore = {
+            ...newScore,
+            turnNumber,
+          }
+          redis.setUserScore(gameId, authUser.username, JSON.stringify(newScore));
+        })
+        */
+
     } else {
+      /*
       redis.getUserScore(gameId, authUser.username)
-      .then( (userScore) => {
-        let jsonUserScore = JSON.parse(userScore);
-        newScore = {
-          ...jsonUserScore, 
-          ...newScore,
-          scoreTurn: 0, 
-          rank: 0,
-        };
-       return redis.getGameTurnNumber(gameId);
-      })
-      .then( (turnNumber) => {
-        newScore = {
-          ...newScore,
-          turnNumber
-        }
-        redis.setUserScore(gameId, authUser.username, JSON.stringify(newScore));
-      })
+        .then((userScore) => {
+          let jsonUserScore = JSON.parse(userScore);
+          newScore = {
+            ...jsonUserScore,
+            ...newScore,
+            scoreTurn: 0,
+            rank: 0,
+          };
+          return redis.getGameTurnNumber(gameId);
+        })
+        .then((turnNumber) => {
+          newScore = {
+            ...newScore,
+            turnNumber
+          }
+          redis.setUserScore(gameId, authUser.username, JSON.stringify(newScore));
+        })
+        */
     }
 
   });
