@@ -8,7 +8,7 @@ import EndGame from './MainGame/EndGame';
 
 import socketEvent from '../socketEvent.json';
 
-import { switchRunningStatus, getAnimes } from '../actions/mainGame';
+import { switchRunningStatus, getAnimes, setTurnResult } from '../actions/mainGame';
 import { checkWinner } from '../helper/mainGame';
 
 const mapStateToProps = (state, ownProps) => ({...state.mainGame, ...ownProps});
@@ -18,6 +18,8 @@ const mapDispatchToProps = (dispatch) => ({
     getAnimes(dispatch, data),
   onSwitchRunningStatus: (status) =>
     dispatch(switchRunningStatus(status)),
+  onSetTurnResult: (turnResult) =>
+    dispatch(setTurnResult(turnResult))
 });
 
 class MainGame extends React.Component {
@@ -36,10 +38,11 @@ class MainGame extends React.Component {
     });
 
     io.on(socketEvent.CHANGE_STATUS_1_TO_2, (data) => {
-      const { score } = data;
-      if(score){
-        this.props.refreshScore(score);
-      }
+      const { turnResult, players } = data;
+      
+      this.props.setPlayers(players);
+      this.props.onSetTurnResult(turnResult);
+      
       this.props.onSwitchRunningStatus(2);
     });
 
@@ -71,7 +74,7 @@ class MainGame extends React.Component {
    * 3 finish
    */
   render(){
-    const { gameStatus, animes, io, game, authUser, runningStatus, scores, winners } = this.props;
+    const { gameStatus, animes, io, game, authUser, runningStatus, turnResult, winners } = this.props;
     
     return(
      <Fragment>
@@ -82,7 +85,7 @@ class MainGame extends React.Component {
           io={io} game={game} 
           authUser={authUser} 
           runningStatus={runningStatus}
-          scores={scores}
+          turnResult={turnResult}
           checkIfWinner={this.checkIfWinner}
         /> : ''}
         {gameStatus === 3 && winners ? <EndGame winners={winners} /> : ''}

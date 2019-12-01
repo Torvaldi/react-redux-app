@@ -39,12 +39,12 @@ class GameAvalaible extends Component {
         this.props.onUserRunningGame(token);
 
         // refresh value when a user create a new game
-        io.on( socketEvent.NEW_GAME, () => {
+        io.on(socketEvent.NEW_GAME, () => {
             this.props.onGameAvailable(token);
             this.props.onUserRunningGame(token);
         });
 
-        io.on( socketEvent.GAME_UPDATE, () => {
+        io.on(socketEvent.GAME_UPDATE, () => {
             this.props.onGameAvailable(token);
             this.props.onUserRunningGame(token);
         });

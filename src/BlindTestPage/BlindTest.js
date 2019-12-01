@@ -73,12 +73,12 @@ class BlindTest extends React.Component {
     updateDatabaseGameStatus(token, game.id, 2);
 
     // set running state (creator only here)
-    this.props.onUpdateStatusState(2);
+    //this.props.onUpdateStatusState(2);
 
     // call event game update, so the game lobby will be re-render
-    io.emit( socketEvent.GAME_UPDATE);
+    //io.emit(socketEvent.GAME_UPDATE);
     // call launch game event 
-    io.emit( socketEvent.LAUCH_GAME, game.id);
+    io.emit(socketEvent.LAUCH_GAME, game.id);
   }
 
   leaveGame = (event) => {
@@ -135,7 +135,7 @@ class BlindTest extends React.Component {
             token={token} 
             authUser={user} 
             gameStatus={gameStatus}
-            refreshScore={this.onSetPlayers} // fix name
+            setPlayers={this.setPlayers} // fix name
             scores={players} // fix name
             gameFinish={this.gameFinish}
             winners={winners}
@@ -148,7 +148,6 @@ class BlindTest extends React.Component {
 
   render(){
     const { game, players } = this.props;
-    console.log(players)
     return(
       <Fragment>
         { game && players ? this.printGame() : <Fragment>loading</Fragment> }

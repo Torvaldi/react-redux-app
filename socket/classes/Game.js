@@ -3,11 +3,11 @@ const Player = require('./Player');
 const Turn = require('./Turn');
 
 const gameStatus = {
-    wt: "waiting",
-    ld: "loading",
-    mp: "music playing",
-    res: "result",
-    end: "finish"
+    waiting: "waiting",
+    loading: "loading",
+    musicPLaying: "music playing",
+    result: "result",
+    finish: "finish"
 };
 
 class Game {
@@ -23,11 +23,11 @@ class Game {
         this.creatorUserName = creatorUserName;
         this.difficultyLevel = difficultyLevel;
         this.answersCount = answersCount;
-        this.status = gameStatus.wt;
+        this.status = gameStatus.waiting;
         this.players = new Map();
         this.players.set(creatorUserName, new Player(creatorUserName));
         this.turns = new Map();
-        this.turns.set(1, new Turn(this.players));
+        //this.turns.set(1, new Turn(this.players));
     }
 
     playerExists(userName){
@@ -53,7 +53,6 @@ class Game {
     }
 
     getAllPlayers(){
-        console.log(this.players);
         let players = [];
         this.players.forEach(function(player){
             players.push(player.serialize());
@@ -61,6 +60,47 @@ class Game {
         
         return players;
     }
+
+    updatePlayerScore(){
+        // loop players
+        let lastTurnPlayer = this.getLastTurn().getAllPlayers();
+        
+        for (const [key, player] of this.players.entries())
+        {
+            let playerTurn = lastTurnPlayer.get(player.userName);
+            player.updateScore(playerTurn.score);
+            
+        }
+
+    }
+
+    createNewTurn(){
+        let totalTurn = this.turns.size;
+        let newTurn = totalTurn + 1;
+        this.turns.set(newTurn, new Turn(this.players))
+    }
+
+    getLastTurn(){
+        let lastTurnNumber = this.turns.size;
+        let lastTurn = this.turns.get(lastTurnNumber);
+        return lastTurn;
+    }
+
+
+    setGameStatusLoading(){
+        this.status = gameStatus.loading;
+    }
+
+    setGameStatusMusicPLaying(){
+        this.status = gameStatus.musicPLaying;
+    }
+
+    setGameGameStatusResult(){
+        this.status = gameStatus.result;
+    }
+
+
+
 }
 
 module.exports = Game;

@@ -5,7 +5,6 @@ import './player.css';
 import RoundIcon from '../../components/RoundIcon/RoundIcon';
 
 const Player = ({player, authUser}) => {
-  console.log(player)
 
   // change class for the authUser username
   var usernameClass = 'playerListUsername';

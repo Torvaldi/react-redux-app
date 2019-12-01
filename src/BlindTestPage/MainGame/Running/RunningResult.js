@@ -42,20 +42,21 @@ class RunningResult extends React.Component {
     )
   }
 
-  printScoreOfTheTurn = (scores) => {
-    let orderedScore = orderScoreTurn(scores);
+  printScoreOfTheTurn = (turnResult) => {
+    console.log(turnResult);
+    //let orderedScore = orderScoreTurn(scores);
     return(
-      <ScoreTable scores={orderedScore} />
+      <ScoreTable turnResult={turnResult} />
     )
   }
 
   render(){
-    const { scores, animeToGuess } = this.props;
+    const { turnResult, animeToGuess } = this.props;
     return(
      <section className="runningResultBlock">
        <Counter startingNumber={waitingTrun.WAITING_TURN_3} />
        { animeToGuess ? this.printAnimeInformation(animeToGuess) : ''}
-       { scores.turnScore ? this.printScoreOfTheTurn(scores.turnScore) : ''}
+       { turnResult ? this.printScoreOfTheTurn(turnResult) : ''}
      </section>
     );
   }

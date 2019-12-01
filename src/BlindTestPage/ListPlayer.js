@@ -24,12 +24,10 @@ class ListPlayer extends React.Component {
 
     io.on(socketEvent.USER_JOIN_GAME, (player) => {
       this.props.addNewPlayer(player);
-      console.log('user join game')
     });
 
     io.on(socketEvent.GAME_JOINED_SUCCESSFULLY, (players) => {
       this.props.setPlayers(players);
-      console.log('you join game')
     });
     
   }
@@ -95,7 +93,6 @@ class ListPlayer extends React.Component {
 
   render(){
     const { players } = this.props;
-    console.log(players)
     return(
       <Fragment>
         { players ? this.printLeftBar() : '' }
