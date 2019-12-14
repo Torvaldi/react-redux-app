@@ -8,6 +8,8 @@ const ioHelper = require('./helper/io');
 const statusHelper = require('./helper/status');
 const scoreHelper = require('./helper/score');
 
+const api = require('./helper/api');
+
 const Game = require('./classes/Game.js');
 const Player = require('./classes/Player.js');
 const Answer = require('./classes/Answer.js');
@@ -97,13 +99,19 @@ io.on('connection', (socket) => {
   /**
    * Event call when the game is launch
    */
-  socket.on(event.LAUCH_GAME, (gameId) => {
+  socket.on(event.LAUCH_GAME, (data) => {
+
+    const { gameId, token } = data;
+
     io.in(ioHelper.getRoom(gameId)).emit(event.LAUCH_GAME);
 
     let currentGame = currentGames.get(gameId);
 
     // set new game status
     currentGame.setGameStatusLoading();
+
+    // update game database status
+    api.updateDatabaseGameStatus(token, gameId, 2);
 
     // sending all users that a new game has been updated (for the game list page)
     io.emit(event.GAME_UPDATE);
@@ -133,18 +141,24 @@ io.on('connection', (socket) => {
     let currentGame = currentGames.get(gameId);
     let timeout = statusHelper.getTimeout(0);
 
-    // execute the following actions in x seconds
-    setTimeout( () => {
-      // update game status
-      currentGame.setGameStatusMusicPLaying();
+    let currentStatus = currentGame.getGameStatus();
+    if(currentStatus === statusHelper.gameStatus.loading){
 
-      // update number of the turn
-      currentGame.createNewTurn();
+      // execute the following actions in x seconds
+      setTimeout( () => {
+        // update game status
+        currentGame.setGameStatusMusicPLaying();
+  
+        // update number of the turn
+        currentGame.createNewTurn();
+  
+        // send change status event
+        io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_0_TO_1, {});
+  
+      }, timeout);
 
-      // send change status event
-      io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_0_TO_1, {});
+    }
 
-    }, timeout);
 
     /*
       redis.getGameStatus(gameId).then( (gameStatus) => {
@@ -185,30 +199,33 @@ io.on('connection', (socket) => {
 
     // get currentGame
     let currentGame = currentGames.get(gameId);
-    let timeout = statusHelper.getTimeout(0);
+    let timeout = statusHelper.getTimeout(1);
 
-    // execute the following actions in x seconds
-    setTimeout( () => {
-      // Update game status
-      currentGame.setGameGameStatusResult();
+    let currentStatus = currentGame.getGameStatus();
+    if(currentStatus === statusHelper.gameStatus.musicPLaying){
+      // execute the following actions in x seconds
+      setTimeout( () => {
+        // Update game status
+        currentGame.setGameGameStatusResult();
 
-      // get turn scores
-      let turnResult = currentGame.getLastTurn().serialize();
-      console.log('fin du tour, tour resultat')
-      console.log(turnResult);
+        // get turn scores
+        let turnResult = currentGame.getLastTurn().serialize();
+        console.log('fin du tour, tour resultat')
+        console.log(turnResult);
 
-      // update players scores
-      currentGame.updatePlayerScore();
+        // update players scores
+        currentGame.updatePlayerScore();
 
-      // get players
-      let players = currentGame.getAllPlayers();
-      console.log('fin du tour, players liste')
-      console.log(players)
+        // get players
+        let players = currentGame.getAllPlayers();
+        console.log('fin du tour, players liste')
+        console.log(players)
 
-      // send turn scores to the clients
-      io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_1_TO_2, {turnResult, players});
+        // send turn scores to the clients
+        io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_1_TO_2, {turnResult, players});
 
-    }, timeout);
+      }, timeout);
+    }
 
 
     /*
@@ -251,13 +268,15 @@ io.on('connection', (socket) => {
     let currentGame = currentGames.get(gameId);
     let timeout = statusHelper.getTimeout(2);
 
-    setTimeout(() => {
-      // Update game status
-      currentGame.setGameStatusLoading();
+    let currentStatus = currentGame.getGameStatus();
+    if(currentStatus === statusHelper.gameStatus.result){
+      setTimeout(() => {
+        // Update game status
+        currentGame.setGameStatusLoading();
 
-      io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, {});
-    }, timeout);  
-
+        io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, {});
+      }, timeout);  
+    }
 
     /*
         redis.getGameStatus(gameId).then((gameStatus) => {
@@ -285,8 +304,6 @@ io.on('connection', (socket) => {
     const { gameId, authUser, findAnime, anime } = data;
     
     let currentGame = currentGames.get(gameId);
-    console.log(currentGame);
-    console.log(anime)
 
     let turn = currentGame.getLastTurn();
 

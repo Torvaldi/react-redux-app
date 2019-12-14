@@ -2,13 +2,8 @@
 const Player = require('./Player');
 const Turn = require('./Turn');
 
-const gameStatus = {
-    waiting: "waiting",
-    loading: "loading",
-    musicPLaying: "music playing",
-    result: "result",
-    finish: "finish"
-};
+const statusHelper = require('../helper/status');
+const gameStatus = statusHelper.gameStatus;
 
 class Game {
 
@@ -18,6 +13,7 @@ class Game {
         this.newPlayer = this.newPlayer.bind(this);
         this.getPlayer = this.getPlayer.bind(this);
         this.getAllPlayers = this.getAllPlayers.bind(this);
+        this.getGameStatus =  this.getGameStatus.bind(this);
 
         this.id = id;
         this.creatorUserName = creatorUserName;
@@ -119,6 +115,11 @@ class Game {
         let lastTurnNumber = this.turns.size;
         let lastTurn = this.turns.get(lastTurnNumber);
         return lastTurn;
+    }
+
+    getGameStatus()
+    {
+        return this.status;
     }
 
     /**

@@ -80,11 +80,14 @@ class Turn {
         // genere player score based on they rank
         let score = scoreHelper.genereScore(rank);
 
+        // set new rank
+        this.setRank(rank + 1);
+
         // retrive previous score
         let playerScore = this.scores.get(username);
 
         // update new score data
-        this.scores.set(username, {...playerScore, score});
+        this.scores.set(username, {...playerScore, score, rank});
     }
 
     /**
@@ -115,7 +118,7 @@ class Turn {
 
 
     /**
-     * transform Turn object member to json object 
+     * transform score Map member to json object 
      * @return {object}
      */
     serialize(){
@@ -125,6 +128,9 @@ class Turn {
             scores.push(score);
         }
 
+        scores.sort(function(a, b){ b.rank - a.rank} );
+        console.log('score après ordonné')
+        console.log(scores);
         return scores;
     }
 
