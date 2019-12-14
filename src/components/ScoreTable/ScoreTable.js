@@ -26,18 +26,19 @@ const ScoreTable = ( {turnResult} ) => {
           {turnResult.map((turn) => {
             
             let rowCss = 'tableRowScore';
-            /*
-            if(turn.turnScore > 0){
+            
+            if(turn.score > 0){
               rowCss = 'tableRowScoreRight'
             }
-            */
+
+            
             count++;
             return(
               <TableRow key={count} className={rowCss}>
                 <TableCell className="tableCellScore" align="center">rank</TableCell>
                 <TableCell className="tableCellScore"  align="center">{turn.username}</TableCell>
                 <TableCell className="tableCellScore"  align="center">{turn.score}</TableCell>
-                <TableCell className="tableCellScore"  align="center">{turn.lastAnswer}</TableCell>
+                <TableCell className="tableCellScore"  align="center">{turn.lastAnswer != null ? turn.lastAnswer.nameJap : ''}</TableCell>
               </TableRow>
             )
           })}

@@ -27,9 +27,13 @@ class Game {
         this.players = new Map();
         this.players.set(creatorUserName, new Player(creatorUserName));
         this.turns = new Map();
-        //this.turns.set(1, new Turn(this.players));
     }
 
+    /**
+     * verify if a player exist based on it username
+     * @param {*string} userName
+     * @return {*bool}
+     */
     playerExists(userName){
         if (this.players.has(userName)) {
             return true;
@@ -37,6 +41,11 @@ class Game {
         return false;
     }
 
+    /**
+     * create a new Player in the game
+     * @param {*string} userName
+     * @return {Player}
+     */
     newPlayer(userName){
         if (this.playerExists(userName) === true) {
             return null;
@@ -45,6 +54,11 @@ class Game {
         return this.players.get(userName);
     }
 
+    /**
+     * retrive a player based on the given username parameter
+     * @param {string} userName
+     * @return {Player|null}
+     */
     getPlayer(userName){
         if (this.playerExists(userName) === true) {
             return this.players.get(userName);
@@ -52,6 +66,10 @@ class Game {
         return null;
     }
 
+    /**
+     * Retrive all players of the game
+     * @return {array} array of serialized Player
+     */
     getAllPlayers(){
         let players = [];
         this.players.forEach(function(player){
@@ -61,45 +79,68 @@ class Game {
         return players;
     }
 
+    /**
+     * update all players scores
+     * retrives the score of the turn of each player and add it to their global score
+     * @return {void}
+     */
     updatePlayerScore(){
         // loop players
-        let lastTurnPlayer = this.getLastTurn().getAllPlayers();
+        let lastTurnScore = this.getLastTurn().getScores();
         
         for (const [key, player] of this.players.entries())
         {
-            let playerTurn = lastTurnPlayer.get(player.userName);
+            let playerTurn = lastTurnScore.get(player.userName);
             player.updateScore(playerTurn.score);
             
         }
 
     }
 
+    /**
+     * initialise a new Turn inside the game
+     * @return {void}
+     */
     createNewTurn(){
+        // get total turn number
         let totalTurn = this.turns.size;
+        // initialise the next turn number
         let newTurn = totalTurn + 1;
+        // set new Turn to the game object
         this.turns.set(newTurn, new Turn(this.players))
     }
 
+    /**
+     * Retrive the current last turn of the game
+     * Note : depending of when this method is run, the last turn is also the current turn
+     * @return {Turn}
+     */
     getLastTurn(){
         let lastTurnNumber = this.turns.size;
         let lastTurn = this.turns.get(lastTurnNumber);
         return lastTurn;
     }
 
-
+    /**
+     * @return {void}
+     */
     setGameStatusLoading(){
         this.status = gameStatus.loading;
     }
 
+    /**
+     * @return {void}
+     */
     setGameStatusMusicPLaying(){
         this.status = gameStatus.musicPLaying;
     }
 
+    /**
+     * @return {void}
+     */
     setGameGameStatusResult(){
         this.status = gameStatus.result;
     }
-
-
 
 }
 

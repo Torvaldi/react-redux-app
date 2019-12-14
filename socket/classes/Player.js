@@ -5,31 +5,36 @@ class Player {
     {
         this.userName = userName;
         this.score = 0;
-        this.lastAnswer = null;
 
         this.serialize = this.serialize.bind(this);
         this.getUsername = this.getUsername.bind(this);
-        this.getLastAnswer = this.getLastAnswer.bind(this);
         this.updateScore = this.updateScore.bind(this);
     }
 
+    /**
+     * @return {string}
+     */
     getUsername(){
         return this.userName;
     }
 
-    getLastAnswer(){
-        return this.lastAnswer;
-    }
-
+    /**
+     * update the score 
+     * @param {*int} score
+     * @return {void}s
+     */
     updateScore(score){
         this.score += score;
     }
 
+    /**
+     * transform Player object member to json object
+     * @return {void}
+     */
     serialize(){
         return {
             userName: this.userName,
-            score: this.score,
-            lastAnswer: this.lastAnswer
+            score: this.score
         };
     }
 }

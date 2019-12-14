@@ -138,7 +138,7 @@ io.on('connection', (socket) => {
       // update game status
       currentGame.setGameStatusMusicPLaying();
 
-      // update scores of the turn
+      // update number of the turn
       currentGame.createNewTurn();
 
       // send change status event
@@ -194,11 +194,16 @@ io.on('connection', (socket) => {
 
       // get turn scores
       let turnResult = currentGame.getLastTurn().serialize();
+      console.log('fin du tour, tour resultat')
+      console.log(turnResult);
+
       // update players scores
       currentGame.updatePlayerScore();
 
       // get players
       let players = currentGame.getAllPlayers();
+      console.log('fin du tour, players liste')
+      console.log(players)
 
       // send turn scores to the clients
       io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_1_TO_2, {turnResult, players});
@@ -250,7 +255,7 @@ io.on('connection', (socket) => {
       // Update game status
       currentGame.setGameStatusLoading();
 
-      //io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, {});
+      io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, {});
     }, timeout);  
 
 
@@ -280,12 +285,22 @@ io.on('connection', (socket) => {
     const { gameId, authUser, findAnime, anime } = data;
     
     let currentGame = currentGames.get(gameId);
+    console.log(currentGame);
+    console.log(anime)
+
+    let turn = currentGame.getLastTurn();
 
     if(findAnime === true){
-
-    } else {
-
+      // update player score of the turn
+      turn.updatePlayerScore(authUser.username);
     }
+
+    turn.updatePlayerAnimeClicked(authUser.username, anime);
+    
+    // update anime clicked
+
+    // emit other players if the current player got the answer right or wrong
+    socket.broadcast.emit(event.CLICK_ANSWER, {authUser, findAnime});
 
 
 

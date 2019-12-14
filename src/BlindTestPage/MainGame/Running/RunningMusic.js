@@ -86,6 +86,7 @@ class RunningMusic extends React.Component {
   printAudioPlayer = () => {
     const { animeToGuess } = this.props;
     const url = getMoeLink(animeToGuess.openingToGuess.moeLink);
+    console.log('Réponse : ' + animeToGuess.animeToGuess.nameJap);
 
     return(
       <audio id="player_music" autoPlay controls controlsList="nodownload">
@@ -96,6 +97,7 @@ class RunningMusic extends React.Component {
 
   render(){
     const { animeToGuess, answerOnce } = this.props;
+    
 
     return(
      <section className="runningMusicBlock">
