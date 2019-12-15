@@ -44,13 +44,19 @@ io.on('connection', (socket) => {
     // Check if this is a new game, otherwise create it
     // using given game parameters
     if (currentGames.has(game.id) === false) {
-      currentGames.set(game.id, new Game(game.id, game.creator, game.level, game.answer));
+      currentGames.set(game.id, new Game(game.id, game.creator, game.level, game.answer, game.score_to_win));
     }
 
     let player;
     // Check if this player already existed in this game
     if (currentGames.get(game.id).playerExists(authUser.username) === true) {
       player = currentGames.get(game.id).getPlayer(authUser.username);
+
+      // retrives the game status and send it to the player
+      let gameStatus = currentGames.get(game.id).getRunningStatus();
+      if(gameStatus != 0){ // does not send it if its 0 because the default value on the client is 0
+        socket.emit(event.UPDATE_GAME_STATUS, {status: gameStatus});
+      }
     }
     // Otherwise create it
     else {
@@ -139,6 +145,7 @@ io.on('connection', (socket) => {
     const { gameId } = data;
 
     let currentGame = currentGames.get(gameId);
+
     let timeout = statusHelper.getTimeout(0);
 
     let currentStatus = currentGame.getGameStatus();
@@ -266,6 +273,13 @@ io.on('connection', (socket) => {
 
     const { gameId } = data;
     let currentGame = currentGames.get(gameId);
+
+    // check if there is a winner
+    let winners = currentGame.checkWinner();
+    if(winners.length > 0){
+      io.in(ioHelper.getRoom(gameId)).emit(event.GAME_FINISH, { winners });
+    }
+
     let timeout = statusHelper.getTimeout(2);
 
     let currentStatus = currentGame.getGameStatus();

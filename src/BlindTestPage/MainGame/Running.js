@@ -61,11 +61,6 @@ class Running extends React.Component {
         runningStatus,
       };
       io.emit(ioStatusEvent, data);
-
-      if(runningStatus === 0){
-        this.props.checkIfWinner();
-      }
-
     }
     
   }

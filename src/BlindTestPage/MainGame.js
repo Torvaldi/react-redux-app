@@ -54,17 +54,17 @@ class MainGame extends React.Component {
       const { status } = data;
       this.props.onSwitchRunningStatus(status);
     });
-  }
 
-  checkIfWinner = () => {
-    const { scores, game } = this.props;
-    
-    if(scores && scores.globalScore){
-      let winners = checkWinner(scores.globalScore, game.score_to_win);
-      if(winners.length > 0){
-        this.props.gameFinish(winners);
-      }
-    }
+    io.on(socketEvent.UPDATE_GAME_STATUS, (data) => {
+      const { status } = data;
+      this.props.onSwitchRunningStatus(status);
+    });
+
+    io.on(socketEvent.GAME_FINISH, (data) => {
+      const { winners } = data;
+      this.props.gameFinish(winners);
+    });
+
   }
 
   /**
@@ -75,7 +75,6 @@ class MainGame extends React.Component {
    */
   render(){
     const { gameStatus, animes, io, game, authUser, runningStatus, turnResult, winners } = this.props;
-    
     return(
      <Fragment>
        {gameStatus === 1 ? <WaitingForPlayer /> : ''}
@@ -86,7 +85,6 @@ class MainGame extends React.Component {
           authUser={authUser} 
           runningStatus={runningStatus}
           turnResult={turnResult}
-          checkIfWinner={this.checkIfWinner}
         /> : ''}
         {gameStatus === 3 && winners ? <EndGame winners={winners} /> : ''}
         {gameStatus === undefined ? 'Loading' : ''}

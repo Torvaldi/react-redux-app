@@ -8,7 +8,7 @@ class EndGame extends React.Component {
     return(
       <ul>
         {winners.map((winner) => {
-          return <li>{winner.username} - {winner.score}</li>
+          return <li>{winner.userName} - {winner.score}</li>
         })}
       </ul>
     )

@@ -12,11 +12,9 @@ export const API_NEW_GAME = config.api_url + 'api/game.store';
 
 export const API_USER_GAME = config.api_url + 'api/game.user.show';
 export const API_GAME = config.api_url + 'api/game.show';
-export const API_GAME_UPDATE_STATUS = config.api_url + "api/game.status";
+export const API_GAME_UPDATE_STATUS = config.api_url + "api/game.status"; // to delete
 export const API_GET_ANIMES = config.api_url + "api/anime.index";
 export const API_USER_LEAVE = config.api_url + "api/game.user.leave";
-
-
 
 // API header
 export const getAuthorizationHeader = (token) => {

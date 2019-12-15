@@ -10,7 +10,7 @@ import io from '../socket';
 import socketEvent from './../socketEvent.json'
 
 import { getGame, updateStatusState, setPlayers, setWinners, addPlayer } from '../actions/runningGame';
-import { updateDatabaseGameStatus, userLeaveGameDatabase } from '../helper/runningGame';
+import { userLeaveGameDatabase } from '../helper/runningGame';
 import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = (state, ownProps) => ({...state.runningGame, ...ownProps});
@@ -41,13 +41,11 @@ class BlindTest extends React.Component {
       this.props.onUpdateStatusState(2);
     });
 
-    
-
   }
 
   gameFinish = (winners) => {
     const { token, game } = this.props;
-    updateDatabaseGameStatus(token, game.id, 3);
+    //updateDatabaseGameStatus(token, game.id, 3); TODO : user finish game on server
     this.props.onUpdateStatusState(3);
     this.props.onSetWinners(winners);
   }
@@ -69,16 +67,9 @@ class BlindTest extends React.Component {
   launchGame = (event) => {
     event.preventDefault();
     const { token, game } = this.props;
-    // update game status on the database
-    updateDatabaseGameStatus(token, game.id, 2);
-
-    // set running state (creator only here)
-    //this.props.onUpdateStatusState(2);
-
-    // call event game update, so the game lobby will be re-render
-    //io.emit(socketEvent.GAME_UPDATE);
+  
     // call launch game event 
-    io.emit(socketEvent.LAUCH_GAME, game.id);
+    io.emit(socketEvent.LAUCH_GAME, { gameId: game.id, token});
   }
 
   leaveGame = (event) => {
@@ -86,7 +77,7 @@ class BlindTest extends React.Component {
     if(window.confirm("Are you sure you want to leave ? You may not be able to join again and your score won't be save")){
       const { token, game } = this.props;
       userLeaveGameDatabase(token, game.id);
-      // todo redirect on game page
+      // redirect on game page
       this.props.history.push('/game')
     }
   }

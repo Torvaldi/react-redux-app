@@ -18,7 +18,7 @@ class Turn {
         for (const [key, player] of players.entries())
         {
             let playerScore = {
-                rank: 0,
+                rank: null,
                 username: player.getUsername(),
                 score: 0,
                 lastAnswer: null
@@ -128,9 +128,19 @@ class Turn {
             scores.push(score);
         }
 
-        scores.sort(function(a, b){ b.rank - a.rank} );
-        console.log('score après ordonné')
-        console.log(scores);
+        scores.sort(function(a, b){
+             b.rank - a.rank
+            if(b < a){
+                return -1
+            }
+
+            if(a < b|| b === null){
+                return 1;
+            }
+
+            return 0
+        
+        });
         return scores;
     }
 

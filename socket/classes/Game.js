@@ -7,18 +7,20 @@ const gameStatus = statusHelper.gameStatus;
 
 class Game {
 
-    constructor (id, creatorUserName, difficultyLevel, answersCount)
+    constructor (id, creatorUserName, difficultyLevel, answersCount, winningScore)
     {
         this.playerExists = this.playerExists.bind(this);
         this.newPlayer = this.newPlayer.bind(this);
         this.getPlayer = this.getPlayer.bind(this);
         this.getAllPlayers = this.getAllPlayers.bind(this);
         this.getGameStatus =  this.getGameStatus.bind(this);
+        this.checkWinner = this.checkWinner.bind(this);
 
         this.id = id;
         this.creatorUserName = creatorUserName;
         this.difficultyLevel = difficultyLevel;
         this.answersCount = answersCount;
+        this.winningScore = winningScore;
         this.status = gameStatus.waiting;
         this.players = new Map();
         this.players.set(creatorUserName, new Player(creatorUserName));
@@ -117,6 +119,9 @@ class Game {
         return lastTurn;
     }
 
+    /**
+     * @return {string}
+     */
     getGameStatus()
     {
         return this.status;
@@ -141,6 +146,45 @@ class Game {
      */
     setGameGameStatusResult(){
         this.status = gameStatus.result;
+    }
+
+    /**
+     * Retrives the initial Running game status
+     * @return {int}
+     */
+    getRunningStatus()
+    {
+        if(this.status === gameStatus.musicPLaying){
+            return 1;
+        }
+
+        if(this.status === gameStatus.result){
+            return 2;
+        }
+
+        return 0;
+    }
+
+    /**
+     * retrives the winner of the game
+     * @return {array}
+     */
+    checkWinner(){
+        let scores = this.getAllPlayers();
+        let winners = [];
+        let winnerPlayer = { username: null, score: 0 }
+
+        scores.forEach( (player) => {
+            // compare player score to the winning score and the current player bigger score
+            if(player.score >= this.winningScore && player.score >= winnerPlayer.score){
+                // set the player as the current winner
+                winnerPlayer = player;
+                // add to the array of winners
+                winners.push(player);
+            }
+        });
+  
+        return winners;
     }
 
 }

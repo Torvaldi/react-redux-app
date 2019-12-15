@@ -35,10 +35,10 @@ const ScoreTable = ( {turnResult} ) => {
             count++;
             return(
               <TableRow key={count} className={rowCss}>
-                <TableCell className="tableCellScore" align="center">rank</TableCell>
+                <TableCell className="tableCellScore" align="center">{turn.rank != null ? turn.rank : '-'}</TableCell>
                 <TableCell className="tableCellScore"  align="center">{turn.username}</TableCell>
                 <TableCell className="tableCellScore"  align="center">{turn.score}</TableCell>
-                <TableCell className="tableCellScore"  align="center">{turn.lastAnswer != null ? turn.lastAnswer.nameJap : ''}</TableCell>
+                <TableCell className="tableCellScore"  align="center">{turn.lastAnswer != null ? turn.lastAnswer.nameJap : '-'}</TableCell>
               </TableRow>
             )
           })}

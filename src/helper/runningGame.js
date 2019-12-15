@@ -1,17 +1,5 @@
 
-import { API_GAME_UPDATE_STATUS, getAuthorizationHeader, API_USER_LEAVE } from '../helper/api';
-
-export function updateDatabaseGameStatus(token, gameId, statusId){
-    fetch(API_GAME_UPDATE_STATUS, {
-        method: 'POST',
-        headers: getAuthorizationHeader(token),
-        body: JSON.stringify({
-            'id': gameId, 
-            'status' : statusId
-        }),
-    });
-}
-
+import { getAuthorizationHeader, API_USER_LEAVE } from '../helper/api';
 
 export function userLeaveGameDatabase(token, gameId){
     fetch(API_USER_LEAVE, {
