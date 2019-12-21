@@ -1,6 +1,6 @@
 
 import { getAuthorizationHeader, API_USER_LEAVE } from '../helper/api';
-
+/*
 export function userLeaveGameDatabase(token, gameId){
     fetch(API_USER_LEAVE, {
         method: 'POST',
@@ -10,6 +10,7 @@ export function userLeaveGameDatabase(token, gameId){
         })
     });
 }
+*/
 
 export function getMoeLink(fileName){
     return 'https://animethemes.moe/video/' + fileName;

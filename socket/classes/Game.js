@@ -12,6 +12,7 @@ class Game {
         this.playerExists = this.playerExists.bind(this);
         this.newPlayer = this.newPlayer.bind(this);
         this.getPlayer = this.getPlayer.bind(this);
+        this.deletePlayer = this.deletePlayer.bind(this);
         this.getAllPlayers = this.getAllPlayers.bind(this);
         this.getGameStatus =  this.getGameStatus.bind(this);
         this.checkWinner = this.checkWinner.bind(this);
@@ -50,6 +51,19 @@ class Game {
         }
         this.players.set(userName, new Player(userName));
         return this.players.get(userName);
+    }
+
+    /**
+     * remove player by its username(key)
+     * @param {string} userName
+     * @return {Map} players list 
+     */
+    deletePlayer(userName){
+        if (this.playerExists(userName) === false) {
+            return null;
+        }
+        this.players.delete(userName);
+        return this.players;
     }
 
     /**

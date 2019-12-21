@@ -15,8 +15,7 @@ export function changeMessage(message){
       payload: [{
         player: data.player,
         message: data.message,
-        autoMessage: data.autoMessage,
-        findAnime: data.findAnime,
+        messageType: data.messageType,
       }]
     }
   }

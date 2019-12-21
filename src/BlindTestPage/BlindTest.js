@@ -45,7 +45,7 @@ class BlindTest extends React.Component {
 
   gameFinish = (winners) => {
     const { token, game } = this.props;
-    //updateDatabaseGameStatus(token, game.id, 3); TODO : user finish game on server
+    //updateDatabaseGameStatus(token, game.id, 3); 
     this.props.onUpdateStatusState(3);
     this.props.onSetWinners(winners);
   }
@@ -75,10 +75,17 @@ class BlindTest extends React.Component {
   leaveGame = (event) => {
     event.preventDefault();
     if(window.confirm("Are you sure you want to leave ? You may not be able to join again and your score won't be save")){
-      const { token, game } = this.props;
-      userLeaveGameDatabase(token, game.id);
+      const { token, game, user } = this.props;
+      //userLeaveGameDatabase(token, game.id);
+      // call the userLeave event
+      let data = {
+        token, 
+        gameId: game.id, 
+        player: user
+      };
+      io.emit(socketEvent.USER_LEAVE_GAME, data);
       // redirect on game page
-      this.props.history.push('/game')
+      this.props.history.push('/game');
     }
   }
 

@@ -98,8 +98,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on(event.USER_POST_CHAT, (data) => {
-    const { message, game } = data;
-    socket.to(ioHelper.getRoom(game.id)).emit(event.USER_POST_CHAT, message);
+    const { player, message, gameId } = data;
+    socket.to(ioHelper.getRoom(gameId)).emit(event.USER_POST_CHAT, {player, message});
   });
 
   /**
@@ -217,16 +217,12 @@ io.on('connection', (socket) => {
 
         // get turn scores
         let turnResult = currentGame.getLastTurn().serialize();
-        console.log('fin du tour, tour resultat')
-        console.log(turnResult);
 
         // update players scores
         currentGame.updatePlayerScore();
 
         // get players
         let players = currentGame.getAllPlayers();
-        console.log('fin du tour, players liste')
-        console.log(players)
 
         // send turn scores to the clients
         io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_1_TO_2, {turnResult, players});
@@ -277,7 +273,8 @@ io.on('connection', (socket) => {
     // check if there is a winner
     let winners = currentGame.checkWinner();
     if(winners.length > 0){
-      io.in(ioHelper.getRoom(gameId)).emit(event.GAME_FINISH, { winners });
+      io.in(ioHelper.getRoom(gameId)).emit(event.GAME_FINISH, { winners }); // send winners to the players
+      api.updateDatabaseGameStatus(token, gameId, 3); // set game status to finish
     }
 
     let timeout = statusHelper.getTimeout(2);
@@ -311,6 +308,23 @@ io.on('connection', (socket) => {
   });
 
   /**
+   * Event called when a user leave the game
+   */
+  socket.on(event.USER_LEAVE_GAME, (data)=> {
+    const { token, gameId, player } = data;
+
+    // delete the user from game database
+    api.userLeaveGameDatabase(token, gameId);
+
+    let currentGame = currentGames.get(gameId);
+
+    currentGame.deletePlayer(player.username);
+
+    socket.to(ioHelper.getRoom(gameId)).emit(event.USER_LEAVE_GAME, { player });
+
+  });
+
+  /**
    * Event called when a user choose an answer, in order to increment their score or not
    * and tell other player when another payer answer 
    */
@@ -331,8 +345,7 @@ io.on('connection', (socket) => {
     // update anime clicked
 
     // emit other players if the current player got the answer right or wrong
-    socket.broadcast.emit(event.CLICK_ANSWER, {authUser, findAnime});
-
+    socket.to(ioHelper.getRoom(gameId)).emit(event.CLICK_ANSWER, {authUser});
 
 
 
@@ -412,6 +425,8 @@ io.on('connection', (socket) => {
     */
 
   });
+
+  
 
 });
 

@@ -5,32 +5,39 @@ import './message.css';
 import MessageBasic from './MessageBasic';
 import MessageAuto from './MessageAuto';
 
-const Message = ({authUser, user, message, autoMessage, findAnime}) => {
+import { messageType as messageTypeHelper } from '../../helper/chat';
 
-  if(autoMessage === false){
+const Message = ({authUser, player, message, messageType}) => {
+
+  // ! user write a message
+  if(messageType === messageTypeHelper.MESSAGE){
     let usernameClass = 'messageUsername';
 
-    if(authUser.id === user.id){
+    if(authUser.id === player.id){
       usernameClass = 'messageAuthUsername'
     }
 
     return(
       <li className="messageLayout">
-        <MessageBasic usernameClass={usernameClass} username={user.username} message={message} />
+        <MessageBasic usernameClass={usernameClass} username={player.username} message={message} />
       </li>
     );
-  } else {
 
-    let messageAuto = ' failed';
-    let messageClass = 'messageAutoWrong'
-    if(findAnime === true){
-      messageAuto = 'got it right !';
-      messageClass = 'messageAutoRight';
-    }
+  // ! user leave the game
+  } else if(messageType === messageTypeHelper.USER_LEAVE){
+    console.log(player)
+    return(
+      <li className="messageLayout">
+        <MessageAuto username={player.username} message=" left the game" messageClass="" />
+      </li>
+    );
+
+  // ! user answer 
+  } else {
 
     return(
       <li className="messageLayout">
-        <MessageAuto username={user.username} message={messageAuto} messageClass={messageClass} />
+        <MessageAuto username={player.username} message=" chose an answer"  />
       </li>
     );
 
@@ -42,8 +49,9 @@ const Message = ({authUser, user, message, autoMessage, findAnime}) => {
 
 Message.propTypes = {
   authUser: propTypes.object.isRequired,
-  user: propTypes.object.isRequired,
-  message: propTypes.string.isRequired
+  player: propTypes.object.isRequired,
+  message: propTypes.string.isRequired,
+  messageType: propTypes.string.isRequired
 }
 
 
