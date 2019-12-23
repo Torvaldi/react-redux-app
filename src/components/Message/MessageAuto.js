@@ -15,7 +15,7 @@ const MessageAuto = ({username, message, messageClass}) => {
 
 MessageAuto.propTypes = {
     username: propTypes.string.isRequired,
-    findAnime: propTypes.bool.isRequired,
+    message: propTypes.string.isRequired,
 }
 
 export default MessageAuto

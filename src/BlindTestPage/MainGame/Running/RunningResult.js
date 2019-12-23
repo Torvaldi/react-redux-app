@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { orderScoreTurn, getMoeLink, getAnimeSeason, getAnimeType, getMusicType, getMalUrl } from '../../../helper/runningGame';
+import { getMoeLink, getAnimeSeason, getAnimeType, getMusicType, getMalUrl } from '../../../helper/runningGame';
 
 import OpeningVideo from '../../../components/OpeningVideo/OpeningVideo';
 import ScoreTable from '../../../components/ScoreTable/ScoreTable';

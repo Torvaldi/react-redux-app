@@ -10,7 +10,6 @@ import io from '../socket';
 import socketEvent from './../socketEvent.json'
 
 import { getGame, updateStatusState, setPlayers, setWinners, addPlayer } from '../actions/runningGame';
-import { userLeaveGameDatabase } from '../helper/runningGame';
 import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = (state, ownProps) => ({...state.runningGame, ...ownProps});
@@ -44,8 +43,6 @@ class BlindTest extends React.Component {
   }
 
   gameFinish = (winners) => {
-    const { token, game } = this.props;
-    //updateDatabaseGameStatus(token, game.id, 3); 
     this.props.onUpdateStatusState(3);
     this.props.onSetWinners(winners);
   }

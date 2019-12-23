@@ -22,16 +22,4 @@ export function getAnimeToGuess(animes, answers){
     }
 }
 
-export function checkWinner(scores, winningScore){
-    let winners = [];
-    let winnerPlayer = { username: null, score: 0 }
-    scores.forEach( (player) => {
-        if(player.score >= winningScore && player.score >= winnerPlayer.score){
-            winnerPlayer = player;
-            winners.push(player);
-        }
-    });
-
-    return winners;
-}
 

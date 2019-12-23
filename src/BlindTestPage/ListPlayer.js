@@ -61,6 +61,8 @@ class ListPlayer extends React.Component {
       status = getGameStatus(3);
     }
 
+    let count = 0;
+
     return(
       <section className="listPlayerLayout">
           <section className="listPlayerInfo">
@@ -76,7 +78,8 @@ class ListPlayer extends React.Component {
             <span className="playerScore">Score</span>
           </section>
           {players.map((player) => {
-            return <Player player={player} authUser={authUser} />;
+            count++;
+            return <Player key={count} player={player} authUser={authUser} />;
           })}
         </ul>
           <Button 

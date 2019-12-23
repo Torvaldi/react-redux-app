@@ -9,7 +9,6 @@ import EndGame from './MainGame/EndGame';
 import socketEvent from '../socketEvent.json';
 
 import { switchRunningStatus, getAnimes, setTurnResult } from '../actions/mainGame';
-import { checkWinner } from '../helper/mainGame';
 
 const mapStateToProps = (state, ownProps) => ({...state.mainGame, ...ownProps});
 

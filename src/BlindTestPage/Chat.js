@@ -28,21 +28,43 @@ class Chat extends React.Component {
 
     io.on(socketEvent.USER_POST_CHAT, (data) => {
       const { player, message } = data;
-      let messageData = { player, message, messageType: messageType.MESSAGE };
+      let messageData = { 
+        username: player.username, 
+        message, 
+        messageType: messageType.MESSAGE 
+      };
       this.props.onAddMessageToChat(messageData);
     });
 
     io.on(socketEvent.CLICK_ANSWER, (data) => {
       const { authUser } = data;
 
-      this.props.onAddMessageToChat({ player: authUser, message: null, messageType: messageType.ANSWER });
+      this.props.onAddMessageToChat({ 
+        username: authUser.username, 
+        message: null, 
+        messageType: messageType.ANSWER 
+      });
+
     });
     
     io.on(socketEvent.USER_LEAVE_GAME, (data) => {
       const { player } = data;
-      this.props.onAddMessageToChat({ player, message: null, messageType: messageType.USER_LEAVE });
+      this.props.onAddMessageToChat({ 
+        username: player.username, 
+        message: null, 
+        messageType: messageType.USER_LEAVE 
+      });
+
     });
     
+    io.on(socketEvent.USER_JOIN_GAME, (player) => {
+      this.props.onAddMessageToChat({ 
+        username: player.userName,
+        message: null,
+        messageType: messageType.USER_JOIN
+      });
+
+    });
 
   }
 
@@ -87,11 +109,12 @@ class Chat extends React.Component {
   printChat = () => {
     const { chatMessage, authUser} = this.props;
     let count = 0;
+    
     return(
       <Fragment>
           {chatMessage.map((chat) => {
             count++;
-            return <Message key={count} authUser={authUser} player={chat.player} message={chat.message} messageType={chat.messageType} />;
+            return <Message key={count} authUser={authUser} username={chat.username} message={chat.message} messageType={chat.messageType} />;
           })}
       </Fragment>
       );

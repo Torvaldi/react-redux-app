@@ -7,28 +7,36 @@ import MessageAuto from './MessageAuto';
 
 import { messageType as messageTypeHelper } from '../../helper/chat';
 
-const Message = ({authUser, player, message, messageType}) => {
-
+const Message = ({username, message, messageType, authUser}) => {
+  
   // ! user write a message
   if(messageType === messageTypeHelper.MESSAGE){
     let usernameClass = 'messageUsername';
 
-    if(authUser.id === player.id){
+    if(authUser.username === username){
       usernameClass = 'messageAuthUsername'
     }
 
     return(
       <li className="messageLayout">
-        <MessageBasic usernameClass={usernameClass} username={player.username} message={message} />
+        <MessageBasic usernameClass={usernameClass} username={username} message={message} />
       </li>
     );
 
   // ! user leave the game
   } else if(messageType === messageTypeHelper.USER_LEAVE){
-    console.log(player)
+
     return(
       <li className="messageLayout">
-        <MessageAuto username={player.username} message=" left the game" messageClass="" />
+        <MessageAuto username={username} message=" left the game" messageClass="" />
+      </li>
+    );
+
+  } else if(messageType === messageTypeHelper.USER_JOIN){
+ 
+    return(
+      <li className="messageLayout">
+        <MessageAuto username={username} message=" join the game" messageClass="" />
       </li>
     );
 
@@ -37,7 +45,7 @@ const Message = ({authUser, player, message, messageType}) => {
 
     return(
       <li className="messageLayout">
-        <MessageAuto username={player.username} message=" chose an answer"  />
+        <MessageAuto username={username} message=" chose an answer"  />
       </li>
     );
 
@@ -49,8 +57,8 @@ const Message = ({authUser, player, message, messageType}) => {
 
 Message.propTypes = {
   authUser: propTypes.object.isRequired,
-  player: propTypes.object.isRequired,
-  message: propTypes.string.isRequired,
+  username: propTypes.string.isRequired,
+  message: propTypes.string,
   messageType: propTypes.string.isRequired
 }
 
