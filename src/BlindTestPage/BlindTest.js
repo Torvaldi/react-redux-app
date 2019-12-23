@@ -9,7 +9,7 @@ import MainGame from './MainGame';
 import io from '../socket';
 import socketEvent from './../socketEvent.json'
 
-import { getGame, updateStatusState, setPlayers, setWinners, addPlayer } from '../actions/runningGame';
+import { getGame, updateStatusState, setPlayers, setWinners, addPlayer, removePlayer } from '../actions/runningGame';
 import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = (state, ownProps) => ({...state.runningGame, ...ownProps});
@@ -24,7 +24,9 @@ const mapDispatchToProps = (dispatch) => ({
   onSetWinners: (winners) => 
     dispatch(setWinners(winners)),
   onAddNewPlayer : (player) =>
-    dispatch(addPlayer(player))
+    dispatch(addPlayer(player)),
+  onRemovePlayer : (player) =>
+    dispatch(removePlayer(player))
 });
 
 class BlindTest extends React.Component {
@@ -56,6 +58,10 @@ class BlindTest extends React.Component {
 
   addNewPlayer = (player) => {
     this.props.onAddNewPlayer(player);
+  }
+
+  removePlayer = (player) => {
+    this.props.onRemovePlayer(player);
   }
 
   /**
@@ -120,6 +126,7 @@ class BlindTest extends React.Component {
             leaveGame={this.leaveGame}
             gameStatus={gameStatus}
             setPlayers={this.setPlayers}
+            removePlayer={this.removePlayer}
             players={players}
             addNewPlayer={this.addNewPlayer}
           />}

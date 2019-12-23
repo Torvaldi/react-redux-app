@@ -29,6 +29,11 @@ class ListPlayer extends React.Component {
     io.on(socketEvent.GAME_JOINED_SUCCESSFULLY, (players) => {
       this.props.setPlayers(players);
     });
+
+    io.on(socketEvent.USER_LEAVE_GAME, (data) => {
+      const { player } = data;
+      this.props.removePlayer(player);
+    });
     
   }
 

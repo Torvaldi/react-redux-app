@@ -1,5 +1,5 @@
 
-import { GET_GAME, UPDATE_GAME_STATUS, SET_ALL_PLAYERS, ADD_NEW_PLAYER, GET_WINNERS } from '../actions/runningGame';
+import { GET_GAME, UPDATE_GAME_STATUS, SET_ALL_PLAYERS, ADD_NEW_PLAYER, GET_WINNERS, REMOVE_PLAYER } from '../actions/runningGame';
 
 let initialState = {
     gameStatus: 1,
@@ -33,6 +33,13 @@ export default (state = initialState, action) => {
                 ...state,
                 players: action.payload
             };
+        case REMOVE_PLAYER:
+            let statePlayers = state.players;
+            let newPlayers = statePlayers.filter(player => player.userName != action.payload.username);
+            return {
+                ...state,
+                players: newPlayers,
+            }
         case ADD_NEW_PLAYER:
 
             // prevent from adding the same player more than one time

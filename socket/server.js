@@ -316,10 +316,11 @@ io.on('connection', (socket) => {
     // delete the user from game database
     api.userLeaveGameDatabase(token, gameId);
 
+    // delete player in the game player list
     let currentGame = currentGames.get(gameId);
-
     currentGame.deletePlayer(player.username);
 
+    // send event to other player that the given player left the game
     socket.to(ioHelper.getRoom(gameId)).emit(event.USER_LEAVE_GAME, { player });
 
   });

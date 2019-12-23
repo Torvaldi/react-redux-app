@@ -5,6 +5,7 @@ export const UPDATE_GAME_STATUS = 'UPDATE_GAME_STATUS';
 export const SET_ALL_PLAYERS = 'SET_ALL_PLAYERS';
 export const GET_WINNERS = 'GET_WINNERS';
 export const ADD_NEW_PLAYER = 'ADD_NEW_PLAYER';
+export const REMOVE_PLAYER =  'REMOVE_PLAYER';
 
 /**
  * get game data (level, answer etc)
@@ -51,4 +52,11 @@ export function setWinners(winners) {
     type: GET_WINNERS,
     payload: winners,
   };
+}
+
+export function removePlayer(player){
+  return {
+    type: REMOVE_PLAYER,
+    payload: player,
+  }
 }
