@@ -37,16 +37,15 @@ io.on('connection', (socket) => {
    */
   socket.on(event.USER_JOIN_GAME, (data) => {
     // fetch player list (fetch api)
-    const { game, authUser } = data;
+    const { game, authUser, token } = data;
 
     socket.join(ioHelper.getRoom(game.id));
 
     // Check if this is a new game, otherwise create it
     // using given game parameters
     if (currentGames.has(game.id) === false) {
-      currentGames.set(game.id, new Game(game.id, game.creator, game.level, game.answer, game.score_to_win));
+      currentGames.set(game.id, new Game(game.id, game.creator, game.level, game.answer, game.score_to_win, token));
     }
-
     let player;
     // Check if this player already existed in this game
     if (currentGames.get(game.id).playerExists(authUser.username) === true) {
@@ -71,7 +70,6 @@ io.on('connection', (socket) => {
     // Send notification to other players that a new player joined
     // as well as he's score
     socket.to(ioHelper.getRoom(game.id)).emit(event.USER_JOIN_GAME, player.serialize());
-
     /*
     redis.getUserScore(game.id, authUser.username)
     .then((userScore) => {
@@ -130,15 +128,6 @@ io.on('connection', (socket) => {
   });
 
   /**
-   * event call by the creator of the game in order to send the animes to guess to the others players
-   */
-  socket.on(event.SEND_ANIME_TO_GUESS, (data) => {
-    const { animeToGuess, gameId } = data;
-    io.in(ioHelper.getRoom(gameId)).emit(event.SEND_ANIME_TO_GUESS, animeToGuess);
-  });
-
-
-  /**
    * Change status from waiting time to music playing
    */
   socket.on(event.CHANGE_STATUS_0_TO_1, (data) => {
@@ -158,9 +147,10 @@ io.on('connection', (socket) => {
   
         // update number of the turn
         currentGame.createNewTurn();
-  
+        let animes = currentGame.getLastTurn().getAnimeSerialize();
+
         // send change status event
-        io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_0_TO_1, {});
+        io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_0_TO_1, { animes });
   
       }, timeout);
 

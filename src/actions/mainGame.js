@@ -8,6 +8,7 @@ export const SET_ANIME_TO_GUESS_CALL = 'SET_ANIME_TO_GUESS_CALL';
 export const SET_SCORE = 'SET_SCORE';
 export const SET_TURN_RESULT = 'SET_TURN_RESULT';
 
+// to delete
 export function getAnimes(dispatch, data){
     fetch(API_GET_ANIMES + '?level=' + data.level, {
         method: 'GET',

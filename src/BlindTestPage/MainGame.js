@@ -8,7 +8,7 @@ import EndGame from './MainGame/EndGame';
 
 import socketEvent from '../socketEvent.json';
 
-import { switchRunningStatus, getAnimes, setTurnResult } from '../actions/mainGame';
+import { switchRunningStatus, getAnimes, setTurnResult, setAnimeToGuess } from '../actions/mainGame';
 
 const mapStateToProps = (state, ownProps) => ({...state.mainGame, ...ownProps});
 
@@ -18,7 +18,9 @@ const mapDispatchToProps = (dispatch) => ({
   onSwitchRunningStatus: (status) =>
     dispatch(switchRunningStatus(status)),
   onSetTurnResult: (turnResult) =>
-    dispatch(setTurnResult(turnResult))
+    dispatch(setTurnResult(turnResult)),
+  onSetAnimeToGuess: (animeToGuess) =>
+    dispatch(setAnimeToGuess(animeToGuess)),
 });
 
 class MainGame extends React.Component {
@@ -33,7 +35,9 @@ class MainGame extends React.Component {
 
      // switch running game status every x second
      io.on(socketEvent.CHANGE_STATUS_0_TO_1, (data) => {
+       const { animes } = data;
       this.props.onSwitchRunningStatus(1);
+      this.props.onSetAnimeToGuess(animes);
     });
 
     io.on(socketEvent.CHANGE_STATUS_1_TO_2, (data) => {

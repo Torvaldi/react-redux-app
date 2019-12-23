@@ -1,9 +1,10 @@
 
 const scoreHelper = require('../helper/score');
+const AnimeTurn = require('./AnimeTurn');
 
 class Turn {
 
-    constructor (players)
+    constructor (players, animes, anwserCount)
     {
         // bind all methods
         this.getScores = this.getScores.bind(this);
@@ -12,6 +13,7 @@ class Turn {
         this.updatePlayerScore = this.updatePlayerScore.bind(this);
         this.setRank = this.setRank.bind(this);
         this.getRank = this.getRank.bind(this);
+        this.setAnime =  this.setAnime.bind(this)
 
         // Initialise the score of the turn for each player
         this.scores = new Map();
@@ -29,6 +31,21 @@ class Turn {
         // initialise rank to 0
         this.setRank(1);
 
+        this.setAnime(new AnimeTurn(animes, anwserCount));
+
+    }
+
+    /**
+     * @param {*Anime} anime
+     * @return {void}
+     */
+    setAnime(anime)
+    {
+        this.anime = anime;
+    }
+
+    getAnimeSerialize(){
+        return this.anime.serialize();
     }
 
     /**
@@ -129,16 +146,12 @@ class Turn {
         }
 
         scores.sort(function(a, b){
-             b.rank - a.rank
-            if(b < a){
-                return -1
+            
+            if(b.rank < a.rank && b.rank != null && a.rank != null){
+                return 1
             }
 
-            if(a < b|| b === null){
-                return 1;
-            }
-
-            return 0
+            return -1;
         
         });
         return scores;

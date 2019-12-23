@@ -43,7 +43,6 @@ class RunningResult extends React.Component {
   }
 
   printScoreOfTheTurn = (turnResult) => {
-    console.log(turnResult);
     //let orderedScore = orderScoreTurn(scores);
     return(
       <ScoreTable turnResult={turnResult} />

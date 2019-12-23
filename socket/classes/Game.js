@@ -3,11 +3,12 @@ const Player = require('./Player');
 const Turn = require('./Turn');
 
 const statusHelper = require('../helper/status');
+const api = require('../helper/api');
 const gameStatus = statusHelper.gameStatus;
 
 class Game {
 
-    constructor (id, creatorUserName, difficultyLevel, answersCount, winningScore)
+    constructor (id, creatorUserName, difficultyLevel, answersCount, winningScore, token)
     {
         this.playerExists = this.playerExists.bind(this);
         this.newPlayer = this.newPlayer.bind(this);
@@ -16,6 +17,9 @@ class Game {
         this.getAllPlayers = this.getAllPlayers.bind(this);
         this.getGameStatus =  this.getGameStatus.bind(this);
         this.checkWinner = this.checkWinner.bind(this);
+        this.getCreatorToken = this.getCreatorToken.bind(this);
+        this.getAnimes = this.getAnimes.bind(this);
+        this.setAnimes = this.setAnimes.bind(this);
 
         this.id = id;
         this.creatorUserName = creatorUserName;
@@ -26,6 +30,29 @@ class Game {
         this.players = new Map();
         this.players.set(creatorUserName, new Player(creatorUserName));
         this.turns = new Map();
+        this.creatorToken = token;
+
+        api.getAnimes(token, difficultyLevel)
+        .then((animes) => this.setAnimes(animes));
+    
+    }
+
+    setAnimes(animes){
+        this.animes = animes;
+    }
+
+    /**
+     * @return {array} array of object
+     */
+    getAnimes(){
+        return this.animes;
+    }
+
+    /**
+     * @return {string}
+     */
+    getCreatorToken(){
+        return this.creatorToken;
     }
 
     /**
@@ -119,7 +146,7 @@ class Game {
         // initialise the next turn number
         let newTurn = totalTurn + 1;
         // set new Turn to the game object
-        this.turns.set(newTurn, new Turn(this.players))
+        this.turns.set(newTurn, new Turn(this.players, this.animes, this.answersCount))
     }
 
     /**

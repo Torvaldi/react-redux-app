@@ -18,9 +18,9 @@ class ListPlayer extends React.Component {
    * Emit and receipe join game related evenement
    */
   componentDidMount() {
-    const { io, game, authUser } = this.props;
+    const { io, game, authUser, token } = this.props;
     
-    io.emit(socketEvent.USER_JOIN_GAME, {game, authUser});
+    io.emit(socketEvent.USER_JOIN_GAME, { game, authUser, token });
 
     io.on(socketEvent.USER_JOIN_GAME, (player) => {
       this.props.addNewPlayer(player);
@@ -35,8 +35,8 @@ class ListPlayer extends React.Component {
       this.props.removePlayer(player);
     });
     
+    
   }
-
 
   printLauchButton() {
     return(
@@ -100,7 +100,8 @@ class ListPlayer extends React.Component {
   }
 
   render(){
-    const { players } = this.props;
+    const { players, token } = this.props;
+
     return(
       <Fragment>
         { players ? this.printLeftBar() : '' }
