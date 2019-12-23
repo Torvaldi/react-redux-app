@@ -51,15 +51,24 @@ class BlindTest extends React.Component {
 
   /**
    * Refresh the players scores, this method is call by children container when players score is updated
+   * @param {array} array of object
    */
   setPlayers = (players) => {
     this.props.onSetPlayers(players);
   }
 
+  /**
+   * Add a new player to the players list
+   * @param {object} player
+   */
   addNewPlayer = (player) => {
     this.props.onAddNewPlayer(player);
   }
 
+  /**
+   * remove the given player from the player list
+   * @param {object} player
+   */
   removePlayer = (player) => {
     this.props.onRemovePlayer(player);
   }
@@ -75,20 +84,24 @@ class BlindTest extends React.Component {
     io.emit(socketEvent.LAUCH_GAME, { gameId: game.id, token});
   }
 
+  /**
+   * Called when a player decide to leave the game
+   */
   leaveGame = (event) => {
     event.preventDefault();
     if(window.confirm("Are you sure you want to leave ? You may not be able to join again and your score won't be save")){
       const { token, game, user } = this.props;
-      //userLeaveGameDatabase(token, game.id);
+
       // call the userLeave event
       let data = {
         token, 
         gameId: game.id, 
         player: user
       };
+      
       io.emit(socketEvent.USER_LEAVE_GAME, data);
-      // redirect on game page
-      this.props.history.push('/game');
+      
+      this.props.history.push('/game'); // redirect on game page
     }
   }
 
