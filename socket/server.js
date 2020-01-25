@@ -2,17 +2,13 @@ const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const event = require('./../src/socketEvent.json');
-//const redis = require('./redisClient')
 
 const ioHelper = require('./helper/io');
 const statusHelper = require('./helper/status');
-const scoreHelper = require('./helper/score');
 
 const api = require('./helper/api');
 
 const Game = require('./classes/Game.js');
-const Player = require('./classes/Player.js');
-const Answer = require('./classes/Answer.js');
 
 let currentGames = new Map();
 
@@ -70,29 +66,6 @@ io.on('connection', (socket) => {
     // Send notification to other players that a new player joined
     // as well as he's score
     socket.to(ioHelper.getRoom(game.id)).emit(event.USER_JOIN_GAME, player.serialize());
-    /*
-    redis.getUserScore(game.id, authUser.username)
-    .then((userScore) => {
-      if(userScore === null){
-        redis.setUserScore(game.id, authUser.username, 0)
-      }
-    })
-    .then( () => redis.getAllUserScore(game.id))
-    .then( (usersScores) => {
-      let objectResponse = scoreHelper.hashToJson(usersScores);
-      let responseData = { score: objectResponse };
-      io.in(ioHelper.getRoom(game.id)).emit(event.USER_JOIN_GAME, responseData);
-
-      if(game.status == 2){
-        return redis.getGameStatus(game.id)
-      }
-
-    }).then( (gameStatus) => {
-      if(gameStatus){
-        io.in(ioHelper.getRoom(game.id)).emit(event.SET_DEFAULT_STATUS, { status: parseInt(gameStatus) });
-      }
-    });
-    */
   });
 
   socket.on(event.USER_POST_CHAT, (data) => {
@@ -119,12 +92,6 @@ io.on('connection', (socket) => {
 
     // sending all users that a new game has been updated (for the game list page)
     io.emit(event.GAME_UPDATE);
-
-
-    //initialise score counter
-    //redis.setScoreCounter(gameId, 1);
-    // initialise status
-    //redis.setGameStatus(gameId, 0);
   });
 
   /**
@@ -155,34 +122,6 @@ io.on('connection', (socket) => {
       }, timeout);
 
     }
-
-
-    /*
-      redis.getGameStatus(gameId).then( (gameStatus) => {
-
-        if(gameStatus == 0){
-
-          let timeout = statusHelper.getTimeout(0)
-
-          setTimeout( () => {
-            redis.setGameStatus(gameId, 1);
-        
-            redis.getGameTurnNumber(gameId)
-            .then((turnNumber) => {
-              let newTurnNumber = 0;
-              if(turnNumber){
-                newTurnNumber = parseInt(turnNumber) + 1;
-              }
-              redis.setTurnNumber(gameId, newTurnNumber)
-              io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_0_TO_1, {});
-            })
-      
-          }, timeout);
-        }
-      
-
-      });
-    */
   });
 
   /**
@@ -219,36 +158,6 @@ io.on('connection', (socket) => {
 
       }, timeout);
     }
-
-
-    /*
-    redis.getGameStatus(gameId).then((gameStatus) => {
-      if (gameStatus == 1) {
-
-        let timeout = statusHelper.getTimeout(1)
-        setTimeout(() => {
-          redis.setGameStatus(gameId, 2);
-
-          let data = {};
-          redis.getAllUserScore(gameId)
-            .then((usersScores) => {
-
-              data = {
-                ...data,
-                usersScores,
-              }
-              return redis.getGameTurnNumber(gameId);
-            })
-            .then((turnNumber) => {
-              let scoreJson = scoreHelper.hashToJson(data.usersScores, turnNumber);
-              let response = { score: scoreJson };
-
-              io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_1_TO_2, response);
-            });
-        }, timeout);
-      }
-    });
-    */
   });
 
   /**
@@ -279,22 +188,6 @@ io.on('connection', (socket) => {
       }, timeout);  
     }
 
-    /*
-        redis.getGameStatus(gameId).then((gameStatus) => {
-    
-          if (gameStatus == 2) {
-            let timeout = statusHelper.getTimeout(2)
-            setTimeout(() => {
-              redis.setGameStatus(gameId, 0);
-    
-              redis.setScoreCounter(gameId, 1);
-              io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, {});
-    
-            }, timeout);
-    
-          }
-        });
-        */
   });
 
   /**
@@ -337,83 +230,6 @@ io.on('connection', (socket) => {
 
     // emit other players if the current player got the answer right or wrong
     socket.to(ioHelper.getRoom(gameId)).emit(event.CLICK_ANSWER, {authUser});
-
-
-
-    /*
-    let newScore = {
-      username: authUser.username,
-      anime,
-    };
-
-    socket.broadcast.emit(event.CLICK_ANSWER, {
-      authUser, findAnime
-    });
-    // if the user has right or wrong
-    if (findAnime === true) {
-      /*
-      redis.getScoreCounter(gameId)
-        .then((scoreCounter) => {
-          let rank = parseInt(scoreCounter); // ranking of the player during the turn
-          redis.setScoreCounter(gameId, rank + 1); // incremente rank
-
-          // get score of the turn depeding of the rank of the player
-          let scoreTurn = scoreHelper.genereScore(rank);
-          newScore = {
-            ...newScore,
-            scoreTurn,
-            rank,
-          }
-          return redis.getUserScore(gameId, authUser.username);
-        })
-        .then((userScore) => {
-          let jsonUserScore = JSON.parse(userScore);
-
-          // get previous score, set it to 0 by default if the player doesn't have any 
-          let currentScore = 0;
-          if (jsonUserScore.score) {
-            currentScore = jsonUserScore.score;
-          }
-
-          newScore = {
-            ...jsonUserScore,
-            ...newScore,
-            score: currentScore + newScore.scoreTurn,
-          };
-          return redis.getGameTurnNumber(gameId);
-        })
-        .then((turnNumber) => {
-          newScore = {
-            ...newScore,
-            turnNumber,
-          }
-          redis.setUserScore(gameId, authUser.username, JSON.stringify(newScore));
-        })
-        
-
-    } else {
-      
-      redis.getUserScore(gameId, authUser.username)
-        .then((userScore) => {
-          let jsonUserScore = JSON.parse(userScore);
-          newScore = {
-            ...jsonUserScore,
-            ...newScore,
-            scoreTurn: 0,
-            rank: 0,
-          };
-          return redis.getGameTurnNumber(gameId);
-        })
-        .then((turnNumber) => {
-          newScore = {
-            ...newScore,
-            turnNumber
-          }
-          redis.setUserScore(gameId, authUser.username, JSON.stringify(newScore));
-        })
-        
-    }
-    */
 
   });
 
