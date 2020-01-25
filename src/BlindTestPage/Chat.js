@@ -7,6 +7,7 @@ import './css/chat.css';
 
 import socketEvent from '../socketEvent.json';
 import { changeMessage, addMessageToChat } from '../actions/chat';
+import { messageType } from '../helper/chat';
 
 const mapStateToProps = (state, ownProps) => ({...state.chat, ...ownProps});
 
@@ -25,15 +26,44 @@ class Chat extends React.Component {
   componentDidMount = () => {
     const { io } = this.props;
 
-    io.on(socketEvent.USER_POST_CHAT, (messageServer) => {
-      let messageData = {...messageServer, autoMessage: false, findAnime: null };
+    io.on(socketEvent.USER_POST_CHAT, (data) => {
+      const { player, message } = data;
+      let messageData = { 
+        username: player.username, 
+        message, 
+        messageType: messageType.MESSAGE 
+      };
       this.props.onAddMessageToChat(messageData);
     });
 
     io.on(socketEvent.CLICK_ANSWER, (data) => {
-      const { authUser, findAnime } = data;
+      const { authUser } = data;
 
-      this.props.onAddMessageToChat({ player: authUser, message: null, autoMessage: true, findAnime });
+      this.props.onAddMessageToChat({ 
+        username: authUser.username, 
+        message: null, 
+        messageType: messageType.ANSWER 
+      });
+
+    });
+    
+    io.on(socketEvent.USER_LEAVE_GAME, (data) => {
+      const { player } = data;
+      this.props.onAddMessageToChat({ 
+        username: player.username, 
+        message: null, 
+        messageType: messageType.USER_LEAVE 
+      });
+
+    });
+    
+    io.on(socketEvent.USER_JOIN_GAME, (player) => {
+      this.props.onAddMessageToChat({ 
+        username: player.userName,
+        message: null,
+        messageType: messageType.USER_JOIN
+      });
+
     });
 
   }
@@ -54,8 +84,7 @@ class Chat extends React.Component {
       let messageData = {
         player: authUser,
         message,
-        autoMessage: false, 
-        findAnime: null
+        messageType: messageType.MESSAGE
       }
       this.props.onAddMessageToChat(messageData);
 
@@ -65,8 +94,9 @@ class Chat extends React.Component {
       input.value = "";
 
       let socketData = {
-        message: messageData,
-        game,
+        player: authUser,
+        message,
+        gameId: game.id,
       }
 
       io.emit(socketEvent.USER_POST_CHAT, socketData);
@@ -79,11 +109,12 @@ class Chat extends React.Component {
   printChat = () => {
     const { chatMessage, authUser} = this.props;
     let count = 0;
+    
     return(
       <Fragment>
           {chatMessage.map((chat) => {
             count++;
-            return <Message key={count} authUser={authUser} user={chat.player} message={chat.message} autoMessage={chat.autoMessage} findAnime={chat.findAnime} />;
+            return <Message key={count} authUser={authUser} username={chat.username} message={chat.message} messageType={chat.messageType} />;
           })}
       </Fragment>
       );

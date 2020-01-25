@@ -1,28 +1,3 @@
-
-import { API_GAME_UPDATE_STATUS, getAuthorizationHeader, API_USER_LEAVE } from '../helper/api';
-
-export function updateDatabaseGameStatus(token, gameId, statusId){
-    fetch(API_GAME_UPDATE_STATUS, {
-        method: 'POST',
-        headers: getAuthorizationHeader(token),
-        body: JSON.stringify({
-            'id': gameId, 
-            'status' : statusId
-        }),
-    });
-}
-
-
-export function userLeaveGameDatabase(token, gameId){
-    fetch(API_USER_LEAVE, {
-        method: 'POST',
-        headers: getAuthorizationHeader(token),
-        body: JSON.stringify({
-            'game_id': gameId
-        })
-    });
-}
-
 export function getMoeLink(fileName){
     return 'https://animethemes.moe/video/' + fileName;
 }
@@ -30,11 +5,6 @@ export function getMoeLink(fileName){
 export function orderAnime(animes){
     animes.sort((a, b) => (a.nameJap > b.nameJap) ? 1 : -1);
     return animes;
-}
-
-export function orderScoreTurn(scores){
-    scores.sort((a, b) => (a.turnScore < b.turnScore) ? 1 : -1);
-    return scores;
 }
 
 export function getAnimeSeason(seasonNumber){

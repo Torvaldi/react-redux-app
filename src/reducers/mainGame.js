@@ -5,6 +5,7 @@ import {
     SET_ANIME_TO_GUESS,
     SET_ANIME_TO_GUESS_CALL,
     SET_SCORE,
+    SET_TURN_RESULT,
 } from '../actions/mainGame';
 
 const initialState = {
@@ -39,6 +40,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 scores: action.payload,
+            }
+        case SET_TURN_RESULT:
+            return {
+                ...state,
+                turnResult: action.payload
             }
         default:
             return state;

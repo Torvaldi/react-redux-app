@@ -1,10 +1,9 @@
-
 /**
  * Source : https://stackoverflow.com/questions/19269545/how-to-get-n-no-elements-randomly-from-an-array
  * @param {} animes 
  * @param {*} answers 
  */
-export function getAnimeToGuess(animes, answers){
+function getAnimeToGuess(animes, answers){
     // Shuffle array
     const shuffled = animes.sort(() => 0.5 - Math.random());
 
@@ -22,4 +21,6 @@ export function getAnimeToGuess(animes, answers){
     }
 }
 
-
+module.exports = {
+    getAnimeToGuess,
+}

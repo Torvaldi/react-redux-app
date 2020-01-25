@@ -39,12 +39,12 @@ class GameAvalaible extends Component {
         this.props.onUserRunningGame(token);
 
         // refresh value when a user create a new game
-        io.on( socketEvent.NEW_GAME, () => {
+        io.on(socketEvent.NEW_GAME, () => {
             this.props.onGameAvailable(token);
             this.props.onUserRunningGame(token);
         });
 
-        io.on( socketEvent.GAME_UPDATE, () => {
+        io.on(socketEvent.GAME_UPDATE, () => {
             this.props.onGameAvailable(token);
             this.props.onUserRunningGame(token);
         });
@@ -148,11 +148,11 @@ class GameAvalaible extends Component {
         const { games, userRunningGame, runningGame, isOpenCreateForm } = this.props;
 
         return (
-         <section class="joinGame_container" >
-             <article class="joinGame_block">
+         <section className="joinGame_container" >
+             <article className="joinGame_block">
 
                 {/* Title and create ame button */}
-                 <article class="joinGame_block_title">
+                 <article className="joinGame_block_title">
                     <h1 className="title_game_avalaible">Join a game</h1>
                     <Button 
                         type="submit" 

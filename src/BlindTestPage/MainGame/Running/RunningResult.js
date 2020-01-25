@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { orderScoreTurn, getMoeLink, getAnimeSeason, getAnimeType, getMusicType, getMalUrl } from '../../../helper/runningGame';
+import { getMoeLink, getAnimeSeason, getAnimeType, getMusicType, getMalUrl } from '../../../helper/runningGame';
 
 import OpeningVideo from '../../../components/OpeningVideo/OpeningVideo';
 import ScoreTable from '../../../components/ScoreTable/ScoreTable';
@@ -42,20 +42,20 @@ class RunningResult extends React.Component {
     )
   }
 
-  printScoreOfTheTurn = (scores) => {
-    let orderedScore = orderScoreTurn(scores);
+  printScoreOfTheTurn = (turnResult) => {
+    //let orderedScore = orderScoreTurn(scores);
     return(
-      <ScoreTable scores={orderedScore} />
+      <ScoreTable turnResult={turnResult} />
     )
   }
 
   render(){
-    const { scores, animeToGuess } = this.props;
+    const { turnResult, animeToGuess } = this.props;
     return(
      <section className="runningResultBlock">
        <Counter startingNumber={waitingTrun.WAITING_TURN_3} />
        { animeToGuess ? this.printAnimeInformation(animeToGuess) : ''}
-       { scores.turnScore ? this.printScoreOfTheTurn(scores.turnScore) : ''}
+       { turnResult ? this.printScoreOfTheTurn(turnResult) : ''}
      </section>
     );
   }

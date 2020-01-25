@@ -5,32 +5,47 @@ import './message.css';
 import MessageBasic from './MessageBasic';
 import MessageAuto from './MessageAuto';
 
-const Message = ({authUser, user, message, autoMessage, findAnime}) => {
+import { messageType as messageTypeHelper } from '../../helper/chat';
 
-  if(autoMessage === false){
+const Message = ({username, message, messageType, authUser}) => {
+  
+  // ! user write a message
+  if(messageType === messageTypeHelper.MESSAGE){
     let usernameClass = 'messageUsername';
 
-    if(authUser.id === user.id){
+    if(authUser.username === username){
       usernameClass = 'messageAuthUsername'
     }
 
     return(
       <li className="messageLayout">
-        <MessageBasic usernameClass={usernameClass} username={user.username} message={message} />
+        <MessageBasic usernameClass={usernameClass} username={username} message={message} />
       </li>
     );
-  } else {
 
-    let messageAuto = ' failed';
-    let messageClass = 'messageAutoWrong'
-    if(findAnime === true){
-      messageAuto = 'got it right !';
-      messageClass = 'messageAutoRight';
-    }
+  // ! user leave the game
+  } else if(messageType === messageTypeHelper.USER_LEAVE){
 
     return(
       <li className="messageLayout">
-        <MessageAuto username={user.username} message={messageAuto} messageClass={messageClass} />
+        <MessageAuto username={username} message=" left the game" messageClass="" />
+      </li>
+    );
+
+  } else if(messageType === messageTypeHelper.USER_JOIN){
+ 
+    return(
+      <li className="messageLayout">
+        <MessageAuto username={username} message=" join the game" messageClass="" />
+      </li>
+    );
+
+  // ! user answer 
+  } else {
+
+    return(
+      <li className="messageLayout">
+        <MessageAuto username={username} message=" chose an answer"  />
       </li>
     );
 
@@ -42,8 +57,9 @@ const Message = ({authUser, user, message, autoMessage, findAnime}) => {
 
 Message.propTypes = {
   authUser: propTypes.object.isRequired,
-  user: propTypes.object.isRequired,
-  message: propTypes.string.isRequired
+  username: propTypes.string.isRequired,
+  message: propTypes.string,
+  messageType: propTypes.string.isRequired
 }
 
 

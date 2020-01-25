@@ -8,7 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-const ScoreTable = ( {scores} ) => {
+const ScoreTable = ( {turnResult} ) => {
 
   let count = 0;
   return (
@@ -23,19 +23,22 @@ const ScoreTable = ( {scores} ) => {
             </TableRow>
           </TableHead>
         <TableBody>
-          {scores.map((score) => {
-
+          {turnResult.map((turn) => {
+            
             let rowCss = 'tableRowScore';
-            if(score.turnScore > 0){
+            
+            if(turn.score > 0){
               rowCss = 'tableRowScoreRight'
             }
+
+            
             count++;
             return(
               <TableRow key={count} className={rowCss}>
-                <TableCell className="tableCellScore" align="center">{score.rank}</TableCell>
-                <TableCell className="tableCellScore"  align="center">{score.username}</TableCell>
-                <TableCell className="tableCellScore"  align="center">{score.turnScore}</TableCell>
-                <TableCell className="tableCellScore"  align="center">{score.anime ? score.anime.nameJap : '-'}</TableCell>
+                <TableCell className="tableCellScore" align="center">{turn.rank != null ? turn.rank : '-'}</TableCell>
+                <TableCell className="tableCellScore"  align="center">{turn.username}</TableCell>
+                <TableCell className="tableCellScore"  align="center">{turn.score}</TableCell>
+                <TableCell className="tableCellScore"  align="center">{turn.lastAnswer != null ? turn.lastAnswer.nameJap : '-'}</TableCell>
               </TableRow>
             )
           })}

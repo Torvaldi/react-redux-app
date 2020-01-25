@@ -6,7 +6,9 @@ export const CHANGE_RUNNING_STATUS = 'CHANGE_RUNNING_STATUS';
 export const SET_ANIME_TO_GUESS = 'SET_ANIME_TO_GUESS';
 export const SET_ANIME_TO_GUESS_CALL = 'SET_ANIME_TO_GUESS_CALL';
 export const SET_SCORE = 'SET_SCORE';
+export const SET_TURN_RESULT = 'SET_TURN_RESULT';
 
+// to delete
 export function getAnimes(dispatch, data){
     fetch(API_GET_ANIMES + '?level=' + data.level, {
         method: 'GET',
@@ -47,5 +49,12 @@ export function setScore(score){
   return {
     type: SET_SCORE,
     payload: score,
+  }
+}
+
+export function setTurnResult(turnResult){
+  return {
+    type: SET_TURN_RESULT,
+    payload: turnResult,
   }
 }

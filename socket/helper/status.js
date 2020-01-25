@@ -35,7 +35,16 @@ function getNextStatus(status){;
     }
 }
 
+const gameStatus = {
+    waiting: "waiting",
+    loading: "loading",
+    musicPLaying: "music playing",
+    result: "result",
+    finish: "finish"
+};
+
 module.exports = {
     getTimeout,
     getNextStatus,
+    gameStatus,
 }
