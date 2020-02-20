@@ -10,13 +10,13 @@ const getAuthorizationHeader = (token) => {
     return {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': token,
+        'token': token,
     }
 }
 
 function updateDatabaseGameStatus(token, gameId, statusId){
     fetch(API_GAME_UPDATE_STATUS, {
-        method: 'POST',
+        method: 'PUT',
         headers: getAuthorizationHeader(token),
         body: JSON.stringify({
             'id': gameId, 
@@ -27,7 +27,7 @@ function updateDatabaseGameStatus(token, gameId, statusId){
 
 function userLeaveGameDatabase(token, gameId){
     fetch(API_USER_LEAVE, {
-        method: 'POST',
+        method: 'DELETE',
         headers: getAuthorizationHeader(token),
         body: JSON.stringify({
             'game_id': gameId

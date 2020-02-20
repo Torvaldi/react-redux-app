@@ -57,7 +57,7 @@ io.on('connection', (socket) => {
     else {
       player = currentGames.get(game.id).newPlayer(authUser.username);
     }
-
+    console.log(currentGames.get(game.id));
 
     // Notify the new player that they successfully
     // joined the game and send him all the players with their scores
@@ -201,6 +201,7 @@ io.on('connection', (socket) => {
 
     // delete player in the game player list
     let currentGame = currentGames.get(gameId);
+    console.log(currentGames);
     currentGame.deletePlayer(player.username);
 
     // send event to other player that the given player left the game

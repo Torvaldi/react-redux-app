@@ -4,7 +4,7 @@ import AnswerBlock from '../../../components/AnswerBlock/AnswerBlock';
 
 import socketEvent from '../../../socketEvent.json';
 import { clickAnswer, setAnswerOnce } from '../../../actions/mainGame/runningMusic';
-import { getMoeLink, orderAnime } from '../../../helper/runningGame';
+import { getMoeLink } from '../../../helper/runningGame';
 
 import waitingTurn from '../../../waitingTrun.json';
 
@@ -58,11 +58,10 @@ class RunningMusic extends React.Component {
    * print the answer of the CQM
    */
   printAnswer = (animes) => {
-    let orderedAnime = orderAnime(animes);
     return(
       <ul className="answerListBlock">
-        {orderedAnime.map((anime) => {
-          return <AnswerBlock key={anime.id} id={anime} name={anime.nameJap} clickAnswer={this.clickAnswer} />
+        {animes.map((anime) => {
+          return <AnswerBlock key={anime.id} id={anime} name={anime.name_jap} clickAnswer={this.clickAnswer} />
         })}
       </ul>
     )
@@ -85,8 +84,8 @@ class RunningMusic extends React.Component {
 
   printAudioPlayer = () => {
     const { animeToGuess } = this.props;
-    const url = getMoeLink(animeToGuess.openingToGuess.moeLink);
-    console.log('Réponse : ' + animeToGuess.animeToGuess.nameJap);
+    const url = getMoeLink(animeToGuess.openingToGuess.moe_link);
+    console.log('Réponse : ' + animeToGuess.animeToGuess.name_jap);
 
     return(
       <audio id="player_music" autoPlay controls controlsList="nodownload">

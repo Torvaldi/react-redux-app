@@ -6,6 +6,9 @@ const statusHelper = require('../helper/status');
 const api = require('../helper/api');
 const gameStatus = statusHelper.gameStatus;
 
+/**
+ * Represent a game
+ */
 class Game {
 
     constructor (id, creatorUserName, difficultyLevel, answersCount, winningScore, token)
@@ -114,7 +117,6 @@ class Game {
         this.players.forEach(function(player){
             players.push(player.serialize());
         });
-        
         return players;
     }
 
