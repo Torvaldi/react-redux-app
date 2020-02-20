@@ -2,11 +2,6 @@ export function getMoeLink(fileName){
     return 'https://animethemes.moe/video/' + fileName;
 }
 
-export function orderAnime(animes){
-    animes.sort((a, b) => (a.nameJap > b.nameJap) ? 1 : -1);
-    return animes;
-}
-
 export function getAnimeSeason(seasonNumber){
     if(seasonNumber === 1){
         return 'Winter';

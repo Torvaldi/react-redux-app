@@ -125,7 +125,7 @@ class BlindTest extends React.Component {
    */
   printGame = () => {
     const { token, game, user, gameStatus, players, winners } = this.props;
-    
+    console.log(game)
     return(
       <Fragment>
       { game ? 
@@ -163,6 +163,7 @@ class BlindTest extends React.Component {
 
   render(){
     const { game, players } = this.props;
+    
     return(
       <Fragment>
         { game && players ? this.printGame() : <Fragment>loading</Fragment> }

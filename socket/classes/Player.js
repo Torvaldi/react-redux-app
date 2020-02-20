@@ -1,4 +1,7 @@
 
+/**
+ * Represent a player with its global score
+ */
 class Player {
 
     constructor (userName)

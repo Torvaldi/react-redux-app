@@ -2,6 +2,12 @@
 const scoreHelper = require('../helper/score');
 const AnimeTurn = require('./AnimeTurn');
 
+/**
+ * Represent a turn during a game
+ * This class manage 
+ * _all players score turn
+ * _update player score
+ */
 class Turn {
 
     constructor (players, animes, anwserCount)
