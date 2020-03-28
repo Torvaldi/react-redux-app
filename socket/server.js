@@ -150,6 +150,9 @@ io.on('connection', (socket) => {
         // update players scores
         currentGame.updatePlayerScore();
 
+        // update players rank
+        currentGame.updatePlayerRank();
+
         // get players
         let players = currentGame.getAllPlayers();
 

@@ -8,10 +8,13 @@ class Player {
     {
         this.userName = userName;
         this.score = 0;
+        this.rank = 0;
 
         this.serialize = this.serialize.bind(this);
         this.getUsername = this.getUsername.bind(this);
         this.updateScore = this.updateScore.bind(this);
+        this.getScore = this.getScore.bind(this);
+        this.setRank = this.setRank.bind(this);
     }
 
     /**
@@ -24,10 +27,18 @@ class Player {
     /**
      * update the score 
      * @param {*int} score
-     * @return {void}s
+     * @return {void}
      */
     updateScore(score){
         this.score += score;
+    }
+
+    getScore(){
+        return this.score;
+    }
+
+    setRank(rank){
+        this.rank = rank
     }
 
     /**
@@ -37,7 +48,8 @@ class Player {
     serialize(){
         return {
             userName: this.userName,
-            score: this.score
+            score: this.score,
+            rank: this.rank
         };
     }
 }
