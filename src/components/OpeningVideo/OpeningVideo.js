@@ -4,10 +4,11 @@ import './openingVideo.css';
 import malLogo from '../../asset/myAnimeListLogo.png';
 
 const OpeningVideo = (props) => {
+  console.log(props);
 
     return(
       <section className="turnResultBlock">
-        <h1 className="resultTitle">{props.anime.nameJap} - {props.musicType} {props.opening.number} </h1>
+        <h1 className="resultTitle">{props.anime.name_jap} - {props.musicType} {props.opening.number} </h1>
         <article className="resultInfoBlock">
           <ul className="resultInfoList">
             <li className="resultInfoItem"><span className="resutltInfoItemLabel">Song title:</span> {props.opening.title}</li>
