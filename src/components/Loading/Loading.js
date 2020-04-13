@@ -8,13 +8,11 @@ import './loading.css';
 const Loading = (props) => {
 
   return(
-    <Fragment>
-      <div className="loader">
-        <span></span>
-        <span></span>
-        <span></span>
+    <div className="loader">
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
-    </Fragment>
   );
 }
 
