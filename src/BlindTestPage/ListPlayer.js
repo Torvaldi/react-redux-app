@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import './css/listPlayer.css';
 
 import profilePic from './../asset/profilePic.png';
+import { getAuthUserTurnInfo } from './../helper/player';
 
 const mapStateToProps = (state, ownProps) => ({...state.player, ...ownProps});
 
@@ -46,6 +47,8 @@ class ListPlayer extends React.Component {
   printLeftBar() {
     const { authUser, players } = this.props;
 
+    // get authUser score and rank
+    let authUserInfo = getAuthUserTurnInfo(players, authUser.username);
     let count = 0;
 
     return(
@@ -58,8 +61,8 @@ class ListPlayer extends React.Component {
               </article>
               <article className="listPlayerInfoUserRight">
                 <h1 className="listPlayerInfoUserUsername">{authUser.username}</h1>
-                <span className="listPlayerInfoUserScore">Score: 0</span>
-                <span className="listPlayerInfoUserRank">#0</span>
+                <span className="listPlayerInfoUserScore">Score: {authUserInfo.score}</span>
+                <span className="listPlayerInfoUserRank">#{authUserInfo.rank}</span>
               </article>
             </article>
 
@@ -88,7 +91,7 @@ class ListPlayer extends React.Component {
 
   render(){
     const { players, token } = this.props;
-
+    console.log(players);
     return(
       <Fragment>
         { players ? this.printLeftBar() : '' }
