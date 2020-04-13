@@ -12,6 +12,8 @@ import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import ViewModuleIcon from '@material-ui/icons/ViewModule';
 import StarIcon from '@material-ui/icons/Star';
 
+import InfoBlock from './InfoBlock/InfoBlock';
+
 const GameList = ({
   joinGame, 
   gameType, 
@@ -44,22 +46,26 @@ const GameList = ({
               </span>
             </section>
             <section className="gamelist_config">
-              <article className="config_detail">
-                <span className="config_detail_title"><GroupIcon /><span className="config_detail_title_text">Players</span></span>
-                <span className="config_detail_data" >{total_player}/10</span>
-              </article>
-              <article className="config_detail">
-                <span className="config_detail_title"> <TrendingUpIcon /><span className="config_detail_title_text">Level</span></span>
-                <span className="config_detail_data" >{level}</span>
-              </article>
-              <article className="config_detail">
-                <span className="config_detail_title"> <ViewModuleIcon /><span className="config_detail_title_text">Answers</span></span>
-                <span className="config_detail_data">{answer}</span>
-              </article>
-              <article className="config_detail">
-                <span className="config_detail_title"> <StarIcon /><span className="config_detail_title_text"></span>Winning Score</span>
-                <span className="config_detail_data">{score_to_win}</span>
-              </article>
+              <InfoBlock 
+                icon={<GroupIcon />}
+                title={"Players"}
+                data={total_player + '/10'}
+              />
+              <InfoBlock 
+                icon={<TrendingUpIcon />}
+                title={"Level"}
+                data={level}
+              />
+              <InfoBlock 
+                icon={<ViewModuleIcon />}
+                title={"Answers"}
+                data={answer}
+              />
+              <InfoBlock 
+                icon={<StarIcon />}
+                title={"Winning Score"}
+                data={score_to_win}
+              />
             </section>
             <section className="gamelist_join">
               <form onSubmit={joinGame(id)} >
