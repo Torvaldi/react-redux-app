@@ -1,0 +1,32 @@
+
+.config_detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.config_detail_title {
+    color: var(--darkGrey);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.config_detail_title_text {
+    margin-left: 3px;
+}
+
+.config_detail_data {
+    font-weight: bold;
+    font-size: 1.6rem;
+    padding: 10px;  
+    color: white;
+}
+
+.config_detail_data_small {
+    font-weight: bold;
+    font-size: 1.5rem;
+    padding: 5px; 
+    color: white;
+}
