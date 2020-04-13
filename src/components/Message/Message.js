@@ -8,7 +8,7 @@ import MessageAuto from './MessageAuto';
 import { messageType as messageTypeHelper } from '../../helper/chat';
 
 const Message = ({username, message, messageType, authUser}) => {
-  
+
   // ! user write a message
   if(messageType === messageTypeHelper.MESSAGE){
     let usernameClass = 'messageUsername';
@@ -57,7 +57,7 @@ const Message = ({username, message, messageType, authUser}) => {
 
 Message.propTypes = {
   authUser: propTypes.object.isRequired,
-  username: propTypes.string.isRequired,
+ // username: propTypes.string.isRequired,
   message: propTypes.string,
   messageType: propTypes.string.isRequired
 }

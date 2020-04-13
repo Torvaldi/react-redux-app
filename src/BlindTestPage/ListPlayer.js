@@ -90,8 +90,7 @@ class ListPlayer extends React.Component {
   }
 
   render(){
-    const { players, token } = this.props;
-    console.log(players);
+    const { players } = this.props;
     return(
       <Fragment>
         { players ? this.printLeftBar() : '' }

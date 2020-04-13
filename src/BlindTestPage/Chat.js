@@ -82,7 +82,7 @@ class Chat extends React.Component {
     // prevent sending empty message
     if(message.length > 0){
       let messageData = {
-        player: authUser,
+        username: authUser.username,
         message,
         messageType: messageType.MESSAGE
       }
