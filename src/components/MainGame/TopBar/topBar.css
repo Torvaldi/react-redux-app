@@ -1,0 +1,28 @@
+
+
+.topBarContent {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.topBarGameTitle {
+    width: 30%;
+}
+
+.topBarContentTitle {
+    margin: 0;
+    font-size: 1.5rem;
+    color: white;
+    font-weight: lighter;
+    flex: 1;
+}
+
+.topBarGameInfo {
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+}
+
