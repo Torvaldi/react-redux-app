@@ -96,7 +96,6 @@ class RunningMusic extends React.Component {
 
   render(){
     const { animeToGuess, answerOnce } = this.props;
-    
 
     return(
      <section className="runningMusicBlock">

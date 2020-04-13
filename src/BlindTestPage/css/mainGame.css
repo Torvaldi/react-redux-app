@@ -1,0 +1,33 @@
+
+.mainGameContentLayout {
+    display: flex;
+    height: 90%;
+    width: 88%;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.mainGametopBar {
+    height: 8%;
+    background-color: var(--darkBlue);
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.5);
+    padding: 5px 0;
+}
+
+.mainGameContent {
+    display: block;
+    background-color: var(--lighGrey);
+    height: 88%;
+    border-radius: 5px;
+    box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.5);
+}
+
+/*
+.mainGameContent, .mainGametopBar {
+    margin: 15px 30px;
+}
+*/

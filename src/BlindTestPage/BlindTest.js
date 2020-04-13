@@ -5,6 +5,7 @@ import BlindTestLayout from '../components/BlindTestLayout/BlindTestLayout';
 import Chat from './Chat';
 import ListPlayer from './ListPlayer';
 import MainGame from './MainGame';
+import Topbar from './../components/MainGame/TopBar/TopBar';
 
 import io from '../socket';
 import socketEvent from './../socketEvent.json'
@@ -145,6 +146,7 @@ class BlindTest extends React.Component {
           />}
           center={
           <MainGame 
+            launchGame={this.launchGame} 
             io={io} 
             game={game} 
             token={token} 
