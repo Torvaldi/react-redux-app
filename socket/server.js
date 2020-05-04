@@ -41,7 +41,7 @@ io.on('connection', (socket) => {
     // using given game parameters
     if (currentGames.has(game.id) === false) {
       currentGames.set(game.id, new Game(game.id, game.creator, game.level, game.answer, game.score_to_win, game.type, token));
-    }
+    } 
     let player;
     // Check if this player already existed in this game
     if (currentGames.get(game.id).playerExists(authUser.username) === true) {

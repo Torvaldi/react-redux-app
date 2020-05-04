@@ -54,7 +54,7 @@ export default (state = initialState, action) => {
         case UPDATE_TYPE_OP:
             return {
                 ...state,
-                type: action.payload.type
+                type: action.payload.type 
             }
         case CREATE_GAME:
             if(action.payload.error === undefined){

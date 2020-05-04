@@ -27,7 +27,7 @@ class Game {
         this.id = id;
         this.creatorUserName = creatorUserName;
         this.difficultyLevel = difficultyLevel;
-        this.type = type;
+        this.type = type; 
         this.answersCount = answersCount;
         this.winningScore = winningScore;
         this.status = gameStatus.waiting;

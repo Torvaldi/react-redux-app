@@ -78,7 +78,6 @@ export const getUserRunningGame = (dispatch, token) => {
 }
 
 export const storeGame = (dispatch, token, data) => {
-  console.log(data);
 
   fetch(API_NEW_GAME, {    
     method: 'POST',
