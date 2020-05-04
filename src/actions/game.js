@@ -13,6 +13,7 @@ export const USER_RUNNING_GAME = 'USER_RUNNING_GAME';
 export const UPDATE_FIELD_LEVEL = 'UPDATE_FIELD_LEVEL';
 export const UPDATE_FIELD_ANSWER = 'UPDATE_FIELD_ANSWER';
 export const UPDATE_FIELD_WINNING_SCORE = 'UPDATE_FIELD_WINNING_SCORE';
+export const UPDATE_TYPE_OP = 'UPDATE_TYPE_OP';
 export const OPEN_CREATE_FORM = 'OPEN_CREATE_FORM';
 
 /**
@@ -77,13 +78,16 @@ export const getUserRunningGame = (dispatch, token) => {
 }
 
 export const storeGame = (dispatch, token, data) => {
-  fetch(API_NEW_GAME, {
+  console.log(data);
+
+  fetch(API_NEW_GAME, {    
     method: 'POST',
     headers: getAuthorizationHeader(token),
     body: JSON.stringify({
       'level': data.level, 
       'answer': data.answer,
-      'score_to_win': data.winningScore
+      'score_to_win': data.winningScore,
+      'type': data.type
     }),
   })
   .then(response => response.json())
@@ -138,6 +142,16 @@ export function changeWinningScore(winningScore){
     type: UPDATE_FIELD_WINNING_SCORE,
     payload: { winningScore }
   }
+}
+
+export function changeType(type){
+  
+  return {
+    type: UPDATE_TYPE_OP,
+    payload: { type }
+
+  }
+
 }
 
 /**

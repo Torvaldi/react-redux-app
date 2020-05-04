@@ -7,6 +7,7 @@ import {
     UPDATE_FIELD_ANSWER,
     UPDATE_FIELD_WINNING_SCORE,
     OPEN_CREATE_FORM,
+    UPDATE_TYPE_OP,
 } from '../actions/game';
 
 const initialState = {
@@ -49,6 +50,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 winningScore: action.payload.winningScore
+            }
+        case UPDATE_TYPE_OP:
+            return {
+                ...state,
+                type: action.payload.type
             }
         case CREATE_GAME:
             if(action.payload.error === undefined){

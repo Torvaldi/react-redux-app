@@ -11,7 +11,7 @@ const gameStatus = statusHelper.gameStatus;
  */
 class Game {
 
-    constructor (id, creatorUserName, difficultyLevel, answersCount, winningScore, token)
+    constructor (id, creatorUserName, difficultyLevel, answersCount, winningScore, type, token)
     {
         this.playerExists = this.playerExists.bind(this);
         this.newPlayer = this.newPlayer.bind(this);
@@ -27,6 +27,7 @@ class Game {
         this.id = id;
         this.creatorUserName = creatorUserName;
         this.difficultyLevel = difficultyLevel;
+        this.type = type;
         this.answersCount = answersCount;
         this.winningScore = winningScore;
         this.status = gameStatus.waiting;

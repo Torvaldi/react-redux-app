@@ -1,8 +1,0 @@
-{
-    "api_url": "http://localhost:8000/",
-    "secret_key": "yoursuperkey",
-    "socket_url": "http://localhost:5000/",
-    "waiting_turn_1": 5,
-    "waiting_turn_2": 10,
-    "waiting_turn_3": 10
-}
