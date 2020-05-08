@@ -28,7 +28,7 @@ const Message = ({username, message, messageType, authUser}) => {
 
     return(
       <li className="messageLayout">
-        <MessageAuto username={username} message=" left the game" messageClass="" />
+        <MessageAuto username={username} message=" left the game" messageClass="messageAutoContent" />
       </li>
     );
 
@@ -36,7 +36,7 @@ const Message = ({username, message, messageType, authUser}) => {
  
     return(
       <li className="messageLayout">
-        <MessageAuto username={username} message=" join the game" messageClass="" />
+        <MessageAuto username={username} message=" join the game" messageClass="messageAutoContent" />
       </li>
     );
 
@@ -45,7 +45,7 @@ const Message = ({username, message, messageType, authUser}) => {
 
     return(
       <li className="messageLayout">
-        <MessageAuto username={username} message=" chose an answer"  />
+        <MessageAuto username={username} message=" chose an answer" messageClass="messageAutoContent" />
       </li>
     );
 

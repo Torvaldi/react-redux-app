@@ -20,6 +20,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 class Chat extends React.Component {
 
+  constructor(props){
+    super(props);
+
+    this.blockChat = React.createRef();
+  }
   /**
    * Handle socket event (message post)
    */
@@ -66,6 +71,11 @@ class Chat extends React.Component {
 
     });
 
+  }
+
+  componentDidUpdate = () => {
+    // force the scrool of the chatbox to always be at the bottom
+    this.blockChat.current.scrollTop = this.blockChat.current.scrollHeight;
   }
 
   /** update message change state */
@@ -120,12 +130,18 @@ class Chat extends React.Component {
       );
   }
 
+
+
+
   render(){
+
       return(
       <Fragment>
-          <ul className="chatMessageLayout">
-            { this.printChat() }
-          </ul>
+          <div id="chatBox" className="chatMessageBlockLayout">
+            <ul className="chatMessageLayout" ref={this.blockChat} >
+              { this.printChat() }
+            </ul>
+          </div>
           <form onSubmit={this.handleSubmit} className="chatFormLayout">
               <TextField
                   ref="chatInput"

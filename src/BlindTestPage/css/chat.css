@@ -1,6 +1,6 @@
 
 .chatMessageLayout {
-    height: 90%;
+    max-height: 100%;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -20,4 +20,12 @@
     margin: 0;
     background-color: var(--lighGrey);
     border-radius: 5px;
+
+}
+
+.chatMessageBlockLayout {
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
