@@ -18,8 +18,6 @@ const MessageBasic = ({usernameClass, username, message}) => {
 
 
 MessageBasic.propTypes = {
-    authUser: propTypes.object.isRequired,
-    user: propTypes.object.isRequired,
     message: propTypes.string.isRequired
 }
 

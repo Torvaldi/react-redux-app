@@ -68,6 +68,9 @@ io.on('connection', (socket) => {
     socket.to(ioHelper.getRoom(game.id)).emit(event.USER_JOIN_GAME, player.serialize());
   });
 
+  /**
+   * Chat
+   */
   socket.on(event.USER_POST_CHAT, (data) => {
     const { player, message, gameId } = data;
     socket.to(ioHelper.getRoom(gameId)).emit(event.USER_POST_CHAT, {player, message});
@@ -149,6 +152,9 @@ io.on('connection', (socket) => {
 
         // update players scores
         currentGame.updatePlayerScore();
+
+        // update players rank
+        currentGame.updatePlayerRank();
 
         // get players
         let players = currentGame.getAllPlayers();

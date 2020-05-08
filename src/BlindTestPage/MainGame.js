@@ -5,6 +5,7 @@ import './css/mainGame.css';
 import WaitingForPlayer from './MainGame/WaitingForPlayer';
 import Running  from './MainGame/Running';
 import EndGame from './MainGame/EndGame';
+import TopBar from './../components/MainGame/TopBar/TopBar';
 
 import socketEvent from '../socketEvent.json';
 
@@ -80,17 +81,30 @@ class MainGame extends React.Component {
     const { gameStatus, animes, io, game, authUser, runningStatus, turnResult, winners } = this.props;
     return(
      <Fragment>
-       {gameStatus === 1 ? <WaitingForPlayer /> : ''}
-       {gameStatus === 2 && animes ? 
-        <Running 
-          animes={animes} 
-          io={io} game={game} 
-          authUser={authUser} 
-          runningStatus={runningStatus}
-          turnResult={turnResult}
-        /> : ''}
-        {gameStatus === 3 && winners ? <EndGame winners={winners} /> : ''}
-        {gameStatus === undefined ? 'Loading' : ''}
+          <action className="mainGameContentLayout">
+            <action className="mainGametopBar">
+              <TopBar game={game} />
+            </action>
+            <action className="mainGameContent">
+              {gameStatus === 1 ? 
+              <WaitingForPlayer 
+                launchGame={this.props.launchGame}
+                game={game} 
+                authUser={authUser} 
+              /> : ''}
+              {gameStatus === 2 && animes ? 
+                <Running 
+                  animes={animes} 
+                  io={io} 
+                  game={game} 
+                  authUser={authUser} 
+                  runningStatus={runningStatus}
+                  turnResult={turnResult}
+                /> : ''}
+                {gameStatus === 3 && winners ? <EndGame winners={winners} /> : ''}
+                {gameStatus === undefined ? 'Loading' : ''}
+            </action>
+          </action>
      </Fragment>
     );
   }

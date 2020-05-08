@@ -25,7 +25,7 @@
 }
 
 .messageAuthUsername {
-    color: #212121;
+    color: var(--secondary);
 }
 
 .messageContent{
@@ -33,6 +33,12 @@
     color: white;
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    word-wrap: break-word;
+}
+
+.messageAutoContent{
+    color: white;
+    font-style: italic;
 }
 
 .messageAutoRight {

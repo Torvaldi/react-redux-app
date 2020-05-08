@@ -1,7 +1,7 @@
 
 .blindTestLayout {
-    height: 100%;
-    display: flex;
+   height: 100%;
+   display: flex;
 }
 
 .playerListLayout {
@@ -10,14 +10,17 @@
 
 .mainGameLayout{
     width: 70%;
-    background-color: var(--lighGrey);
-    border: 2px solid var(--grey);
+    background: linear-gradient(135deg, rgba(126,86,194,1) 0%, rgba(63,81,181,1) 39%, rgba(63,81,181,1) 100%);
+    height: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .chatLayout{
     width: 15%;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
     padding: 30px;
-    background: linear-gradient(0deg, rgba(31,45,78,1) 0%, rgba(63,81,181,1) 64%, rgba(126,87,194,1) 100%);
+    background-color: var(--darkBlue);
 }

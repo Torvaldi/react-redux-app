@@ -1,0 +1,20 @@
+
+.waitingForPlayerMain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: space-around;
+}
+
+.waitingForPlayerTextBlock {
+
+}
+.waitingForPlayerButton {
+
+}
+
+.waitingForPlayerText {
+    font-size: 1.5rem;
+    font-weight: lighter;
+}

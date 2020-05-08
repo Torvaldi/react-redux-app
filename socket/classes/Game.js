@@ -23,6 +23,7 @@ class Game {
         this.getCreatorToken = this.getCreatorToken.bind(this);
         this.getAnimes = this.getAnimes.bind(this);
         this.setAnimes = this.setAnimes.bind(this);
+        this.updatePlayerRank = this.updatePlayerRank.bind(this);
 
         this.id = id;
         this.creatorUserName = creatorUserName;
@@ -100,7 +101,7 @@ class Game {
      * retrive a player based on the given username parameter
      * @param {string} userName
      * @return {Player|null}
-     */
+     */2
     getPlayer(userName){
         if (this.playerExists(userName) === true) {
             return this.players.get(userName);
@@ -136,6 +137,25 @@ class Game {
             
         }
 
+    }
+
+    /**
+     * uptade the rank of players based on their score and order them by their score
+     * @return {void}
+     */
+    updatePlayerRank(){
+
+        this.players = new Map([...this.players.entries()].sort(function(a, b){
+            return b[1].getScore() - a[1].getScore()
+        }));
+
+        let rank = 1;
+        for (const [key, player] of this.players.entries())
+        {
+            console.log(player);
+            player.setRank(rank);
+            rank++;
+        }
     }
 
     /**

@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import propTypes from 'prop-types';
 
 import './player.css';
 import RoundIcon from '../../components/RoundIcon/RoundIcon';
 
-const Player = ({player, authUser}) => {
+const Player = ({player, authUser, count}) => {
 
   // change class for the authUser username
-  var usernameClass = 'playerListUsername';
+  var usernameClass = 'playerList playerListUsername';
   if(player.userName === authUser.username){
-    usernameClass = 'playerListAuthUsername';
+    usernameClass = 'playerList playerListAuthUsername';
   }
-  
+
+  var playerClass = 'player ';
+  if(count === 1){
+    playerClass += ' playerFirst'
+  } else if(count === 2 || count === 3){
+    playerClass += ' playerSecond'
+  } else {
+    playerClass += ' otherPlayer'
+  }
+
   return(
-    <li className="player" >
+    <li className={playerClass} >
       <span className={usernameClass}>{player.userName}</span>
       <RoundIcon data={player.score} />
     </li>

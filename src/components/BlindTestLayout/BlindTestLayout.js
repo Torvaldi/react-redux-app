@@ -6,7 +6,7 @@ import './blindTestLayout.css';
 const BlindTestLayout = (props) => {
   return (
     <section className="blindTestLayout">
-          <article className="playerListLayout ">
+          <article className="playerListLayout">
             {props.left}
           </article>
           <article className="mainGameLayout">
