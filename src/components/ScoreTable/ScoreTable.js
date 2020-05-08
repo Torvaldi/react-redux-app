@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 const ScoreTable = ( {turnResult} ) => {
 
   let count = 0;
+
   return (
     <section className="scoreTurnTable">
         <Table >
@@ -30,7 +31,6 @@ const ScoreTable = ( {turnResult} ) => {
             if(turn.score > 0){
               rowCss = 'tableRowScoreRight'
             }
-
             
             count++;
             return(

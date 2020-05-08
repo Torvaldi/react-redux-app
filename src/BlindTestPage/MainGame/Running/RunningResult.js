@@ -43,10 +43,27 @@ class RunningResult extends React.Component {
   }
 
   printScoreOfTheTurn = (turnResult) => {
-    //let orderedScore = orderScoreTurn(scores);
+
+    if(turnResult.length > 4){
+      // split the array in 2 array of the same size
+      let halfwayThrough = Math.floor(turnResult.length / 2)
+  
+      let arrayFirstHalf = turnResult.slice(0, halfwayThrough);
+      let arraySecondHalf = turnResult.slice(halfwayThrough, turnResult.length);
+  
+      return(
+        <div className="scoreTableContainer">
+          <ScoreTable turnResult={arrayFirstHalf} />
+          <ScoreTable turnResult={arraySecondHalf} />
+        </div>
+      );
+
+    }
+
     return(
       <ScoreTable turnResult={turnResult} />
-    )
+    );
+
   }
 
   render(){
