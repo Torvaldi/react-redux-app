@@ -171,7 +171,7 @@ io.on('connection', (socket) => {
     */
   socket.on(event.CHANGE_STATUS_2_TO_0, (data) => {
 
-    const { gameId } = data;
+    const { gameId, token } = data;
     let currentGame = currentGames.get(gameId);
 
     // check if there is a winner
@@ -183,7 +183,8 @@ io.on('connection', (socket) => {
       // set game status to finish
       api.updateDatabaseGameStatus(token, gameId, 3); 
 
-      // save userScore to the server
+      // save all players score to the server
+      api.savePlayerScore(token, currentGame.getAllPlayers(), gameId);
     }
 
     let timeout = statusHelper.getTimeout(2);

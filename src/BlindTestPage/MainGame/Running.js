@@ -16,13 +16,14 @@ class Running extends React.Component {
    * This method is called by children compenent
    */
   changeStatus = (ioStatusEvent) => {
-    const { io, runningStatus, authUser, game : { id, creator } } = this.props;
+    const { io, runningStatus, authUser, game : { id, creator }, token } = this.props;
 
     // the creator handle all the change status of the game
     if(authUser.username === creator){
       let data = { 
         gameId: id, 
         runningStatus,
+        token,
       };
       io.emit(ioStatusEvent, data);
     }
