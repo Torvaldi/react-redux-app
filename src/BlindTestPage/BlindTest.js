@@ -43,6 +43,15 @@ class BlindTest extends React.Component {
       this.props.onUpdateStatusState(2);
     });
 
+    io.on(socketEvent.CREATOR_LEAVE_GAME, () => {
+      // redirect other player to game list if the creator leaves the game
+      window.alert("The creator of the game left, you are going to be redirect to the game list");
+      setTimeout(() => {  
+        this.props.history.push('/game'); // redirect on game page; 
+      }, 3000);
+     
+    });
+
   }
 
   gameFinish = (winners) => {
