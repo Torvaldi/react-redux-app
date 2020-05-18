@@ -215,8 +215,18 @@ io.on('connection', (socket) => {
 
     currentGame.deletePlayer(player.username);
 
-    // send event to other player that the given player left the game
-    socket.to(ioHelper.getRoom(gameId)).emit(event.USER_LEAVE_GAME, { player });
+    // the user leaving the game is not the creator
+    if(currentGame.getCreatorUsername() !== player.username){
+      // send event to other player that the given player left the game
+      socket.to(ioHelper.getRoom(gameId)).emit(event.USER_LEAVE_GAME, { player });
+
+    // the user leaving the game is the creator
+    } else {
+
+      api.updateDatabaseGameStatus(token, gameId, 3); // set the game to finish
+
+      socket.to(ioHelper.getRoom(gameId)).emit(event.CREATOR_LEAVE_GAME);
+    }
 
   });
 

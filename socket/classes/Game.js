@@ -41,6 +41,14 @@ class Game {
     
     }
 
+    /**
+     * @return {string} the name of the creator of the game
+     */
+    getCreatorUsername()
+    {
+        return this.creatorUserName;
+    }
+
     setAnimes(animes){
         this.animes = animes;
     }
