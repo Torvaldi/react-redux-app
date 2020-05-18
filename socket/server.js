@@ -57,7 +57,6 @@ io.on('connection', (socket) => {
     else {
       player = currentGames.get(game.id).newPlayer(authUser.username);
     }
-    console.log(currentGames.get(game.id));
 
     // Notify the new player that they successfully
     // joined the game and send him all the players with their scores
@@ -172,14 +171,20 @@ io.on('connection', (socket) => {
     */
   socket.on(event.CHANGE_STATUS_2_TO_0, (data) => {
 
-    const { gameId } = data;
+    const { gameId, token } = data;
     let currentGame = currentGames.get(gameId);
 
     // check if there is a winner
     let winners = currentGame.checkWinner();
     if(winners.length > 0){
-      io.in(ioHelper.getRoom(gameId)).emit(event.GAME_FINISH, { winners }); // send winners to the players
-      api.updateDatabaseGameStatus(token, gameId, 3); // set game status to finish
+      // send winners to the players
+      io.in(ioHelper.getRoom(gameId)).emit(event.GAME_FINISH, { winners });
+
+      // set game status to finish
+      api.updateDatabaseGameStatus(token, gameId, 3); 
+
+      // save all players score to the server
+      api.savePlayerScore(token, currentGame.getAllPlayers(), gameId);
     }
 
     let timeout = statusHelper.getTimeout(2);
@@ -207,7 +212,7 @@ io.on('connection', (socket) => {
 
     // delete player in the game player list
     let currentGame = currentGames.get(gameId);
-    console.log(currentGames);
+
     currentGame.deletePlayer(player.username);
 
     // send event to other player that the given player left the game

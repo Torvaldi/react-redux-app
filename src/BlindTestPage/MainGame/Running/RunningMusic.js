@@ -67,21 +67,6 @@ class RunningMusic extends React.Component {
     )
   }
 
-  /**
-   * print to the user if they guess right or wrong
-   */
-  printFindAnimeResult = () => {
-    const { findAnime } = this.props;
-
-    let text = 'you are wrong';
-    if(findAnime === true){
-      text = 'you are right';
-    }
-    return(
-      <span>{text}</span>
-    )
-  }
-
   printAudioPlayer = () => {
     const { animeToGuess } = this.props;
     const url = getMoeLink(animeToGuess.openingToGuess.moe_link);

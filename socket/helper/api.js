@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 const API_GAME_UPDATE_STATUS = config.api_url + "api/game.status";
 const API_USER_LEAVE = config.api_url + "api/game.user.leave";
 const API_GET_ANIMES = config.api_url + "api/anime.index";
+const API_USER_SAVE_SCORE = config.api_url + "api/game.user.save";
 
 // TODO : prevent duplicate with client side
 const getAuthorizationHeader = (token) => {
@@ -45,8 +46,23 @@ async function getAnimes(token, level){
     return data;
   }
 
+
+function savePlayerScore(token, players, gameId)
+{
+    fetch(API_USER_SAVE_SCORE, {
+        method: 'PUT',
+        headers: getAuthorizationHeader(token),
+        body: JSON.stringify({
+            'gameId': gameId, 
+            'players' : players,
+        }),
+    });
+}
+
+
 module.exports = {
     updateDatabaseGameStatus,
     userLeaveGameDatabase,
     getAnimes,
+    savePlayerScore,
 }
