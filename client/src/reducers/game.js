@@ -30,10 +30,15 @@ export default (state = initialState, action) => {
                 userJoinGame: true,
             }
         case USER_RUNNING_GAME:
+
+            let userRunningGame = true;
+            if(Object.keys(action.payload).length === 0){
+                userRunningGame = false;
+            }
             return {
                 ...state,
                 runningGame: action.payload,
-                userRunningGame: true,
+                userRunningGame,
             }
         case UPDATE_FIELD_LEVEL:
             return {

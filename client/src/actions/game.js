@@ -66,13 +66,10 @@ export const getUserRunningGame = (dispatch, token) => {
   })
   .then(response => response.json())
   .then(result => {
-    // check if result.id exist, if so it means there are a result
-    if(result.id){
-      dispatch({
-        type: USER_RUNNING_GAME,
-        payload: result
-      });
-    }
+    dispatch({
+      type: USER_RUNNING_GAME,
+      payload: result
+    });
   });
 }
 

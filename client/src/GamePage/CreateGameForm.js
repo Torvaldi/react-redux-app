@@ -97,13 +97,13 @@ class CreateGameForm extends Component {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  InputProps={{ inputProps: { min: 4, max: 15 } }}
+                  InputProps={{ inputProps: { min: 5, max: 15 } }}
                   margin="normal"
                   variant="filled"
                   required
                   disabled={userRunningGame}
                 />
-                <FormHelperText className="game_create_text">Number of answers of the mCQ ! Min: 4, Max: 15</FormHelperText>
+                <FormHelperText className="game_create_text">Number of answers of the mCQ ! Min: 5, Max: 15</FormHelperText>
               </div>
               <div className="form_create_game_field">
                 <TextField

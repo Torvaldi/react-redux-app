@@ -226,6 +226,8 @@ io.on('connection', (socket) => {
       api.updateDatabaseGameStatus(token, gameId, 3); // set the game to finish
 
       socket.to(ioHelper.getRoom(gameId)).emit(event.CREATOR_LEAVE_GAME);
+
+      io.emit(event.GAME_UPDATE);
     }
 
   });
