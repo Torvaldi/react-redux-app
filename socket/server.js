@@ -1,7 +1,7 @@
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const event = require('./../src/socketEvent.json');
+const event = require('./socketEvent.json');
 
 const ioHelper = require('./helper/io');
 const statusHelper = require('./helper/status');
