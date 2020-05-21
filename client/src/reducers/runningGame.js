@@ -35,7 +35,7 @@ export default (state = initialState, action) => {
             };
         case REMOVE_PLAYER:
             let statePlayers = state.players;
-            let newPlayers = statePlayers.filter(player => player.userName != action.payload.username);
+            let newPlayers = statePlayers.filter(player => player.userName !== action.payload.username);
             return {
                 ...state,
                 players: newPlayers,

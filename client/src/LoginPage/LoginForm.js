@@ -101,7 +101,6 @@ class LoginForm extends Component {
             }
             label="Remember me"
           />
-          <a href="#" className="forgetPassword" href="#">Forget Password ?</a>
         </div>
         <div className="buttonField">
           <Button className="buttonLogin" type="submit" size="large" variant="contained" color="secondary">

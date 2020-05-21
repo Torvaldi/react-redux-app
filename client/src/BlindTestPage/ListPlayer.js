@@ -2,7 +2,6 @@ import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
 
 import socketEvent from '../socketEvent.json';
-import { getGameStatus } from '../helper/game';
 
 import Player from '../components/Player/Player';
 import Button from '@material-ui/core/Button';
@@ -57,7 +56,7 @@ class ListPlayer extends React.Component {
 
             <article className="listPlayerInfoUser">
               <article className="listPlayerInfoUserProfilePicLayout">
-                  <img className="listPlayerInfoUserProfilePic" src={profilePic}></img>
+                  <img className="listPlayerInfoUserProfilePic" alt="profile" src={profilePic}></img>
               </article>
               <article className="listPlayerInfoUserRight">
                 <h1 className="listPlayerInfoUserUsername">{authUser.username}</h1>

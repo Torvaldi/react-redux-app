@@ -17,10 +17,10 @@ import InfoBlock from './InfoBlock/InfoBlock';
 const GameList = ({
   joinGame, 
   gameType, 
-  game: { id, creator, timestamp, level, answer, score_to_win, total_player, status}
+  game: { id, creator, created_at, level, answer, score_to_win, total_player, status}
   }) => {
       // get date under the form of "created at x minutes ago"
-      let textCreationDate = getGamelistDateText(timestamp);
+      let textCreationDate = getGamelistDateText(created_at);
       
       // dynamic style
       var block_gamelist = 'block_gamelist';

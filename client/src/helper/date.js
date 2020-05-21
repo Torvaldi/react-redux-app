@@ -8,8 +8,9 @@ import 'moment-timezone';
  * Genere text based on the creation date of the game
  * @param {*int} timestamp 
  */
-export const getGamelistDateText = (timestamp) => {
-    let minutes = getDifferenceCurrentDate(timestamp);
+export const getGamelistDateText = (date) => {
+
+    let minutes = getDifferenceCurrentDate(date);
 
     if(minutes === 0){
         return "Created less than a minute ago";
@@ -24,18 +25,16 @@ export const getGamelistDateText = (timestamp) => {
 
 /**
  * get difference between given date and the curent date
- * @param {*string} timestamp 
+ * @param {*string} timestamp utc format
  * @return {*int} minutes
  */
-const getDifferenceCurrentDate = (timestamp) => {
-    // get current date and given date with auth user timezone
-    let date = getDateTime(timestamp);
-    let now = getDateTimeWithTimezone(new Date());
+const getDifferenceCurrentDate = (date) => {
+    let timestamp = Math.floor(new Date(date).getTime() / 1000);
+    let now = Math.floor(new Date().getTime() / 1000);
 
-    let differenceInSecond = parseInt((now-date)/1000);
+    let secondDifferent = (now - timestamp);
 
-    // get result into minutes and second, remove number after dot
-    let minutes = Math.floor(differenceInSecond / 60);
+    let minutes = Math.floor(secondDifferent / 60) - 120;
 
     return minutes;
 }
@@ -56,7 +55,7 @@ const getDateTime = (timestamp) => {
  * @return {Datetime}
  */
 const getDateTimeWithTimezone = (date) => {
-    return moment.tz(date, "America/New_York", getUserTimezone());
+    return moment.tz(date, "UTC", getUserTimezone());
 }
 
 /**

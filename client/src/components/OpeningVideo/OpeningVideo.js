@@ -10,10 +10,6 @@ import malLogo from '../../asset/myAnimeListLogo.png';
 
 class OpeningVideo extends React.Component {
 
-  constructor(props){
-    super(props);
-  }
-
   pause = (event) => {
     this.player.pause();
    }
