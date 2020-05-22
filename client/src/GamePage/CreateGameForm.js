@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import CloseIcon from '@material-ui/icons/Close';
 import './css/createGameForm.css';
+import { withRouter } from 'react-router-dom';
 
 import socketEvent from '../socketEvent.json';
 
@@ -44,19 +44,23 @@ class CreateGameForm extends Component {
    */
   submitForm = (token, level, answer, winningScore) => (event) => {
     event.preventDefault();
-    if(level && answer && winningScore){
-      this.props.onSubmit(token, level, answer, winningScore);
-    }
+
+    if(level > 3 || level < 1) return;
+    if(answer > 15 || answer < 5) return;
+    if(winningScore > 500 || winningScore < 10) return;
+
+    this.props.onSubmit(token, level, answer, winningScore);
+
+    const { io } = this.props;
+
+    io.emit(socketEvent.NEW_GAME);
+
+    this.props.history.push('/game/running');
+
   }
 
   render(){
-    const { token, level, answer, winningScore, userCreateGame, userRunningGame, io } = this.props;
-    
-    // redirect the user after creating a game
-    if(userCreateGame === true){
-      io.emit( socketEvent.NEW_GAME);
-      return <Redirect to="game/running" />
-    }
+    const { token, level, answer, winningScore, userRunningGame } = this.props;
 
     return(
       <section className="create_game_block">
@@ -121,6 +125,7 @@ class CreateGameForm extends Component {
                   required
                   disabled={userRunningGame}
                 />
+                 <FormHelperText className="game_create_text">From 10 to 500</FormHelperText>
               </div>
               <div className="create_game_button">
                 <Button type="submit" size="large" variant="contained" color="secondary" disabled={userRunningGame}>
@@ -136,4 +141,5 @@ class CreateGameForm extends Component {
     
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateGameForm);
+let component = connect(mapStateToProps, mapDispatchToProps)(CreateGameForm);
+export default withRouter(component);

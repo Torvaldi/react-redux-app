@@ -7,11 +7,13 @@ import socketEvent from '../socketEvent.json';
 import CreateGameForm from './CreateGameForm';
 
 import Button from '@material-ui/core/Button';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import GameList from '../components/GameList/GameList';
 import Pagination from '../components/Pagination/Pagination';
 import Alert from '../components/Alerte/Alert';
 import './css/gameAvalaible.css';
 import { withRouter } from 'react-router-dom';
+import { logOut } from './../helper/auth';
 
 const mapStateToProps = (state, ownProps) => ({...state.game, ...ownProps});
 
@@ -48,12 +50,14 @@ class GameAvalaible extends Component {
             this.props.onGameAvailable(token);
             this.props.onUserRunningGame(token);
         });
+
+        this.props.onOpenCreateForm(false);
     }
 
     openCreateGame = () => (event) => {
         event.preventDefault();
         const { isOpenCreateForm } = this.props;
-        this.props.onOpenCreateForm(isOpenCreateForm);
+        this.props.onOpenCreateForm(!isOpenCreateForm); // toogle form
     }
 
     /**
@@ -100,7 +104,7 @@ class GameAvalaible extends Component {
         return(
             <ul className="gamelist_list">
                 {currentGame.map((game) => {
-                   return <GameList game={game} joinGame={this.joinGame} gameType={gameType} />;
+                   return <GameList key={game.id} game={game} joinGame={this.joinGame} gameType={gameType} />;
                 })}
             </ul>
         );
@@ -119,7 +123,7 @@ class GameAvalaible extends Component {
         );
     }
 
-    /**isOpenCreateForm
+    /**
      * Print pagination if needed
      * @param {*object} game
      */
@@ -144,10 +148,18 @@ class GameAvalaible extends Component {
         );
     }
 
+    logOutUser = () => {
+        logOut();
+        
+        this.props.history.push('/home')
+    }
+
     render(){
         const { games, userRunningGame, runningGame, isOpenCreateForm } = this.props;
+
         return (
-         <section className="joinGame_container" >
+         <section className="joinGame_container">
+             <div onClick={this.logOutUser} title="log out" className="logOut_block"><ExitToAppIcon /></div>
              <article className="joinGame_block">
 
                 {/* Title and create ame button */}

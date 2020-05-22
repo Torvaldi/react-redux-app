@@ -77,7 +77,7 @@ class ListPlayer extends React.Component {
             })}
           </ul>
           <Button 
-            variant="contained" players
+            variant="contained"
             color="secondary"
             size="small"
             onClick={this.props.leaveGame}

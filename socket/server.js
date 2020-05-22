@@ -79,7 +79,7 @@ io.on('connection', (socket) => {
    * Event call when the game is launch
    */
   socket.on(event.LAUCH_GAME, (data) => {
-
+    console.log('game launch');
     const { gameId, token } = data;
 
     io.in(ioHelper.getRoom(gameId)).emit(event.LAUCH_GAME);
@@ -127,7 +127,7 @@ io.on('connection', (socket) => {
   });
 
   /**
-   * Change status from music pl
+   * Change status from music playing to score
   /**
    * @param data, contain the gameId and the runningStatus of this game
    * send back the switch event in (5, 15 or 30) seconds, depending of the runningStatus
@@ -139,30 +139,29 @@ io.on('connection', (socket) => {
     let currentGame = currentGames.get(gameId);
     let timeout = statusHelper.getTimeout(1);
 
-    let currentStatus = currentGame.getGameStatus();
-    if(currentStatus === statusHelper.gameStatus.musicPLaying){
-      // execute the following actions in x seconds
-      setTimeout( () => {
-        // Update game status
-        currentGame.setGameGameStatusResult();
+    // execute the following actions in x seconds
+    setTimeout( () => {
+        let currentStatus = currentGame.getGameStatus();
+        if(currentStatus === statusHelper.gameStatus.musicPLaying){
+          // Update game status
+          currentGame.setGameGameStatusResult();
 
-        // get turn scores
-        let turnResult = currentGame.getLastTurn().serialize();
+          // get turn scores
+          let turnResult = currentGame.getLastTurn().serialize();
 
-        // update players scores
-        currentGame.updatePlayerScore();
+          // update players scores
+          currentGame.updatePlayerScore();
+          // update players rank
+          currentGame.updatePlayerRank();
 
-        // update players rank
-        currentGame.updatePlayerRank();
+          // get players
+          let players = currentGame.getAllPlayers();
 
-        // get players
-        let players = currentGame.getAllPlayers();
-
-        // send turn scores to the clients
-        io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_1_TO_2, {turnResult, players});
+          // send turn scores to the clients
+          io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_1_TO_2, {turnResult, players});
+        }
 
       }, timeout);
-    }
   });
 
   /**
@@ -204,7 +203,7 @@ io.on('connection', (socket) => {
   /**
    * Event called when a user leave the game
    */
-  socket.on(event.USER_LEAVE_GAME, (data)=> {
+  socket.on(event.USER_LEAVE_GAME, (data) => {
     const { token, gameId, player } = data;
 
     // delete the user from game database
@@ -223,7 +222,7 @@ io.on('connection', (socket) => {
     // the user leaving the game is the creator
     } else {
 
-      api.updateDatabaseGameStatus(token, gameId, 3); // set the game to finish
+      api.updateDatabaseGameStatus(token, gameId, 4); // set the game to cancel
 
       socket.to(ioHelper.getRoom(gameId)).emit(event.CREATOR_LEAVE_GAME);
 
@@ -248,12 +247,35 @@ io.on('connection', (socket) => {
       turn.updatePlayerScore(authUser.username);
     }
 
-    turn.updatePlayerAnimeClicked(authUser.username, anime);
-    
     // update anime clicked
-
+    turn.updatePlayerAnimeClicked(authUser.username, anime);
     // emit other players if the current player got the answer right or wrong
     socket.to(ioHelper.getRoom(gameId)).emit(event.CLICK_ANSWER, {authUser});
+
+    turn.incrementeTotalAnswers();
+
+
+    // if all players have given an answer
+    if(turn.haveAllPlayerAnswer() === true){
+      // fash pass to the second next round
+
+      // Update game status
+      currentGame.setGameGameStatusResult();
+
+      // get turn scores
+      let turnResult = currentGame.getLastTurn().serialize();
+
+      // update players scores
+      currentGame.updatePlayerScore();
+      // update players rank
+      currentGame.updatePlayerRank();
+
+      // get players
+      let players = currentGame.getAllPlayers();
+
+      // send turn scores to the clients
+      io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_1_TO_2, {turnResult, players});
+    }
 
   });
 

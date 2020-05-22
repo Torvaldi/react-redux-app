@@ -138,6 +138,7 @@ class BlindTest extends React.Component {
     if(Object.keys(game).length === 0){
       gameEmpty = true;
     }
+    
     return(
       <Fragment>
       { gameEmpty === false ? 

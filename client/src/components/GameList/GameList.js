@@ -35,7 +35,7 @@ const GameList = ({
       }
       
       return(
-          <li className={block_gamelist} key={id}>
+          <li className={block_gamelist} key={id} >
             <section className="gamelist_info">
               <div className="gamelist_info_block">
                 <h2 className="gamelist_title">{creator}'s game</h2>

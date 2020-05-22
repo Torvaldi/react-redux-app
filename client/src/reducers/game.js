@@ -2,7 +2,6 @@ import {
     LOAD_AVALAIBLE_GAME,
     USER_JOIN_GAME,
     USER_RUNNING_GAME,
-    CREATE_GAME,
     UPDATE_FIELD_LEVEL,
     UPDATE_FIELD_ANSWER,
     UPDATE_FIELD_WINNING_SCORE,
@@ -55,27 +54,10 @@ export default (state = initialState, action) => {
                 ...state,
                 winningScore: action.payload.winningScore
             }
-        case CREATE_GAME:
-            if(action.payload.error === undefined){
-                return {
-                    ...state,
-                    userCreateGame: true,
-                }
-            }
-            return {
-                ...state,
-                userCreateGame: false,
-            }
         case OPEN_CREATE_FORM:
-            if(action.payload.isOpenCreateForm === true){
-                return {
-                    ...state,
-                    isOpenCreateForm: false 
-                }
-            }
             return {
                 ...state,
-                isOpenCreateForm: true 
+                isOpenCreateForm: action.payload.isOpenCreateForm 
             }
         default:
             return state;

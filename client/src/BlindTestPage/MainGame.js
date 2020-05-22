@@ -81,11 +81,11 @@ class MainGame extends React.Component {
     const { gameStatus, animes, io, game, authUser, runningStatus, turnResult, winners, token } = this.props;
     return(
      <Fragment>
-          <action className="mainGameContentLayout">
-            <action className="mainGametopBar">
+          <article className="mainGameContentLayout">
+            <article className="mainGametopBar">
               <TopBar game={game} />
-            </action>
-            <action className="mainGameContent">
+            </article>
+            <article className="mainGameContent">
               {gameStatus === 1 ? 
               <WaitingForPlayer 
                 launchGame={this.props.launchGame}
@@ -104,8 +104,8 @@ class MainGame extends React.Component {
                 /> : ''}
                 {gameStatus === 3 && winners ? <EndGame winners={winners} /> : ''}
                 {gameStatus === undefined ? 'Loading' : ''}
-            </action>
-          </action>
+            </article>
+          </article>
      </Fragment>
     );
   }

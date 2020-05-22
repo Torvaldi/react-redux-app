@@ -6,7 +6,6 @@ import StarIcon from '@material-ui/icons/Star';
 import InfoBlock from './../../GameList/InfoBlock/InfoBlock';
 
 const TopBar = ({game}) => {
-  console.log(game)
   return (
     <Fragment>
       <article className="topBarContent">

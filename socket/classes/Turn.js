@@ -20,6 +20,12 @@ class Turn {
         this.setRank = this.setRank.bind(this);
         this.getRank = this.getRank.bind(this);
         this.setAnime =  this.setAnime.bind(this)
+        this.setPlayerTotal = this.setPlayerTotal.bind(this);
+        this.getTotalPlayer = this.getTotalPlayer.bind(this);
+        this.setTotalAnswers = this.setTotalAnswers.bind(this);
+        this.getTotalAnswer = this.getTotalAnswer.bind(this);
+        this.incrementeTotalAnswers = this.incrementeTotalAnswers.bind(this);
+        this.haveAllPlayerAnswer = this.haveAllPlayerAnswer.bind(this);
 
         // Initialise the score of the turn for each player
         this.scores = new Map();
@@ -34,11 +40,58 @@ class Turn {
             this.scores.set(player.getUsername(), playerScore)
         }
 
-        // initialise rank to 0
+        // initialise rank to 1
         this.setRank(1);
 
+        // initialise animes of the turn
         this.setAnime(new AnimeTurn(animes, anwserCount));
 
+        // initialise the total of player for this turn
+        this.setPlayerTotal(players.size);
+
+        // initialise the number of answer given, start with 0
+        this.setTotalAnswers(0);
+
+    }
+
+    /**
+     * set the total of player in the turn
+     * @param {*int} playerTotal 
+     */
+    setPlayerTotal(playerTotal)
+    {
+        this.playerTotal = playerTotal;
+    }
+
+    /**
+     * @return {int}
+     */
+    getTotalPlayer()
+    {
+        return this.playerTotal;
+    }
+
+    /**
+     * @param {int}
+     */
+    setTotalAnswers(totalAnswer){
+        this.totalAnswer = totalAnswer;
+    }
+
+    /**
+     * @return {int}
+     */
+    getTotalAnswer()
+    {
+        return this.totalAnswer;
+    }
+
+    /**
+     * @return {void}
+     */
+    incrementeTotalAnswers()
+    {
+        this.setTotalAnswers(this.totalAnswer + 1);
     }
 
     /**
@@ -78,7 +131,6 @@ class Turn {
     }
 
     /**
-     * 
      * @param {*string} username 
      */
     getPlayerScore(username){
@@ -86,6 +138,13 @@ class Turn {
             return null;
         }
         return this.scores.get(username);
+    }
+
+    /**
+     * @return {bool}
+     */
+    haveAllPlayerAnswer(){
+        return this.getTotalPlayer() === this.getTotalAnswer();
     }
 
     /**
