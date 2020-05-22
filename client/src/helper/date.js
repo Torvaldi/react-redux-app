@@ -1,7 +1,4 @@
 
-// https://momentjs.com/timezone/
-import moment from 'moment';
-import 'moment-timezone';
 // CANT BE TESTED: as it used timezone and current date information
 
 /**
@@ -29,40 +26,21 @@ export const getGamelistDateText = (date) => {
  * @return {*int} minutes
  */
 const getDifferenceCurrentDate = (date) => {
+    // get given date and current date in second
     let timestamp = Math.floor(new Date(date).getTime() / 1000);
     let now = Math.floor(new Date().getTime() / 1000);
 
-    let secondDifferent = (now - timestamp);
+    // get utc offset of te current date in minutes
+    let timezoneOffset = new Date().getTimezoneOffset();
 
-    let minutes = Math.floor(secondDifferent / 60) - 120;
+    // get différence between the 2 date and add the utc offset (*60 to have it in second and not in minutes)
+    let secondDifferent = (now - timestamp) + (timezoneOffset * 60);
+
+    // convert second to minutes
+    let minutes = Math.floor(secondDifferent / 60);
 
     return minutes;
 }
 
-/**
- * get datetime with auth user timezone
- * @param {*string} timestamp 
- */
-const getDateTime = (timestamp) => {
-    let dateTime = new Date(timestamp);
-    return getDateTimeWithTimezone(dateTime);
-}
 
-/**
- * Set datime to user timezone
- * Source: https://stackoverflow.com/questions/10087819/convert-date-to-another-timezone-in-javascript
- * @param {Datetime} date
- * @return {Datetime}
- */
-const getDateTimeWithTimezone = (date) => {
-    return moment.tz(date, "UTC", getUserTimezone());
-}
-
-/**
- * get auth user timezone
- * @return {*string} timezone, ex Europe/Paris
- */
-const getUserTimezone = () => {
-    return Intl.DateTimeFormat().resolvedOptions().timeZone
-}
 
