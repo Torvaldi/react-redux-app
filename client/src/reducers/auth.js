@@ -12,7 +12,9 @@ import {
 
 let defaultState = {
     username: null,
-    password: null
+    password: null,
+    errorLogin: null,
+    token: null,
 }
 
 export default (state = defaultState, action) => {
@@ -53,6 +55,13 @@ export default (state = defaultState, action) => {
                 messageRegister: action.payload.messageRegister
             }
         case LOGIN:
+            if(action.payload.error === undefined){
+                return {
+                    ...state,
+                    token : action.payload.token,
+                    errorLogin: null,
+                }
+            }
             return {
                 ...state,
                 errorLogin: action.payload.error,

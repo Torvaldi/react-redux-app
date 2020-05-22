@@ -11,7 +11,6 @@ export async function tokenVerify(token){
 }
 
 /**
- * @param {*string} cookie ex : "username=falia"
  * @return {*string}
  * Split string after the = 
  * Separate function so its easier to test as we have to set a cookie
@@ -33,3 +32,22 @@ export const tokenDecode = (token) => {
     return jwtJsDecode.jwtDecode(token);
 }
 
+export const logOut = () => {
+    document.cookie = 'token=""';
+}
+
+/**
+ * check if user is log in
+ * @return {bool}
+ */
+export async function isLogIn() {
+    let token = getCookie('token');
+
+    if(token === null || token.length === 0 || token === '""'){
+      return false;
+    }
+
+    const tokenValid = await tokenVerify(token);
+
+    return tokenValid;
+}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { login, changeUsername, changePassword, resetErrorLogin, resetSucessRegister } from '../actions/auth';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 
 import TextField from '@material-ui/core/TextField';
@@ -10,6 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Alert from '../components/Alerte/Alert';
 import '../css/authForm.css';
+import { withRouter } from 'react-router-dom';
 
 
 const mapStateToProps = (state) => ({ ...state.auth });
@@ -50,12 +51,19 @@ class LoginForm extends Component {
     }
   }
 
+  connect = (token) => {
+    document.cookie = "token=" + token;
+    
+    this.props.history.push('/game');
+  }
+
   render() {
     const { username, password, errorLogin, token } = this.props;
-    if (token) {
-      document.cookie = "token=" + this.props.token;
-      return <Redirect to="/game" />;
+    
+    if (token !== null && errorLogin === null) {
+      this.connect(token);
     }
+    
 
     let alerteLogin = "";
     if (errorLogin) {
@@ -128,4 +136,5 @@ LoginForm.propTypes = {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+let component = connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default withRouter(component);

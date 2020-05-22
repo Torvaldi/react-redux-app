@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import AuthLayout from '../components/AuthLayout/AuthLayout';
 import Image from '../components/LoginImage/LoginImage';
 import ImageLogin from '../asset/login.jpg';
 import RegisterForm from './RegisterForm';
+import { isLogIn } from './../helper/auth';
+import { withRouter } from 'react-router-dom';
 
-const Register = (props) => {
+class Register extends Component {
+
+  render(){
+
+    // prevent from accessing the page if the user is already log in
+    isLogIn().then((response) => {
+
+      if(response === false) return
+      
+      this.props.history.push('/game');
+  
+    });
+
     return (
       <AuthLayout
       text={
@@ -19,6 +33,7 @@ const Register = (props) => {
       }
       />
     );
+  }
 }
 
-export default Register;
+export default withRouter(Register);

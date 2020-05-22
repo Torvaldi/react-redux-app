@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { tokenVerify, getCookie, tokenDecode } from '../helper/auth';
+import { getCookie, tokenDecode, isLogIn } from '../helper/auth';
 import { Redirect } from 'react-router-dom';
 import { setTokenSucess, setTokenError } from '../actions/token';
 
@@ -16,19 +16,18 @@ const mapDispatchToProps = (dispatch) => ({
 class AuthRoute extends React.Component {
 
   componentDidMount = () => {
-    let token = getCookie('token');
 
-    if(token === null || token.length === 0){
-      this.props.onSetTokenError(true);
-      return;
-    }
-  
-    tokenVerify(token).then(result => {
+    isLogIn().then((response) => {
+
+      if(response === false){
+        this.props.onSetTokenError(true);
+        return;
+      }
+      
+      let token = getCookie('token');
       let user = tokenDecode(token);
       this.props.onSetTokenSucess(true, token, user);
-    })
-    .catch(error => {
-      this.props.onSetTokenError(true);
+  
     });
     
   }
