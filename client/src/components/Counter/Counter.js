@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import './counter.css'
 
 class Counter extends React.Component {
@@ -24,11 +24,27 @@ class Counter extends React.Component {
     this.setState({currentCount: this.state.currentCount - 1});
   }
 
+  renderCounter = () => {
+    return (
+      <section className="counterBlock">
+          <span className="counterText">Remaining time : <span className="counterSecond">{this.state.currentCount}</span></span>
+      </section>
+    );
+  }
+
+  renderErrorTimeout = () => {
+    return (
+      <section className="counterBlock">
+          <span className="counterTextTimeout">Error while connecting with the game's creator, wait until they come back or leave the game</span>
+      </section>
+    );
+  }
+
   render(){
       return (
-        <section className="counterBlock">
-            <span className="counterText">Remaining time : <span className="counterSecond">{this.state.currentCount}</span></span>
-        </section>
+        <Fragment>
+          {this.state.currentCount >= 0 ? this.renderCounter() : this.renderErrorTimeout()}
+        </Fragment>
       );
   }
 }

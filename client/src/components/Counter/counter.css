@@ -12,3 +12,8 @@
 .counterSecond {
     font-weight: bold;
 }
+
+.counterTextTimeout {
+    color: red;
+    font-weight: bold;
+}
