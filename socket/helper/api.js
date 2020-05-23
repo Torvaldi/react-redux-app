@@ -1,4 +1,4 @@
-const config = require('./../../src/config.json');
+const config = require('./../config.json');
 const fetch = require('node-fetch');
 
 const API_GAME_UPDATE_STATUS = config.api_url + "api/game.status";

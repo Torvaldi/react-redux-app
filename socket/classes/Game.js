@@ -160,7 +160,6 @@ class Game {
         let rank = 1;
         for (const [key, player] of this.players.entries())
         {
-            console.log(player);
             player.setRank(rank);
             rank++;
         }

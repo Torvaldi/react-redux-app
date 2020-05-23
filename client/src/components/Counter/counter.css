@@ -1,0 +1,19 @@
+
+.counterBlock {
+    display: flex;
+    justify-content: center;
+    margin: 25px 0;
+}
+
+.counterText {
+    color: var(--darkGrey);
+}
+
+.counterSecond {
+    font-weight: bold;
+}
+
+.counterTextTimeout {
+    color: red;
+    font-weight: bold;
+}

@@ -1,5 +1,5 @@
 
-const waitingTrun = require('./../../src/waitingTrun.json');
+const waitingTrun = require('./../waitingTurn.json');
 
 function getTimeMilisecond(time){
     return time*1000;
