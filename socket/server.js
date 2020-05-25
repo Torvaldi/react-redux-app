@@ -221,7 +221,7 @@ io.on('connection', (socket) => {
 
     // the user leaving the game is the creator
     } else {
-
+      
       api.updateDatabaseGameStatus(token, gameId, 4); // set the game to cancel
 
       socket.to(ioHelper.getRoom(gameId)).emit(event.CREATOR_LEAVE_GAME);

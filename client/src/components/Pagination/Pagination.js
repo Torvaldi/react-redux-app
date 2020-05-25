@@ -7,14 +7,14 @@ import propTypes from 'prop-types';
 const Pagination = ({left, right, max, current}) => {
   const parameter ="?page=";
 
-  let cssLeft = '';
-  let cssRight = '';
+  let cssLeft = 'hover_default';
+  let cssRight = 'hover_default';
 
   if(current === 0 && left === 0){
     cssLeft = 'disable_pagination';
   }
 
-  if(current === max && right === max){
+  if(current === max){
     cssRight = 'disable_pagination';
   }
 

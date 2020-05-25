@@ -156,7 +156,7 @@ class GameAvalaible extends Component {
 
     render(){
         const { games, userRunningGame, runningGame, isOpenCreateForm } = this.props;
-
+        
         return (
          <section className="joinGame_container">
              <div onClick={this.logOutUser} title="log out" className="logOut_block"><ExitToAppIcon /></div>
