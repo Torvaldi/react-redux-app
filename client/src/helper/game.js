@@ -38,14 +38,18 @@ export const pagination = (data) => {
     // add data into separete array of GAME_BY_PAGE size
     let result = [];
     let start = 0;
-    for (var i = 0; i < maxPage; i++) {
-        result.push(data.slice(start, GAME_BY_PAGE));
-        start+=GAME_BY_PAGE;
+    let i;
+    for (i = 0; i < maxPage; i++) {
+        let dataSlice = data.slice(start, start + GAME_BY_PAGE);
+        start += GAME_BY_PAGE;
+        result.push(dataSlice);
     }
 
     // push remaning data at the end of the array
-    result.push(data.slice(-remaning));
-    
+    if(remaning > 0){
+        result.push(data.slice(-remaning));
+    }
+
     return result
 }
 
@@ -60,7 +64,7 @@ export const pagination = (data) => {
  */
 export const getPaginationInputData = (data) => {
     // get maxPage and currentPage and be sure there are of integer type
-    let maxPage = parseInt(getMaxPage(data));
+    let maxPage = parseInt(getMaxPage(data)) - 1;
     let currentPage = parseInt(getCurrentPage(data));
 
     // avoid to set a page that does not exist
@@ -70,7 +74,7 @@ export const getPaginationInputData = (data) => {
     }
 
     let right = currentPage + 1;
-    if(right > maxPage){
+    if(right >= maxPage){
         right = maxPage;
     }
 
@@ -98,8 +102,12 @@ export const getCurrentPage = (data) => {
 
     let maxPage = getMaxPage(data);
 
-    if(page > maxPage){
-        return maxPage;
+    if(page >= maxPage){
+        return maxPage -1;
+    }
+
+    if(page < 0){
+        return 0;
     }
 
     return page;
@@ -112,5 +120,5 @@ export const getCurrentPage = (data) => {
  */
 export const getMaxPage = (data) => {
     let length = data.length;
-    return  Math.floor(length/GAME_BY_PAGE);
+    return Math.ceil(length/GAME_BY_PAGE);
 }

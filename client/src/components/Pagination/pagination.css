@@ -1,8 +1,12 @@
 .disable_pagination {
     cursor: not-allowed;
-    background-color: #eeeeee;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .default_pagination {
     font-size: 2rem;
+}
+
+.hover_default:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
