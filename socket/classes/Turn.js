@@ -190,10 +190,9 @@ class Turn {
 
         // retrive anime name in japanese and english
         let animeNames = {
-            nameUs: anime.nameUs,
-            nameJap: anime.nameJap
+            nameUs: anime.name_us,
+            nameJap: anime.name_jap
         }
-
         // update player last answer
         this.scores.set(username, {...playerScore, lastAnswer: animeNames});
     }
