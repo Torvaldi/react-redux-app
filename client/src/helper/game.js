@@ -122,3 +122,41 @@ export const getMaxPage = (data) => {
     let length = data.length;
     return Math.ceil(length/GAME_BY_PAGE);
 }
+
+// array use to print music type values on the create form and on the game list visual
+const musicType = [
+    {
+      value: 0,
+      label: 'Opening',
+      shortValue : "OP"
+    },
+    {
+      value: 1,
+      label: 'Ending',
+      shortValue : "ED"
+    },
+    {
+        value: 2,
+        label: 'Opening and Ending',
+        shortValue : "OP/ED"
+    },
+];
+
+/**
+ * @return {array}
+ */
+export const getMusicTypeOptions = () => {
+    return musicType;
+}
+
+/**
+ * @param {int} givenType 
+ * @return {string}
+ */
+export const getMusicTypeByValue = (givenType) => {
+    let musicTypeArray = musicType.find((type) => type.value === givenType);
+    
+    if(musicTypeArray === undefined) return 'N/A';
+
+    return musicTypeArray.shortValue;
+}

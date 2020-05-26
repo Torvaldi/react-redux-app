@@ -5,6 +5,7 @@ import {
     UPDATE_FIELD_LEVEL,
     UPDATE_FIELD_ANSWER,
     UPDATE_FIELD_WINNING_SCORE,
+    UPDATE_FIELD_MUSIC_TYPE,
     OPEN_CREATE_FORM,
 } from '../actions/game';
 
@@ -53,6 +54,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 winningScore: action.payload.winningScore
+            }
+        case UPDATE_FIELD_MUSIC_TYPE:
+            return {
+                ...state,
+                musicType: action.payload.musicType
             }
         case OPEN_CREATE_FORM:
             return {

@@ -10,7 +10,7 @@ export const SET_TURN_RESULT = 'SET_TURN_RESULT';
 
 // to delete
 export function getAnimes(dispatch, data){
-    fetch(API_GET_ANIMES + '?level=' + data.level, {
+    fetch(API_GET_ANIMES + '?level=' + data.level + '&musicType=' + data.musicType, {
         method: 'GET',
         headers: getAuthorizationHeader(data.token),
       })

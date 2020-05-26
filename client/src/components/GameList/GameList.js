@@ -11,13 +11,15 @@ import GroupIcon from '@material-ui/icons/Group';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import ViewModuleIcon from '@material-ui/icons/ViewModule';
 import StarIcon from '@material-ui/icons/Star';
+import MusicNoteIcon from '@material-ui/icons/MusicNote';
 
 import InfoBlock from './InfoBlock/InfoBlock';
+import { getMusicTypeByValue } from './../../helper/game';
 
 const GameList = ({
   joinGame, 
   gameType, 
-  game: { id, creator, created_at, level, answer, score_to_win, total_player, status}
+  game: { id, creator, created_at, level, answer, score_to_win, total_player, musicType , status}
   }) => {
       // get date under the form of "created at x minutes ago"
       let textCreationDate = getGamelistDateText(created_at);
@@ -55,6 +57,11 @@ const GameList = ({
                 icon={<TrendingUpIcon />}
                 title={"Level"}
                 data={level}
+              />
+              <InfoBlock 
+                icon={<MusicNoteIcon />}
+                title={"Type"}
+                data={getMusicTypeByValue(musicType)}
               />
               <InfoBlock 
                 icon={<ViewModuleIcon />}

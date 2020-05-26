@@ -5,15 +5,17 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import CloseIcon from '@material-ui/icons/Close';
+import MenuItem from '@material-ui/core/MenuItem';
 import './css/createGameForm.css';
 import { withRouter } from 'react-router-dom';
 
 import socketEvent from '../socketEvent.json';
-
+import { getMusicTypeOptions } from './../helper/game';
 import { 
   changeLevel, 
   changeAnswer, 
-  changeWinningScore, 
+  changeWinningScore,
+  changeMusicType,
   storeGame 
 } from '../actions/game';
 
@@ -26,8 +28,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(changeAnswer(answer)),
   onChangeWinningScore: (winningScore) =>
     dispatch(changeWinningScore(winningScore)),
-  onSubmit: (token, level, answer, winningScore) =>
-    storeGame(dispatch, token, {level, answer, winningScore}),
+  onChangeMusicType: (musicType) =>
+    dispatch(changeMusicType(musicType)),
+  onSubmit: (token, level, answer, winningScore, musicType) =>
+    storeGame(dispatch, token, {level, answer, winningScore, musicType}),
 });
 
 class CreateGameForm extends Component {
@@ -35,6 +39,7 @@ class CreateGameForm extends Component {
   changeLevel = (event) => this.props.onChangeLevel(event.target.value);
   changeAnswer = (event) => this.props.onChangeAnswer(event.target.value);
   changeWinningScore = (event) => this.props.onChangeWinningScore(event.target.value);
+  changeMusicType = (event) => this.props.onChangeMusicType(event.target.value);
 
   /**
    * @param {*string} token, auth token
@@ -42,25 +47,25 @@ class CreateGameForm extends Component {
    * @param {*string} answer, number of the mCQ answer
    * @param {*string} winningScore, score needed to win the game
    */
-  submitForm = (token, level, answer, winningScore) => (event) => {
+  submitForm = (token, level, answer, winningScore, musicType) => (event) => {
     event.preventDefault();
 
     if(level > 3 || level < 1) return;
     if(answer > 15 || answer < 5) return;
     if(winningScore > 500 || winningScore < 10) return;
-
-    this.props.onSubmit(token, level, answer, winningScore);
+    if(musicType > 2 || musicType < 0) return;
+    
+    this.props.onSubmit(token, level, answer, winningScore, musicType);
 
     const { io } = this.props;
 
     io.emit(socketEvent.NEW_GAME);
 
     this.props.history.push('/game/running');
-
   }
 
   render(){
-    const { token, level, answer, winningScore, userRunningGame } = this.props;
+    const { token, level, answer, winningScore, musicType, userRunningGame } = this.props;
 
     return(
       <section className="create_game_block">
@@ -72,7 +77,7 @@ class CreateGameForm extends Component {
           <section className="create_form_content">
             <h2 className="title_create_game">Create Game</h2>
             <p className="text_create_game">You want to create your own game ? </p>
-            <form className="form_create_game" onSubmit={this.submitForm(token, level, answer, winningScore)} >
+            <form className="form_create_game" onSubmit={this.submitForm(token, level, answer, winningScore, musicType)} >
               <div className="form_create_game_field">
                 <TextField
                   id="outlined-number"
@@ -126,6 +131,29 @@ class CreateGameForm extends Component {
                   disabled={userRunningGame}
                 />
                  <FormHelperText className="game_create_text">From 10 to 500</FormHelperText>
+                 <div className="form_create_game_field">
+                  <TextField
+                      id="outlined-number"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      select
+                      label="type"
+                      type="number"
+                      className="game_create_field"
+                      onChange={this.changeMusicType}
+                      value={musicType}
+                      margin="normal"
+                      variant="filled"
+                      required
+                    >
+                    {getMusicTypeOptions().map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </div>
               </div>
               <div className="create_game_button">
                 <Button type="submit" size="large" variant="contained" color="secondary" disabled={userRunningGame}>

@@ -30,8 +30,8 @@ class MainGame extends React.Component {
    * handle io event here and get animes use for the blind test
    */
   componentDidMount = () => {
-    const { token, game : { level }, io } = this.props;
-    let data = { token, level };
+    const { token, game : { level, musicType }, io } = this.props;
+    let data = { token, level, musicType };
     this.props.onGetAnimes(data);
 
      // switch running game status every x second

@@ -4,6 +4,8 @@ import './topBar.css';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import StarIcon from '@material-ui/icons/Star';
 import InfoBlock from './../../GameList/InfoBlock/InfoBlock';
+import MusicNoteIcon from '@material-ui/icons/MusicNote';
+import { getMusicTypeByValue } from './../../../helper/game';
 
 const TopBar = ({game}) => {
   return (
@@ -23,6 +25,12 @@ const TopBar = ({game}) => {
             icon={<TrendingUpIcon />}
             title={"Answers"}
             data={game.answer}
+            type={"small"}
+          />
+          <InfoBlock 
+            icon={<MusicNoteIcon />}
+            title={"Type"}
+            data={getMusicTypeByValue(game.musicType)}
             type={"small"}
           />
           <InfoBlock 

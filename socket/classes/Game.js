@@ -11,7 +11,7 @@ const gameStatus = statusHelper.gameStatus;
  */
 class Game {
 
-    constructor (id, creatorUserName, difficultyLevel, answersCount, winningScore, token)
+    constructor (id, creatorUserName, difficultyLevel, answersCount, winningScore, musicType, token)
     {
         this.playerExists = this.playerExists.bind(this);
         this.newPlayer = this.newPlayer.bind(this);
@@ -30,13 +30,14 @@ class Game {
         this.difficultyLevel = difficultyLevel;
         this.answersCount = answersCount;
         this.winningScore = winningScore;
+        this.musicType = musicType;
         this.status = gameStatus.waiting;
         this.players = new Map();
         this.players.set(creatorUserName, new Player(creatorUserName));
         this.turns = new Map();
         this.creatorToken = token;
 
-        api.getAnimes(token, difficultyLevel)
+        api.getAnimes(token, difficultyLevel, musicType)
         .then((animes) => this.setAnimes(animes));
     
     }

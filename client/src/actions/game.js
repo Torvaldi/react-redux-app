@@ -13,6 +13,7 @@ export const USER_RUNNING_GAME = 'USER_RUNNING_GAME';
 export const UPDATE_FIELD_LEVEL = 'UPDATE_FIELD_LEVEL';
 export const UPDATE_FIELD_ANSWER = 'UPDATE_FIELD_ANSWER';
 export const UPDATE_FIELD_WINNING_SCORE = 'UPDATE_FIELD_WINNING_SCORE';
+export const UPDATE_FIELD_MUSIC_TYPE = 'UPDATE_FIELD_MUSIC_TYPE';
 export const OPEN_CREATE_FORM = 'OPEN_CREATE_FORM';
 
 /**
@@ -80,7 +81,8 @@ export const storeGame = (dispatch, token, data) => {
     body: JSON.stringify({
       'level': data.level, 
       'answer': data.answer,
-      'score_to_win': data.winningScore
+      'score_to_win': data.winningScore,
+      'musicType': data.musicType
     }),
   })
   .then(response => response.json())
@@ -137,6 +139,13 @@ export function changeWinningScore(winningScore){
   }
 }
 
+
+export function changeMusicType(musicType){
+  return {
+    type: UPDATE_FIELD_MUSIC_TYPE,
+    payload: { musicType }
+  }
+}
 /**
  * User REjoin game action
  * it call USER_JOIN_GAME event as userJoinGame function but does not perform api call

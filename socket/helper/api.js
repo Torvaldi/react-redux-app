@@ -36,8 +36,8 @@ function userLeaveGameDatabase(token, gameId){
     });
 }
 
-async function getAnimes(token, level){
-    let response = await fetch(API_GET_ANIMES + '?level=' + level, {
+async function getAnimes(token, level, musicType){
+    let response = await fetch(API_GET_ANIMES + '?level=' + level + '&musicType=' + musicType, {
         method: 'GET',
         headers: getAuthorizationHeader(token),
       });
