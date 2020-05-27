@@ -43,24 +43,25 @@ io.on('connection', (socket) => {
       currentGames.set(game.id, new Game(game.id, game.creator, game.level, game.answer, game.score_to_win, game.musicType, token));
     }
     let player;
+    let currentGame = currentGames.get(game.id);
     // Check if this player already existed in this game
-    if (currentGames.get(game.id).playerExists(authUser.username) === true) {
-      player = currentGames.get(game.id).getPlayer(authUser.username);
+    if (currentGame.playerExists(authUser.username) === true) {
+      player = currentGame.getPlayer(authUser.username);
 
       // retrives the game status and send it to the player
-      let gameStatus = currentGames.get(game.id).getRunningStatus();
+      let gameStatus = currentGame.getRunningStatus();
       if(gameStatus != 0){ // does not send it if its 0 because the default value on the client is 0
         socket.emit(event.UPDATE_GAME_STATUS, {status: gameStatus});
       }
     }
     // Otherwise create it
     else {
-      player = currentGames.get(game.id).newPlayer(authUser.username);
+      player = currentGame.newPlayer(authUser.username);
     }
 
     // Notify the new player that they successfully
     // joined the game and send him all the players with their scores
-    socket.emit(event.GAME_JOINED_SUCCESSFULLY, currentGames.get(game.id).getAllPlayers());
+    socket.emit(event.GAME_JOINED_SUCCESSFULLY, currentGame.getAllPlayers());
 
     // Send notification to other players that a new player joined
     // as well as he's score
