@@ -126,6 +126,11 @@ export const getMaxPage = (data) => {
 // array use to print music type values on the create form and on the game list visual
 const musicType = [
     {
+        value: 2,
+        label: 'Opening and Ending',
+        shortValue : "OP/ED"
+    },
+    {
       value: 0,
       label: 'Opening',
       shortValue : "OP"
@@ -134,12 +139,7 @@ const musicType = [
       value: 1,
       label: 'Ending',
       shortValue : "ED"
-    },
-    {
-        value: 2,
-        label: 'Opening and Ending',
-        shortValue : "OP/ED"
-    },
+    }
 ];
 
 /**

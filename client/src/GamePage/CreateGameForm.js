@@ -53,7 +53,10 @@ class CreateGameForm extends Component {
     if(level > 3 || level < 1) return;
     if(answer > 15 || answer < 5) return;
     if(winningScore > 500 || winningScore < 10) return;
-    if(musicType > 2 || musicType < 0) return;
+
+    if(musicType > 2 || musicType < 0 || musicType === undefined) {
+      musicType = 2 // set by default to anime and ending
+    }
     
     this.props.onSubmit(token, level, answer, winningScore, musicType);
 
@@ -142,7 +145,7 @@ class CreateGameForm extends Component {
                       type="number"
                       className="game_create_field"
                       onChange={this.changeMusicType}
-                      value={musicType}
+                      value={musicType ? musicType : 2}
                       margin="normal"
                       variant="filled"
                       required
