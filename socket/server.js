@@ -35,6 +35,8 @@ io.on('connection', (socket) => {
     // fetch player list (fetch api)
     const { game, authUser, token } = data;
 
+    console.log('user join game');
+
     socket.join(ioHelper.getRoom(game.id));
 
     // Check if this is a new game, otherwise create it
@@ -44,6 +46,7 @@ io.on('connection', (socket) => {
     }
     let player;
     let currentGame = currentGames.get(game.id);
+    
     // Check if this player already existed in this game
     if (currentGame.playerExists(authUser.username) === true) {
       player = currentGame.getPlayer(authUser.username);
@@ -101,6 +104,9 @@ io.on('connection', (socket) => {
    * Change status from waiting time to music playing
    */
   socket.on(event.CHANGE_STATUS_0_TO_1, (data) => {
+
+    console.log('status change witing to music');
+
     const { gameId } = data;
 
     let currentGame = currentGames.get(gameId);
@@ -134,6 +140,9 @@ io.on('connection', (socket) => {
    * send back the switch event in (5, 15 or 30) seconds, depending of the runningStatus
    */
   socket.on(event.CHANGE_STATUS_1_TO_2, (data) => {
+
+    console.log('status change music to result');
+
     const { gameId } = data;
 
     // get currentGame
@@ -170,6 +179,8 @@ io.on('connection', (socket) => {
      * send back the switch event in (5, 15 or 30) seconds, depending of the runningStatus
     */
   socket.on(event.CHANGE_STATUS_2_TO_0, (data) => {
+
+    console.log('status change result to waiting');
 
     const { gameId, token } = data;
     let currentGame = currentGames.get(gameId);
@@ -209,6 +220,9 @@ io.on('connection', (socket) => {
    * Event called when a user leave the game
    */
   socket.on(event.USER_LEAVE_GAME, (data) => {
+
+    console.log('user leave a game');
+
     const { token, gameId, player } = data;
 
     // delete the user from game database

@@ -1,9 +1,18 @@
 
-import { GET_GAME, UPDATE_GAME_STATUS, SET_ALL_PLAYERS, ADD_NEW_PLAYER, GET_WINNERS, REMOVE_PLAYER } from '../actions/runningGame';
+import { 
+    GET_GAME, 
+    UPDATE_GAME_STATUS, 
+    SET_ALL_PLAYERS, 
+    ADD_NEW_PLAYER, 
+    GET_WINNERS, 
+    REMOVE_PLAYER, 
+    CLEAR_GAME 
+} from '../actions/runningGame';
 
 let initialState = {
     gameStatus: 1,
     players : [],
+    game: null,
 }
 
 export default (state = initialState, action) => {
@@ -23,6 +32,11 @@ export default (state = initialState, action) => {
                 game: action.payload,
                 gameStatus,
             };
+        case CLEAR_GAME:
+            return {
+                ...state,
+                game: action.payload.game
+            }
         case UPDATE_GAME_STATUS:
             return {
                 ...state,

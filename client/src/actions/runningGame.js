@@ -6,6 +6,7 @@ export const SET_ALL_PLAYERS = 'SET_ALL_PLAYERS';
 export const GET_WINNERS = 'GET_WINNERS';
 export const ADD_NEW_PLAYER = 'ADD_NEW_PLAYER';
 export const REMOVE_PLAYER =  'REMOVE_PLAYER';
+export const CLEAR_GAME = 'CLEAR_GAME';
 
 /**
  * get game data (level, answer etc)
@@ -58,5 +59,12 @@ export function removePlayer(player){
   return {
     type: REMOVE_PLAYER,
     payload: player,
+  }
+}
+
+export function clearGame(){
+  return {
+    type: CLEAR_GAME,
+    payload : { game: null }
   }
 }

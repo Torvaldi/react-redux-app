@@ -7,6 +7,8 @@ import {
     UPDATE_FIELD_WINNING_SCORE,
     UPDATE_FIELD_MUSIC_TYPE,
     OPEN_CREATE_FORM,
+    CREATE_GAME,
+    RESET_GAME_CREATE
 } from '../actions/game';
 
 const initialState = {
@@ -14,6 +16,7 @@ const initialState = {
     userRunningGame: false,
     userCreateGame: false,
     isOpenCreateForm: false,
+    isGameCreate: false,
 }
 
 export default (state = initialState, action) => {
@@ -64,6 +67,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 isOpenCreateForm: action.payload.isOpenCreateForm 
+            }
+        case CREATE_GAME:
+            return {
+                ...state,
+                isGameCreate: true,
             }
         default:
             return state;

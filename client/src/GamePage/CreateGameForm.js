@@ -16,7 +16,8 @@ import {
   changeAnswer, 
   changeWinningScore,
   changeMusicType,
-  storeGame 
+  storeGame,
+  resetGameCreate
 } from '../actions/game';
 
 const mapStateToProps = (state, ownProps) => ({...state.game, ...ownProps});
@@ -35,6 +36,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 class CreateGameForm extends Component {
+
 
   changeLevel = (event) => this.props.onChangeLevel(event.target.value);
   changeAnswer = (event) => this.props.onChangeAnswer(event.target.value);
@@ -67,8 +69,9 @@ class CreateGameForm extends Component {
     this.props.history.push('/game/running');
   }
 
+
   render(){
-    const { token, level, answer, winningScore, musicType, userRunningGame } = this.props;
+    const { token, level, answer, winningScore, musicType, userRunningGame, isGameCreate } = this.props;
 
     return(
       <section className="create_game_block">
