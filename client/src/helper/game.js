@@ -123,30 +123,29 @@ export const getMaxPage = (data) => {
     return Math.ceil(length/GAME_BY_PAGE);
 }
 
-// array use to print music type values on the create form and on the game list visual
-const musicType = [
-    {
-        value: 2,
-        label: 'Opening and Ending',
-        shortValue : "OP/ED"
-    },
-    {
-      value: 0,
-      label: 'Opening',
-      shortValue : "OP"
-    },
-    {
-      value: 1,
-      label: 'Ending',
-      shortValue : "ED"
-    }
-];
 
 /**
  * @return {array}
  */
 export const getMusicTypeOptions = () => {
-    return musicType;
+     // array use to print music type values on the create form and on the game list visual
+     return [
+        {
+            value: 2,
+            label: 'Opening and Ending',
+            shortValue : "OP/ED"
+        },
+        {
+          value: 0,
+          label: 'Opening',
+          shortValue : "OP"
+        },
+        {
+          value: 1,
+          label: 'Ending',
+          shortValue : "ED"
+        }
+    ];
 }
 
 /**
@@ -154,9 +153,39 @@ export const getMusicTypeOptions = () => {
  * @return {string}
  */
 export const getMusicTypeByValue = (givenType) => {
-    let musicTypeArray = musicType.find((type) => type.value === givenType);
+    let musicTypeArray = getMusicTypeOptions().find((type) => type.value === givenType);
     
     if(musicTypeArray === undefined) return 'N/A';
 
     return musicTypeArray.shortValue;
+}
+
+
+export const getLevelOptions = () => {
+    return [
+        {
+            value: 1,
+            label: "Easy",
+        },
+        {
+            value: 2,
+            label: "Normal",
+        },
+        {
+            value: 3,
+            label: "Hard"
+        }
+    ];
+}
+
+/**
+ * @param {int} givenType 
+ * @return {string}
+ */
+export const getLevelByValue = (givenLevel) => {
+    let levelArray = getLevelOptions().find((type) => type.value === givenLevel);
+    
+    if(levelArray === undefined) return 'N/A';
+
+    return levelArray.label;
 }

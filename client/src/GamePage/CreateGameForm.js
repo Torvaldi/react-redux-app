@@ -8,6 +8,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import MenuItem from '@material-ui/core/MenuItem';
 import './css/createGameForm.css';
 import { withRouter } from 'react-router-dom';
+import { getLevelOptions } from './../helper/game';
 
 import socketEvent from '../socketEvent.json';
 import { getMusicTypeOptions } from './../helper/game';
@@ -17,7 +18,6 @@ import {
   changeWinningScore,
   changeMusicType,
   storeGame,
-  resetGameCreate
 } from '../actions/game';
 
 const mapStateToProps = (state, ownProps) => ({...state.game, ...ownProps});
@@ -89,17 +89,25 @@ class CreateGameForm extends Component {
                   id="outlined-number"
                   label="Level"
                   type="number"
+                  select
                   className="game_create_field"
                   onChange={this.changeLevel}
                   InputLabelProps={{
                     shrink: true,
                   }}
+                  value={level ? level : 1}
                   InputProps={{ inputProps: { min: 1, max: 3 } }}
                   margin="normal"
                   variant="filled"
                   required
                   disabled={userRunningGame}
-                />
+                >
+                {getLevelOptions().map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                </TextField>
                 <FormHelperText className="game_create_text" >The smaller is it, the more famous the animes are</FormHelperText>
               </div>
               <div className="form_create_game_field">
@@ -130,13 +138,13 @@ class CreateGameForm extends Component {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  InputProps={{ inputProps: { min: 10 } }}
+                  InputProps={{ inputProps: { min: 10, max: 300 } }}
                   margin="normal"
                   variant="filled"
                   required
                   disabled={userRunningGame}
                 />
-                 <FormHelperText className="game_create_text">From 10 to 500</FormHelperText>
+                 <FormHelperText className="game_create_text">From 10 to 300</FormHelperText>
                  <div className="form_create_game_field">
                   <TextField
                       id="outlined-number"

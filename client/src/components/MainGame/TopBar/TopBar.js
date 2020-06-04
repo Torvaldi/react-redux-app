@@ -6,6 +6,7 @@ import StarIcon from '@material-ui/icons/Star';
 import InfoBlock from './../../GameList/InfoBlock/InfoBlock';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import { getMusicTypeByValue } from './../../../helper/game';
+import { getLevelByValue } from './../../../helper/game';
 
 const TopBar = ({game}) => {
   return (
@@ -18,7 +19,7 @@ const TopBar = ({game}) => {
           <InfoBlock 
             icon={<TrendingUpIcon />}
             title={"Level"}
-            data={game.level}
+            data={getLevelByValue(game.level)}
             type={"small"}
           />
           <InfoBlock 

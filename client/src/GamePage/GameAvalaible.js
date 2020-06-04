@@ -150,7 +150,6 @@ class GameAvalaible extends Component {
 
     logOutUser = () => {
         logOut();
-        
         this.props.history.push('/home')
     }
 
@@ -159,7 +158,9 @@ class GameAvalaible extends Component {
         
         return (
          <section className="joinGame_container">
-             <div onClick={this.logOutUser} title="log out" className="logOut_block"><ExitToAppIcon /></div>
+            <div className="logOut_block">
+                <span className="logOut_button" onClick={this.logOutUser} title="log out"><ExitToAppIcon /> </span>
+            </div>
              <article className="joinGame_block">
 
                 {/* Title and create ame button */}

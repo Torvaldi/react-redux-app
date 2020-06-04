@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 
 import { getGamelistDateText } from '../../helper/date';
-import { getGameStatus } from '../../helper/game';
+import { getGameStatus, getLevelByValue } from '../../helper/game';
 
 import './gameList.css'
 import Button from '@material-ui/core/Button';
@@ -56,7 +56,7 @@ const GameList = ({
               <InfoBlock 
                 icon={<TrendingUpIcon />}
                 title={"Level"}
-                data={level}
+                data={getLevelByValue(level)}
               />
               <InfoBlock 
                 icon={<MusicNoteIcon />}
