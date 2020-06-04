@@ -5,7 +5,6 @@ const API_GAME_UPDATE_STATUS = config.api_url + "api/game.status";
 const API_USER_LEAVE = config.api_url + "api/game.user.leave";
 const API_GET_ANIMES = config.api_url + "api/anime.index";
 const API_USER_SAVE_SCORE = config.api_url + "api/game.user.save";
-const API_GET_GAME = config.api_url + '/api/game';
 
 // TODO : prevent duplicate with client side
 const getAuthorizationHeader = (token) => {
@@ -60,22 +59,9 @@ function savePlayerScore(token, players, gameId)
     });
 }
 
-
-async function getGame(id)
-{
-    let response = await fetch(API_GET_GAME + '?id=' + id, {
-        method: 'GET',
-    });
-
-    let game = await response.json()
-    
-    return game;
-}
-
 module.exports = {
     updateDatabaseGameStatus,
     userLeaveGameDatabase,
     getAnimes,
     savePlayerScore,
-    getGame
 }
