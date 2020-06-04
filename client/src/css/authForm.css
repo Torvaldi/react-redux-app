@@ -1,0 +1,61 @@
+
+.formField {
+    width: 100%;
+}
+
+.textField {
+    margin: 0;
+    background-color: var(--lighGrey);
+    border-radius: 5px;
+}
+
+.formExtra {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    color: white;
+}
+
+.buttonField {
+    margin-top: 40px;
+}
+
+/* rewrite default value of material UI */
+.buttonLogin {
+    margin-right: 10px !important;
+}
+
+.textField {
+    width: 100%;
+}
+
+.forgetPassword {
+    color: var(--darkGrey);
+}
+
+.forgetPassword:hover {
+    color:var(--secondary);
+}
+
+/* mobile */
+@media only screen and (max-width: 480px) {
+    .formExtra {
+      flex-direction: column;
+    }
+    .formExtra a{
+        margin-top: 15px;
+    }
+    .buttonField{
+        display: flex;
+        flex-direction: column;
+    }
+    .buttonLogin {
+        margin-right: 0px !important;
+    }
+    .buttonRegister {
+        width: 100%;
+        margin-top: 30px !important;
+    }
+    
+}

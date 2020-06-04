@@ -1,0 +1,54 @@
+
+.messageLayout {
+    list-style-type: none;
+    /*
+    background-color: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #212121;
+    */
+    padding: 10px 15px;
+}
+
+.messageUsernameLayout {
+}
+
+.messageContentLayout {
+}
+
+.messageUsername, .messageAuthUsername {
+    font-weight: bold;
+    color: white;
+   
+}
+
+.messageUsername {
+    /**/
+}
+
+.messageAuthUsername {
+    color: var(--secondary);
+}
+
+.messageContent{
+    margin: 5px 0 0 0;
+    color: white;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    word-wrap: break-word;
+}
+
+.messageAutoContent{
+    color: white;
+    font-style: italic;
+}
+
+.messageAutoRight {
+    color: #8bc34a
+}
+
+.messageAutoWrong {
+    color: red;
+}
+
+.messageAutoWrong, .messageAutoRight {
+    font-style: italic;
+}

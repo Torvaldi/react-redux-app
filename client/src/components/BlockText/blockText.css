@@ -1,0 +1,16 @@
+.authText {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.authText_text {
+    line-height: 180%;
+    color: var(--darkGrey);
+}
+
+.authText_title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: white;
+}

@@ -1,0 +1,136 @@
+
+/** General block **/
+.block_gamelist, .block_gamelist_disable {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    padding: 20px;
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+    animation-name: fadeIn;
+    animation-duration: 800ms;
+}
+
+/** Default block **/
+.block_gamelist {
+    background-color:var(--darkBlue);
+}
+
+/** Disable block **/
+.block_gamelist_disable {
+    background-color: rgba(90, 90, 90, 0.75);
+}
+
+.block_gamelist_disable .config_detail_data {
+    color: grey;
+}
+
+.block_gamelist_disable .gamelist_title {
+    color: grey;
+}
+
+.gamelist_info_block {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 5px;
+}
+
+.gamelist_title{
+    margin: 3px 0;
+    color: white;
+    font-weight: lighter;
+}
+
+.gamelist_time {
+    color: var(--darkGrey);
+}
+
+.time_detail {
+    font-weight: bold;
+}
+
+/* section inside gamelist */
+
+.gamelist_join {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gamelist_info {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0px 15px;
+}
+
+.gamelist_config {
+    display: flex;
+    justify-content: space-around;
+    width: 65%;
+}
+
+
+.status_title {
+    color: var(--secondary);
+    margin-left: 10px;
+}
+
+/* mobile */
+@media only screen and (max-width: 1024px) {
+    /* Gamelist container */
+    .block_gamelist, .block_gamelist_disable {
+      flex-direction: column;
+      align-items: center;
+      
+    }
+
+    /* Date and title block */
+    .gamelist_info{
+        text-align: center;
+        width: 100%;
+        margin-bottom: 25px;
+    }
+
+    .gamelist_config {
+        margin-bottom: 25px;
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    /* block title and (game statut if any) */
+    .gamelist_info_block {
+        justify-content: center;
+    }
+
+}
+
+@media only screen and (max-width: 550px) {
+    .gamelist_config {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    .joinGame_block_title {
+        flex-direction: column;
+    }
+
+    .title_game_avalaible {
+       text-align: center;
+       margin-bottom: 15px !important; /* overide default value*/
+    }
+
+    .gamelist_info_block{
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .alertBlockInfo {
+        text-align: center;
+    }
+}

@@ -1,0 +1,47 @@
+
+.player {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .2);
+    /*padding: 20px 30px;*/
+    margin: 8px 0;
+    width: 80%;
+    animation-name: bounceInLeft;
+    animation-duration: 800ms;
+}
+/*
+todo different css if there are a lot of player
+.playerFirst {
+    height: 70px;
+}
+
+.playerSecond {
+    height: 55px;
+}
+
+.otherPlayer {
+    height: 40px;
+}
+
+.playerFirst .playerList {
+    font-size: 1.3rem;
+}
+*/
+
+.playerList {
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 20px 0;
+    text-shadow: 1px 1px 1px #212121;
+}
+
+
+.playerListUsername {
+    color: white;
+}
+
+.playerListAuthUsername {
+    color: var(--secondary);
+    font-weight: bold;
+}

@@ -1,0 +1,63 @@
+
+.turnResultBlock {
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0 30px 0;
+    width: 70%;
+}
+
+.resultTitle {
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    margin: 0 0 35px 0;
+    text-align: center;
+}
+
+.resultInfoBlock {
+    border: var(--grey) solid 1px;
+}
+
+.resultInfoList {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: var(--lightGrey);
+    margin: 0;
+    padding: 15px;
+}
+
+.resutltInfoItemLabel {
+    font-weight: bold;
+}
+
+.resultInfoItem {
+    list-style: none;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.containerVideo {
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+}
+
+
+.resultVideoOverflow {
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 10;
+    width: 450px;
+    height: 260px;
+    position: absolute;
+}
+
+.resultVideoOverflow:hover{
+    background-color: rgba(0, 0, 0, 0.0);
+}
+
+.scoreTurnTable {
+    width: 70%;
+}

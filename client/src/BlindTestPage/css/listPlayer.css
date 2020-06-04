@@ -1,0 +1,113 @@
+.listPlayerLayout{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color : var(--darkBlue);
+    background-size: cover;
+    height: 100%;
+}
+
+
+.listPlayerInfo {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--grey);
+}
+
+.listPlayerInfoUser {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+
+.listPlayerInfoUserProfilePicLayout {
+    width: 50%;
+}
+
+.listPlayerInfoUserProfilePic {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+}
+
+.listPlayerInfoUserRight {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.listPlayerInfoUserUsername {
+ font-size: 1.1rem;
+ margin: 2px;
+ 
+}
+
+.listPlayerInfoUserRank {
+    font-size: 2.1rem;
+}
+
+.listPlayerInfoUserScore {
+    font-size: 1.1rem;
+}
+
+.listPlayerInfoUserScore, .listPlayerInfoUserRank, .listPlayerInfoUserUsername {
+    margin: 2px 0;
+    color: white;
+    
+}
+
+.playerTitle {
+    font-size: 1.6rem;
+    margin: 20px 0;
+    color: white;
+}
+
+
+.playerScoreToWin, .playerLevel, .playerStatus {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #212121;
+}
+
+.playerScoreToWinData, .playerLevelData, .playerStatusData {
+    font-weight: bold;
+}
+
+.listPlayer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    margin: O;
+    width: 100%;
+}
+
+.listPlayerLabel{
+    display: flex;
+    justify-content: space-around;
+    padding: 0 30px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.playerLabel, .playerScore {
+    color: var(--darkGrey);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.listPlayerImageLayout {
+    display: flex;
+    justify-content: center;
+}
+
+.listPlayerImage {
+    width: 220%;
+}
+
+.buttonLauchGame {
+    margin: 10px 0 !important; /* to rewrite default margin value */
+}
