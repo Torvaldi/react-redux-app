@@ -142,7 +142,7 @@ class GameAvalaible extends Component {
     }
 
     printCreateForm = () => {
-        const { user, token, io,  } = this.props;
+        const { user, token, io } = this.props;
         return (
             <CreateGameForm  user={user} token={token} io={io} openCreateGame={this.openCreateGame} />
         );
@@ -150,7 +150,7 @@ class GameAvalaible extends Component {
 
     logOutUser = () => {
         logOut();
-        this.props.history.push('/home')
+        this.props.history.push('/')
     }
 
     render(){

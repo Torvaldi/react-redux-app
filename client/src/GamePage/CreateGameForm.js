@@ -47,7 +47,6 @@ class CreateGameForm extends Component {
     body.style.overflow = 'auto';
   }
 
-
   changeLevel = (event) => this.props.onChangeLevel(event.target.value);
   changeAnswer = (event) => this.props.onChangeAnswer(event.target.value);
   changeWinningScore = (event) => this.props.onChangeWinningScore(event.target.value);

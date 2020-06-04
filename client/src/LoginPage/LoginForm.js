@@ -60,9 +60,12 @@ class LoginForm extends Component {
   render() {
     const { username, password, errorLogin, token } = this.props;
     
+    console.log(token)
+    console.log(errorLogin)
     if (token !== null && errorLogin === null) {
       this.connect(token);
     }
+    
     
 
     let alerteLogin = "";
@@ -102,11 +105,11 @@ class LoginForm extends Component {
         <div className="buttonField">
           <Button className="buttonLogin" type="submit" size="large" variant="contained" color="secondary">
             Login
-                    </Button>
+          </Button>
           <Link to="/register">
             <Button className="buttonRegister" size="large" variant="outlined" color="secondary">
               Sign up
-                        </Button>
+            </Button>
           </Link>
         </div>
       </form>
