@@ -35,32 +35,36 @@ io.on('connection', (socket) => {
     // fetch player list (fetch api)
     const { game, authUser, token } = data;
 
+    console.log('user join game');
+
     socket.join(ioHelper.getRoom(game.id));
 
     // Check if this is a new game, otherwise create it
     // using given game parameters
     if (currentGames.has(game.id) === false) {
-      currentGames.set(game.id, new Game(game.id, game.creator, game.level, game.answer, game.score_to_win, token));
+      currentGames.set(game.id, new Game(game.id, game.creator, game.level, game.answer, game.score_to_win, game.musicType, token));
     }
     let player;
+    let currentGame = currentGames.get(game.id);
+    
     // Check if this player already existed in this game
-    if (currentGames.get(game.id).playerExists(authUser.username) === true) {
-      player = currentGames.get(game.id).getPlayer(authUser.username);
+    if (currentGame.playerExists(authUser.username) === true) {
+      player = currentGame.getPlayer(authUser.username);
 
       // retrives the game status and send it to the player
-      let gameStatus = currentGames.get(game.id).getRunningStatus();
+      let gameStatus = currentGame.getRunningStatus();
       if(gameStatus != 0){ // does not send it if its 0 because the default value on the client is 0
         socket.emit(event.UPDATE_GAME_STATUS, {status: gameStatus});
       }
     }
     // Otherwise create it
     else {
-      player = currentGames.get(game.id).newPlayer(authUser.username);
+      player = currentGame.newPlayer(authUser.username);
     }
 
     // Notify the new player that they successfully
     // joined the game and send him all the players with their scores
-    socket.emit(event.GAME_JOINED_SUCCESSFULLY, currentGames.get(game.id).getAllPlayers());
+    socket.emit(event.GAME_JOINED_SUCCESSFULLY, currentGame.getAllPlayers());
 
     // Send notification to other players that a new player joined
     // as well as he's score
@@ -100,6 +104,9 @@ io.on('connection', (socket) => {
    * Change status from waiting time to music playing
    */
   socket.on(event.CHANGE_STATUS_0_TO_1, (data) => {
+
+    console.log('status change witing to music');
+
     const { gameId } = data;
 
     let currentGame = currentGames.get(gameId);
@@ -133,6 +140,9 @@ io.on('connection', (socket) => {
    * send back the switch event in (5, 15 or 30) seconds, depending of the runningStatus
    */
   socket.on(event.CHANGE_STATUS_1_TO_2, (data) => {
+
+    console.log('status change music to result');
+
     const { gameId } = data;
 
     // get currentGame
@@ -170,6 +180,8 @@ io.on('connection', (socket) => {
     */
   socket.on(event.CHANGE_STATUS_2_TO_0, (data) => {
 
+    console.log('status change result to waiting');
+
     const { gameId, token } = data;
     let currentGame = currentGames.get(gameId);
 
@@ -184,6 +196,10 @@ io.on('connection', (socket) => {
 
       // save all players score to the server
       api.savePlayerScore(token, currentGame.getAllPlayers(), gameId);
+
+      // TODO 2 make statistic ?
+
+      // TODO delete game of current game object
     }
 
     let timeout = statusHelper.getTimeout(2);
@@ -204,6 +220,9 @@ io.on('connection', (socket) => {
    * Event called when a user leave the game
    */
   socket.on(event.USER_LEAVE_GAME, (data) => {
+
+    console.log('user leave a game');
+
     const { token, gameId, player } = data;
 
     // delete the user from game database

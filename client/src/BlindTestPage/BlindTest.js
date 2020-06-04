@@ -9,7 +9,7 @@ import MainGame from './MainGame';
 import io from '../socket';
 import socketEvent from './../socketEvent.json'
 
-import { getGame, updateStatusState, setPlayers, setWinners, addPlayer, removePlayer } from '../actions/runningGame';
+import { getGame, updateStatusState, setPlayers, setWinners, addPlayer, removePlayer, clearGame } from '../actions/runningGame';
 import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = (state, ownProps) => ({...state.runningGame, ...ownProps});
@@ -17,6 +17,8 @@ const mapStateToProps = (state, ownProps) => ({...state.runningGame, ...ownProps
 const mapDispatchToProps = (dispatch) => ({
   onGetGame: (token) => 
     getGame(dispatch, token),
+  onClearGame: () =>
+    dispatch(clearGame()),
   onUpdateStatusState: (status) =>
     dispatch(updateStatusState(status)),
   onSetPlayers: (players) =>
@@ -32,8 +34,8 @@ const mapDispatchToProps = (dispatch) => ({
 class BlindTest extends React.Component {
   
   componentDidMount = () => {
-    const { token} = this.props;
-
+    const { token, game } = this.props;
+    console.log(game);
     this.props.onGetGame(token);
 
     io.on(socketEvent.LAUCH_GAME, () => {
@@ -52,6 +54,11 @@ class BlindTest extends React.Component {
     });
 
   }
+
+  componentWillUnmount = () => {
+    this.props.onClearGame();
+  }
+
 
   gameFinish = (winners) => {
     this.props.onUpdateStatusState(3);
@@ -88,6 +95,7 @@ class BlindTest extends React.Component {
   launchGame = (event) => {
     event.preventDefault();
     const { token, game } = this.props;
+    console.log(game);
   
     // call launch game event 
     io.emit(socketEvent.LAUCH_GAME, { gameId: game.id, token});
@@ -100,7 +108,7 @@ class BlindTest extends React.Component {
     event.preventDefault();
     if(window.confirm("Are you sure you want to leave ? You may not be able to join again and your score won't be save")){
       const { token, game, user } = this.props;
-
+      console.log(game);
       // call the userLeave event
       let data = {
         token, 
@@ -134,6 +142,7 @@ class BlindTest extends React.Component {
    */
   printGame = () => {
     const { token, game, user, gameStatus, players, winners } = this.props;
+    
     let gameEmpty = false;
     if(Object.keys(game).length === 0){
       gameEmpty = true;

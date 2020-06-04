@@ -38,7 +38,7 @@ class AuthRoute extends React.Component {
     if(sucessToken === true){
       return <Component token={this.props.token} user={this.props.user.payload} />;
     } else if(errorToken === true){
-      return <Redirect to="/home" />
+      return <Redirect to="/" />
     } else {
       return <div></div>
     }

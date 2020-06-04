@@ -19,6 +19,7 @@
     justify-content: space-between;
     align-items: center;
     border-left: 2px solid black;
+    overflow-y: scroll;
 }
 
 .create_block_dark_background{

@@ -9,13 +9,13 @@ import TopBar from './../components/MainGame/TopBar/TopBar';
 
 import socketEvent from '../socketEvent.json';
 
-import { switchRunningStatus, getAnimes, setTurnResult, setAnimeToGuess } from '../actions/mainGame';
+import { switchRunningStatus, /*getAnimes,*/ setTurnResult, setAnimeToGuess } from '../actions/mainGame';
 
 const mapStateToProps = (state, ownProps) => ({...state.mainGame, ...ownProps});
 
 const mapDispatchToProps = (dispatch) => ({
-  onGetAnimes: (data) =>
-    getAnimes(dispatch, data),
+ // onGetAnimes: (data) =>
+  //  getAnimes(dispatch, data),
   onSwitchRunningStatus: (status) =>
     dispatch(switchRunningStatus(status)),
   onSetTurnResult: (turnResult) =>
@@ -30,9 +30,9 @@ class MainGame extends React.Component {
    * handle io event here and get animes use for the blind test
    */
   componentDidMount = () => {
-    const { token, game : { level }, io } = this.props;
-    let data = { token, level };
-    this.props.onGetAnimes(data);
+    const { token, game : { level, musicType }, io } = this.props;
+    let data = { token, level, musicType };
+    //this.props.onGetAnimes(data);
 
      // switch running game status every x second
      io.on(socketEvent.CHANGE_STATUS_0_TO_1, (data) => {
@@ -92,9 +92,8 @@ class MainGame extends React.Component {
                 game={game} 
                 authUser={authUser} 
               /> : ''}
-              {gameStatus === 2 && animes ? 
+              {gameStatus === 2 ? 
                 <Running 
-                  animes={animes} 
                   io={io} 
                   game={game} 
                   authUser={authUser} 
