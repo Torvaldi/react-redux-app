@@ -37,6 +37,16 @@ const mapDispatchToProps = (dispatch) => ({
 
 class CreateGameForm extends Component {
 
+  componentDidMount = () => {
+    let body = document.querySelector('body');
+    body.style.overflow = 'hidden';
+  }
+
+  componentWillUnmount = () => {
+    let body = document.querySelector('body');
+    body.style.overflow = 'auto';
+  }
+
 
   changeLevel = (event) => this.props.onChangeLevel(event.target.value);
   changeAnswer = (event) => this.props.onChangeAnswer(event.target.value);

@@ -99,17 +99,6 @@ class LoginForm extends Component {
             required
           />
         </div>
-        <div className="formExtra">
-          <FormControlLabel
-            control={
-              <Checkbox
-                value="checkedB"
-                color="secondary"
-              />
-            }
-            label="Remember me"
-          />
-        </div>
         <div className="buttonField">
           <Button className="buttonLogin" type="submit" size="large" variant="contained" color="secondary">
             Login
