@@ -96,6 +96,8 @@ class GameAvalaible extends Component {
 
         let currentGame = gamesPaginate[currentPage];
 
+        if(currentGame === undefined) return;
+
         let gameType = '';
         if(this.props.userRunningGame === true){
             gameType = 'disable';
