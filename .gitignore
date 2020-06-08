@@ -32,3 +32,6 @@ yarn-error.log*
 
 dump.rdb
 
+#prod
+.well-known/
+.htaccess
