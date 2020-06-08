@@ -6,8 +6,6 @@ import propTypes from 'prop-types';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Alert from '../components/Alerte/Alert';
 import '../css/authForm.css';
 import { withRouter } from 'react-router-dom';
@@ -65,8 +63,6 @@ class LoginForm extends Component {
     if (token !== null && errorLogin === null) {
       this.connect(token);
     }
-    
-    
 
     let alerteLogin = "";
     if (errorLogin) {

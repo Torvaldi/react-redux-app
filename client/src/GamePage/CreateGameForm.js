@@ -80,7 +80,7 @@ class CreateGameForm extends Component {
 
 
   render(){
-    const { token, level, answer, winningScore, musicType, userRunningGame, isGameCreate } = this.props;
+    const { token, level, answer, winningScore, musicType, userRunningGame } = this.props;
 
     return(
       <section className="create_game_block">

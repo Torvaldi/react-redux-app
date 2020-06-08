@@ -34,8 +34,7 @@ const mapDispatchToProps = (dispatch) => ({
 class BlindTest extends React.Component {
   
   componentDidMount = () => {
-    const { token, game } = this.props;
-    console.log(game);
+    const { token } = this.props;
     this.props.onGetGame(token);
 
     io.on(socketEvent.LAUCH_GAME, () => {
@@ -95,7 +94,6 @@ class BlindTest extends React.Component {
   launchGame = (event) => {
     event.preventDefault();
     const { token, game } = this.props;
-    console.log(game);
   
     // call launch game event 
     io.emit(socketEvent.LAUCH_GAME, { gameId: game.id, token});

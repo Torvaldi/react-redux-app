@@ -1,6 +1,3 @@
-
-import { getAuthorizationHeader } from '../helper/api';
-
 export const GET_ANIMES = 'GET_ANIMES';
 export const CHANGE_RUNNING_STATUS = 'CHANGE_RUNNING_STATUS';
 export const SET_ANIME_TO_GUESS = 'SET_ANIME_TO_GUESS';

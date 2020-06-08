@@ -8,7 +8,6 @@ import {
     UPDATE_FIELD_MUSIC_TYPE,
     OPEN_CREATE_FORM,
     CREATE_GAME,
-    RESET_GAME_CREATE
 } from '../actions/game';
 
 const initialState = {
@@ -17,6 +16,7 @@ const initialState = {
     userCreateGame: false,
     isOpenCreateForm: false,
     isGameCreate: false,
+    level: 1,
 }
 
 export default (state = initialState, action) => {
