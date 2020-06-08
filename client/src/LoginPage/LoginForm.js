@@ -58,8 +58,6 @@ class LoginForm extends Component {
   render() {
     const { username, password, errorLogin, token } = this.props;
     
-    console.log(token)
-    console.log(errorLogin)
     if (token !== null && errorLogin === null) {
       this.connect(token);
     }

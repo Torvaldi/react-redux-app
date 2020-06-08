@@ -1,5 +1,6 @@
 {
   "name": "src",
+  "homepage": "http://blind-test.picturespapers.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
