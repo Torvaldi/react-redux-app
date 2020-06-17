@@ -24,7 +24,7 @@ class RunningResult extends React.Component {
 
     const animeSeason = getAnimeSeason(anime.season);
     const animeType = getAnimeType(anime.type);
-    const myAnimListUrl = getMalUrl(anime.myanimelistId);
+    const myAnimListUrl = getMalUrl(anime.myanimelist_id);
     
     const url = getMoeLink(opening.moe_link) + "#t=30";
     const musicType = getMusicType(opening.type);
