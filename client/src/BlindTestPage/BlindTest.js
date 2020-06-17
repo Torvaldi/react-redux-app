@@ -106,7 +106,7 @@ class BlindTest extends React.Component {
     event.preventDefault();
     if(window.confirm("Are you sure you want to leave ? You may not be able to join again and your score won't be save")){
       const { token, game, user } = this.props;
-      console.log(game);
+      
       // call the userLeave event
       let data = {
         token, 
