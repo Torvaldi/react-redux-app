@@ -131,17 +131,17 @@ export const getMusicTypeOptions = () => {
      // array use to print music type values on the create form and on the game list visual
      return [
         {
-            value: 2,
+            value: 1,
             label: 'Opening and Ending',
             shortValue : "OP/ED"
         },
         {
-          value: 0,
-          label: 'Opening',
-          shortValue : "OP"
+            value: 2,
+            label: 'Opening',
+            shortValue : "OP"
         },
         {
-          value: 1,
+          value: 3,
           label: 'Ending',
           shortValue : "ED"
         }

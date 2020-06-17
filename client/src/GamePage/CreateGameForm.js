@@ -64,10 +64,6 @@ class CreateGameForm extends Component {
     if(level > 3 || level < 1) return;
     if(answer > 15 || answer < 5) return;
     if(winningScore > 500 || winningScore < 10) return;
-
-    if(musicType > 2 || musicType < 0 || musicType === undefined) {
-      musicType = 2 // set by default to anime and ending
-    }
     
     this.props.onSubmit(token, level, answer, winningScore, musicType);
 
@@ -109,7 +105,6 @@ class CreateGameForm extends Component {
                   margin="normal"
                   variant="filled"
                   required
-                  disabled={userRunningGame}
                 >
                 {getLevelOptions().map((option) => (
                       <MenuItem key={option.value} value={option.value}>
@@ -133,7 +128,6 @@ class CreateGameForm extends Component {
                   margin="normal"
                   variant="filled"
                   required
-                  disabled={userRunningGame}
                 />
                 <FormHelperText className="game_create_text">Number of answers of the mCQ ! Min: 5, Max: 15</FormHelperText>
               </div>
@@ -151,32 +145,32 @@ class CreateGameForm extends Component {
                   margin="normal"
                   variant="filled"
                   required
-                  disabled={userRunningGame}
                 />
                  <FormHelperText className="game_create_text">From 10 to 300</FormHelperText>
-                 <div className="form_create_game_field">
-                  <TextField
-                      id="outlined-number"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      select
-                      label="type"
-                      type="number"
-                      className="game_create_field"
-                      onChange={this.changeMusicType}
-                      value={musicType ? musicType : 2}
-                      margin="normal"
-                      variant="filled"
-                      required
-                    >
-                    {getMusicTypeOptions().map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
                 </div>
+              <div className="form_create_game_field">
+                <TextField
+                    id="outlined-number"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    select
+                    label="type"
+                    type="number"
+                    className="game_create_field"
+                    onChange={this.changeMusicType}
+                    value={musicType ? musicType : 1}
+                    InputProps={{ inputProps: { min: 1, max: 3 } }}
+                    margin="normal"
+                    variant="filled"
+                    required
+                  >
+                  {getMusicTypeOptions().map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </div>
               <div className="create_game_button">
                 <Button type="submit" size="large" variant="contained" color="secondary" disabled={userRunningGame}>

@@ -16,7 +16,8 @@ const initialState = {
     userCreateGame: false,
     isOpenCreateForm: false,
     isGameCreate: false,
-    level: 1,
+    level: 1, // easy
+    musicType: 1, // opening and ending
 }
 
 export default (state = initialState, action) => {
