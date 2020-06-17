@@ -45,7 +45,7 @@ const Message = ({username, message, messageType, authUser}) => {
 
     return(
       <li className="messageLayout">
-        <MessageAuto username={username} message=" chose an answer" messageClass="messageAutoContent" />
+        <MessageAuto username={username} message=" chooses an answer" messageClass="messageAutoContent" />
       </li>
     );
 
