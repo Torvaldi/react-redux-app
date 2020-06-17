@@ -35,7 +35,7 @@ class OpeningVideo extends React.Component {
         <h1 className="resultTitle">{anime.name_jap} - {musicType} {opening.number} </h1>
         <article className="resultInfoBlock">
           <ul className="resultInfoList">
-            <li className="resultInfoItem"><span className="resutltInfoItemLabel">Song title:</span> {opening.title}</li>
+            <li className="resultInfoItem"><span className="resutltInfoItemLabel">Song :</span> {opening.title}</li>
             <li className="resultInfoItem"><span className="resutltInfoItemLabel">Season :</span> {animeSeason} {anime.year}</li>
             <li className="resultInfoItem"><span className="resutltInfoItemLabel">Type :</span> {animeType}</li>
             <li className="resultInfoItem"><span className="resutltInfoItemLabel">
