@@ -1,16 +1,16 @@
 const app = require('express')();
-const http = require('http').Server(app);
+const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const event = require('./socketEvent.json');
 
 const ioHelper = require('./helper/io');
 const statusHelper = require('./helper/status');
-
 const api = require('./helper/api');
-
-const Game = require('./classes/Game.js');
+const config = require('./config.json');
 
 let currentGames = new Map();
+
+let Game = require('./classes/Game');
 
 io.on('connection', (socket) => {
 
@@ -303,6 +303,6 @@ io.on('connection', (socket) => {
 });
 
 
-http.listen(5000, () => {
-  console.log('listening on *:5000');
+http.listen(config.port, () => {
+  console.log('listening on *:'+ config.port);
 });
