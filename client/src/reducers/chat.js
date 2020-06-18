@@ -1,5 +1,5 @@
 
-import { UPDATE_FIELD_CHAT_MESSAGE, ADD_MESSAGE_TO_CHAT } from '../actions/chat';
+import { UPDATE_FIELD_CHAT_MESSAGE, ADD_MESSAGE_TO_CHAT, CLEAR_CHAT } from '../actions/chat';
 
 const initialState = {
     chatMessage: [],
@@ -16,6 +16,11 @@ export default (state = initialState, action) => {
         case ADD_MESSAGE_TO_CHAT:
             return {
                 chatMessage: [...state.chatMessage, ...action.payload]
+            }
+        case CLEAR_CHAT: 
+            return {
+                ...state,
+                chatMessage : action.payload.chatMessage
             }
         default:
             return state;

@@ -6,7 +6,7 @@ import Message from '../components/Message/Message';
 import './css/chat.css';
 
 import socketEvent from '../socketEvent.json';
-import { changeMessage, addMessageToChat } from '../actions/chat';
+import { changeMessage, addMessageToChat, clearChat } from '../actions/chat';
 import { messageType } from '../helper/chat';
 
 const mapStateToProps = (state, ownProps) => ({...state.chat, ...ownProps});
@@ -16,6 +16,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(changeMessage(message)),
   onAddMessageToChat: (messageData) =>
     dispatch(addMessageToChat(messageData)),
+  onClearChat: () =>
+    dispatch(clearChat())
 });
 
 class Chat extends React.Component {
@@ -76,6 +78,10 @@ class Chat extends React.Component {
   componentDidUpdate = () => {
     // force the scrool of the chatbox to always be at the bottom
     this.blockChat.current.scrollTop = this.blockChat.current.scrollHeight;
+  }
+
+  componentWillUnmount = () => {
+    this.props.onClearChat();
   }
 
   /** update message change state */
