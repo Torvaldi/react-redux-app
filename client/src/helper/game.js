@@ -153,7 +153,7 @@ export const getMusicTypeOptions = () => {
  * @return {string}
  */
 export const getMusicTypeByValue = (givenType) => {
-    let musicTypeArray = getMusicTypeOptions().find((type) => type.value === givenType);
+    let musicTypeArray = getMusicTypeOptions().find((type) => type.value === parseInt(givenType));
     
     if(musicTypeArray === undefined) return 'N/A';
 
@@ -183,8 +183,9 @@ export const getLevelOptions = () => {
  * @return {string}
  */
 export const getLevelByValue = (givenLevel) => {
-    let levelArray = getLevelOptions().find((type) => type.value === givenLevel);
-    
+
+    let levelArray = getLevelOptions().find((type) => type.value === parseInt(givenLevel));
+
     if(levelArray === undefined) return 'N/A';
 
     return levelArray.label;
