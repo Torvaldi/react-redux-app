@@ -1,6 +1,6 @@
 // API ENDPOINT
 
-import config from './../config.json';
+import config from 'config.json';
 
 export const API_LOGIN = config.api_url + 'api/login';
 export const API_REGISTER = config.api_url + 'api/register';
