@@ -225,9 +225,6 @@ io.on('connection', (socket) => {
 
     const { token, gameId, player } = data;
 
-    // delete the user from game database
-    api.userLeaveGameDatabase(token, gameId);
-
     // delete player in the game player list
     let currentGame = currentGames.get(gameId);
 
@@ -241,11 +238,15 @@ io.on('connection', (socket) => {
     // the user leaving the game is the creator
     } else {
       
-      api.updateDatabaseGameStatus(token, gameId, 4); // set the game to cancel
+      api.updateGameStatus(token, gameId, 4)
+      .then( (statusCode) => {
 
-      socket.to(ioHelper.getRoom(gameId)).emit(event.CREATOR_LEAVE_GAME);
+        if(statusCode !== 200) return; // check if the request sucessed
 
-      io.emit(event.GAME_UPDATE);
+        socket.to(ioHelper.getRoom(gameId)).emit(event.CREATOR_LEAVE_GAME); // set the game to cancel
+        io.emit(event.GAME_UPDATE);
+      }); 
+      
     }
 
   });
@@ -272,7 +273,6 @@ io.on('connection', (socket) => {
     socket.to(ioHelper.getRoom(gameId)).emit(event.CLICK_ANSWER, {authUser});
 
     turn.incrementeTotalAnswers();
-
 
     // if all players have given an answer
     if(turn.haveAllPlayerAnswer() === true){
