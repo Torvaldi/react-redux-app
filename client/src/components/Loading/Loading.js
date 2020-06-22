@@ -5,7 +5,7 @@ import './loading.css';
  * Loading css
  * Source : https://codepen.io/bradtraversy/pen/Xwxvzp & https://www.youtube.com/watch?v=BwhTKJFpKSw
  */
-const Loading = (props) => {
+const Loading = () => {
 
   return(
     <div className="loader">

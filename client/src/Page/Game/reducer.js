@@ -1,23 +1,35 @@
 import {
     LOAD_AVALAIBLE_GAME,
-    USER_JOIN_GAME,
     USER_RUNNING_GAME,
     UPDATE_FIELD_LEVEL,
     UPDATE_FIELD_ANSWER,
     UPDATE_FIELD_WINNING_SCORE,
     UPDATE_FIELD_MUSIC_TYPE,
     OPEN_CREATE_FORM,
-    CREATE_GAME,
+    CREATE_GAME_SUCCESS,
+    CREATE_GAME_FAILURE,
+    CREATE_GAME_REQUEST,
+    CLEAR_GAME_DATA,
+    USER_JOIN_GAME,
+    USER_JOIN_GAME_REQUEST,
+    USER_JOIN_GAME_SUCCESS,
+    USER_JOIN_GAME_FAILURE
 } from './action';
 
 const initialState = {
-    userJoinGame: false,
-    userRunningGame: false,
-    userCreateGame: false,
-    isOpenCreateForm: false,
-    isGameCreate: false,
+    /** Create game state */
     level: 1, // easy
     musicType: 1, // opening and ending
+    isGameCreate: false,
+    isGameLoading: false,
+    isGameCreateError: false,
+    
+    /** Game list state */
+    userRunningGame: false,
+    isOpenCreateForm: false,
+    isGameJoinLoading: false,
+    isGameJoinError: false,
+    isGameJoin: false
 }
 
 export default (state = initialState, action) => {
@@ -26,12 +38,6 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 games: action.payload,
-            }
-        case USER_JOIN_GAME:
-            return {
-                ...state,
-                gameId: action.payload.gameId,
-                userJoinGame: true,
             }
         case USER_RUNNING_GAME:
 
@@ -69,10 +75,59 @@ export default (state = initialState, action) => {
                 ...state,
                 isOpenCreateForm: action.payload.isOpenCreateForm 
             }
-        case CREATE_GAME:
+        case CREATE_GAME_SUCCESS:
             return {
                 ...state,
                 isGameCreate: true,
+                isGameLoading: false,
+                isGameCreateError: false,
+            }
+        case CREATE_GAME_REQUEST:
+            return {
+                ...state,
+                isGameCreate: false,
+                isGameLoading: true,
+                isGameCreateError: false
+            }
+        case CREATE_GAME_FAILURE:
+            return {
+                ...state,
+                isGameCreate: false,
+                isGameLoading: false,
+                isGameCreateError: true
+            }
+        case CLEAR_GAME_DATA:
+            return {
+                ...state,
+                isGameCreate: false,
+                isGameLoading: false,
+                isGameCreateError: false,
+                isGameJoin: false,
+                isGameJoinLoading: false,
+                isGameJoinError: false
+            }
+        case USER_JOIN_GAME_REQUEST:
+            return {
+                ...state,
+                isGameJoin: false,
+                isGameJoinLoading: true,
+                isGameJoinError: false
+            }
+        case USER_JOIN_GAME_FAILURE:
+            return {
+                ...state,
+                isGameJoin: false,
+                isGameJoinLoading: false,
+                isGameJoinError: true
+            }
+        case USER_JOIN_GAME:
+        case USER_JOIN_GAME_SUCCESS:
+            return {
+                ...state,
+                //gameId: action.payload.gameId,
+                isGameJoin: true,
+                isGameJoinLoading: false,
+                isGameJoinError: false
             }
         default:
             return state;

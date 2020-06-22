@@ -7,15 +7,20 @@ import {
 } from 'helper/api';
 
 export const LOAD_AVALAIBLE_GAME = 'LOAD_AVALAIBLE_GAME';
-export const CREATE_GAME = 'CREATE_GAME';
-export const USER_JOIN_GAME = 'USER_JOIN_GAME';
 export const USER_RUNNING_GAME = 'USER_RUNNING_GAME';
 export const UPDATE_FIELD_LEVEL = 'UPDATE_FIELD_LEVEL';
 export const UPDATE_FIELD_ANSWER = 'UPDATE_FIELD_ANSWER';
 export const UPDATE_FIELD_WINNING_SCORE = 'UPDATE_FIELD_WINNING_SCORE';
 export const UPDATE_FIELD_MUSIC_TYPE = 'UPDATE_FIELD_MUSIC_TYPE';
 export const OPEN_CREATE_FORM = 'OPEN_CREATE_FORM';
-
+export const CREATE_GAME_SUCCESS = 'CREATE_GAME_SUCCESS';
+export const CREATE_GAME_REQUEST = 'CREATE_GAME_REQUEST';
+export const CREATE_GAME_FAILURE = 'CREATE_GAME_FAILURE';
+export const CLEAR_GAME_DATA = 'CLEAR_GAME_DATA';
+export const USER_JOIN_GAME = 'USER_JOIN_GAME';
+export const USER_JOIN_GAME_REQUEST = 'USER_JOIN_GAME_REQUEST';
+export const USER_JOIN_GAME_SUCCESS = 'USER_JOIN_GAME_SUCCESS';
+export const USER_JOIN_GAME_FAILURE = 'USER_JOIN_GAME_FAILURE';
 /**
  * get all game waiting for player
  * @param {function} dispatch 
@@ -28,33 +33,49 @@ export const getGameAvalaible = (dispatch, token) => {
     })
     .then(response => response.json())
     .then(result =>
-        dispatch({
-          type: LOAD_AVALAIBLE_GAME,
-          payload: result
-        })
-      );
+      dispatch({
+        type: LOAD_AVALAIBLE_GAME,
+        payload: result
+      })
+    );
 };
 
 /**
  * 
- * @param {function} dispatch 
  * @param {*object} data contain token and gameId
  */
-export const userJoinGame = (dispatch, data) => {
-  fetch(API_USER_JOIN_GAME, {
-    method: 'POST',
-    headers: getAuthorizationHeader(data.token),
-    body: JSON.stringify({
-      'game_id': data.gameId,
-    })
-  })
-  .then(response => response.json())
-  .then(result => 
+export const userJoinGame = (data) => {
+
+  return function(dispatch){
     dispatch({
-      type: USER_JOIN_GAME,
-      payload: result
-    })
-  );
+      type: USER_JOIN_GAME_REQUEST
+    });
+
+    setTimeout(function(){
+      fetch(API_USER_JOIN_GAME, {
+        method: 'POST',
+        headers: getAuthorizationHeader(data.token),
+        body: JSON.stringify({
+          'game_id': data.gameId,
+        })
+      })
+      .then(response => response.json())
+      .then(result => 
+        dispatch({
+          type: USER_JOIN_GAME_SUCCESS,
+          payload: result
+        })
+      )
+      .catch(error => 
+        dispatch({
+          type: USER_JOIN_GAME_FAILURE
+        })  
+      )
+
+    }, 5000)
+
+  }
+
 }
 
 /**
@@ -74,26 +95,43 @@ export const getUserRunningGame = (dispatch, token) => {
   });
 }
 
-export const storeGame = (dispatch, token, data) => {
-  fetch(API_NEW_GAME, {
-    method: 'POST',
-    headers: getAuthorizationHeader(token),
-    body: JSON.stringify({
-      'level': data.level, 
-      'answer': data.answer,
-      'score_to_win': data.winningScore,
-      'musicType': data.musicType
-    }),
-  })
-  .then(response => response.json())
-  .then(result => 
+export const storeGame = (token, data) => {
+  return function(dispatch){
     dispatch({
-      type: CREATE_GAME,
-      payload: result,
+      type: CREATE_GAME_REQUEST
+    });
+  
+    fetch(API_NEW_GAME, {
+      method: 'POST',
+      headers: getAuthorizationHeader(token),
+      body: JSON.stringify({
+        'level': data.level, 
+        'answer': data.answer,
+        'score_to_win': data.winningScore,
+        'musicType': data.musicType
+      }),
     })
-  );
+    .then(response => response.json())
+    .then(result => 
+      dispatch({
+        type: CREATE_GAME_SUCCESS,
+      })
+    )
+    .catch(error => 
+      dispatch({
+        type: CREATE_GAME_FAILURE
+      })
+    );
+
+  }
+
 }
 
+export const clearGameData = () => {
+  return {
+    type: CLEAR_GAME_DATA
+  }
+}
 
 export function changeLevel(level){
 

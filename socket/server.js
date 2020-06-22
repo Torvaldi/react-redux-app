@@ -15,10 +15,6 @@ let Game = require('./classes/Game');
 io.on('connection', (socket) => {
 
   // GAME SELECTION
-  socket.on(event.NEW_GAME, () => {
-    socket.broadcast.emit(event.NEW_GAME);
-  });
-
   socket.on(event.GAME_UPDATE, () => {
     socket.broadcast.emit(event.GAME_UPDATE);
   });
@@ -94,7 +90,7 @@ io.on('connection', (socket) => {
     currentGame.setGameStatusLoading();
 
     // update game database status
-    api.updateDatabaseGameStatus(token, gameId, 2);
+    api.updateGameStatus(token, gameId, 2);
 
     // sending all users that a new game has been updated (for the game list page)
     io.emit(event.GAME_UPDATE);
@@ -192,7 +188,7 @@ io.on('connection', (socket) => {
       io.in(ioHelper.getRoom(gameId)).emit(event.GAME_FINISH, { winners });
 
       // set game status to finish
-      api.updateDatabaseGameStatus(token, gameId, 3); 
+      api.updateGameStatus(token, gameId, 3); 
 
       // save all players score to the server
       api.savePlayerScore(token, currentGame.getAllPlayers(), gameId);

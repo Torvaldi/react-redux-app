@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch) => ({
   onChangeMusicType: (musicType) =>
     dispatch(changeMusicType(musicType)),
   onSubmit: (token, level, answer, winningScore, musicType) =>
-    storeGame(dispatch, token, {level, answer, winningScore, musicType}),
+    dispatch(storeGame(token, {level, answer, winningScore, musicType})),
 });
 
 class CreateGameForm extends Component {
@@ -65,12 +65,6 @@ class CreateGameForm extends Component {
     if(winningScore > 500 || winningScore < 10) return;
     
     this.props.onSubmit(token, level, answer, winningScore, musicType);
-
-    const { io } = this.props;
-
-    io.emit(socketEvent.NEW_GAME);
-
-    this.props.history.push('/game/running');
   }
 
 
