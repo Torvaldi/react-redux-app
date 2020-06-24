@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import BlindTestLayout from 'components/BlindTestLayout/BlindTestLayout';
+import LoadingPage from 'components/LoadingPage/LoadingPage';
 import Chat from './Chat/Chat';
 import ListPlayer from './ListPlayer/ListPlayer';
 import MainGame from './MainGame/MainGame';
@@ -9,8 +10,8 @@ import MainGame from './MainGame/MainGame';
 import io from 'socket';
 import socketEvent from 'socketEvent.json'
 
-import { getGame, updateStatusState, setPlayers, setWinners, addPlayer, removePlayer, clearGame } from './action';
-import { withRouter } from 'react-router-dom';
+import { getGame, updateStatusState, setPlayers, setWinners, addPlayer, removePlayer, clearGame, removeUserFromGame } from './action';
+import { withRouter, Redirect } from 'react-router-dom';
 
 const mapStateToProps = (state, ownProps) => ({...state.runningGame, ...ownProps});
 
@@ -28,7 +29,9 @@ const mapDispatchToProps = (dispatch) => ({
   onAddNewPlayer : (player) =>
     dispatch(addPlayer(player)),
   onRemovePlayer : (player) =>
-    dispatch(removePlayer(player))
+    dispatch(removePlayer(player)),
+  onPlayerLeave: (token, gameId) =>
+    dispatch(removeUserFromGame(token, gameId))
 });
 
 class BlindTest extends React.Component {
@@ -39,7 +42,6 @@ class BlindTest extends React.Component {
 
     io.on(socketEvent.LAUCH_GAME, () => {
       // for other player, keep the game status up to date
-      console.log('game launch')
       this.props.onUpdateStatusState(2);
     });
 
@@ -105,31 +107,11 @@ class BlindTest extends React.Component {
   leaveGame = (event) => {
     event.preventDefault();
     if(window.confirm("Are you sure you want to leave ? You may not be able to join again and your score won't be save")){
-      const { token, game, user } = this.props;
+      const { token, game } = this.props;
       
-      // call the userLeave event
-      let data = {
-        token, 
-        gameId: game.id, 
-        player: user
-      };
-      
-      io.emit(socketEvent.USER_LEAVE_GAME, data);
-      
-      this.props.history.push('/game'); // redirect on game page
+      // call the userLeave props function
+      this.props.onPlayerLeave(token, game.id);
     }
-  }
-
-  printPlayerList = () => {
-    const { players } = this.props;
-
-    return(
-      <Fragment>
-        { players ? <Fragment>okok</Fragment> : '' }
-      </Fragment>
-
-    );
-
   }
 
   /**
@@ -139,15 +121,14 @@ class BlindTest extends React.Component {
    * Chat: A simple chat where players can talk to each other
    */
   printGame = () => {
-    const { token, game, user, gameStatus, players, winners } = this.props;
+    const { token, game, user, gameStatus, players, winners, isUserLeaveLoading, isUserLeaveError } = this.props;
     
     let gameEmpty = false;
     if(Object.keys(game).length === 0){
       gameEmpty = true;
     }
-    
     return(
-      <Fragment>
+       <Fragment>
       { gameEmpty === false ? 
           <BlindTestLayout
           left={<ListPlayer 
@@ -178,18 +159,33 @@ class BlindTest extends React.Component {
           />}
           right={<Chat io={io} game={game} authUser={user} />}
         /> : '404'}
+        {isUserLeaveLoading === true || isUserLeaveError === true ? <LoadingPage overlay={true} /> : ''}
       </Fragment>
-    );
+      );
+
   }
 
   render(){
-    const { game, players } = this.props;
+    const { game, players, isUserLeave, token, user } = this.props;
 
-    return(
-      <Fragment>
-        { game && players ? this.printGame() : <Fragment>Loading</Fragment> }
-      </Fragment>
-    )
+    if(isUserLeave === true){
+      let data = {
+        token, 
+        gameId: game.id, 
+        player: user
+      };
+      io.emit(socketEvent.USER_LEAVE_GAME, data);
+
+      return(<Redirect to="/game" />);
+
+    } else {
+      return(
+        <Fragment>
+          { game && players ? this.printGame() : <LoadingPage /> }
+        </Fragment>
+      )
+    }
+
   }
 }
 

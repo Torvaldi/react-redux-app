@@ -51,28 +51,25 @@ export const userJoinGame = (data) => {
       type: USER_JOIN_GAME_REQUEST
     });
 
-    setTimeout(function(){
-      fetch(API_USER_JOIN_GAME, {
-        method: 'POST',
-        headers: getAuthorizationHeader(data.token),
-        body: JSON.stringify({
-          'game_id': data.gameId,
-        })
+    fetch(API_USER_JOIN_GAME, {
+      method: 'POST',
+      headers: getAuthorizationHeader(data.token),
+      body: JSON.stringify({
+        'game_id': data.gameId,
+       })
+    })
+    .then(response => response.json())
+    .then(result => 
+      dispatch({
+        type: USER_JOIN_GAME_SUCCESS,
+        payload: result
       })
-      .then(response => response.json())
-      .then(result => 
-        dispatch({
-          type: USER_JOIN_GAME_SUCCESS,
-          payload: result
-        })
-      )
-      .catch(error => 
-        dispatch({
-          type: USER_JOIN_GAME_FAILURE
-        })  
-      )
-
-    }, 5000)
+    )
+    .catch(error => 
+      dispatch({
+        type: USER_JOIN_GAME_FAILURE
+      })  
+    )
 
   }
 

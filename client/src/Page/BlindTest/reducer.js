@@ -6,13 +6,19 @@ import {
     ADD_NEW_PLAYER, 
     GET_WINNERS, 
     REMOVE_PLAYER, 
-    CLEAR_GAME 
+    CLEAR_GAME,
+    USER_LEAVE_REQUEST,
+    USER_LEAVE_SUCCESS,
+    USER_LEAVE_FAILURE,
 } from './action';
 
 let initialState = {
     gameStatus: 1,
     players : [],
     game: null,
+    isUserLeave: false,
+    isUserLeaveLoading: false,
+    isUserLeaveError: false,
 }
 
 export default (state = initialState, action) => {
@@ -35,7 +41,10 @@ export default (state = initialState, action) => {
         case CLEAR_GAME:
             return {
                 ...state,
-                game: action.payload.game
+                game: null,
+                isUserLeave: false,
+                isUserLeaveLoading: false,
+                isUserLeaveError: false,
             }
         case UPDATE_GAME_STATUS:
             return {
@@ -71,6 +80,27 @@ export default (state = initialState, action) => {
                 ...state,
                 winners: action.payload,
             };
+        case USER_LEAVE_REQUEST:
+            return {
+                ...state,
+                isUserLeave: false,
+                isUserLeaveLoading: true,
+                isUserLeaveError: false,
+            }
+        case USER_LEAVE_SUCCESS:
+            return {
+                ...state,
+                isUserLeave: true,
+                isUserLeaveLoading: false,
+                isUserLeaveError: false,
+            }
+        case USER_LEAVE_FAILURE:
+            return {
+                ...state,
+                isUserLeave: false,
+                isUserLeaveLoading: false,
+                isUserLeaveError: true,
+            }
         default:
             return state;
     }

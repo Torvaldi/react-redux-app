@@ -9,6 +9,7 @@ export const API_USER_JOIN_GAME = config.api_url + 'api/game.join';
 export const API_USER_RUNNING_GAME = config.api_url + 'api/game.user.running';
 export const API_NEW_GAME = config.api_url + 'api/game.create';
 export const API_USER_GAME = config.api_url + 'api/game.user';
+export const API_USER_LEAVE = config.api_url + "api/game.user.leave";
 
 // API header
 export const getAuthorizationHeader = (token) => {

@@ -1,4 +1,4 @@
-import { API_USER_RUNNING_GAME, getAuthorizationHeader } from '../../helper/api';
+import { API_USER_RUNNING_GAME, API_USER_LEAVE, getAuthorizationHeader } from 'helper/api';
 
 export const GET_GAME = 'GET_GAME';
 export const UPDATE_GAME_STATUS = 'UPDATE_GAME_STATUS';
@@ -7,6 +7,9 @@ export const GET_WINNERS = 'GET_WINNERS';
 export const ADD_NEW_PLAYER = 'ADD_NEW_PLAYER';
 export const REMOVE_PLAYER =  'REMOVE_PLAYER';
 export const CLEAR_GAME = 'CLEAR_GAME';
+export const USER_LEAVE_REQUEST = 'USER_LEAVE_REQUEST';
+export const USER_LEAVE_SUCCESS = 'USER_LEAVE_SUCCESS';
+export const USER_LEAVE_FAILURE = 'USER_LEAVE_FAILURE';
 
 /**
  * get game data (level, answer etc)
@@ -18,13 +21,49 @@ export function getGame(dispatch, token) {
     method: 'GET',
     headers: getAuthorizationHeader(token),
   })
+  .then(response => response.json())
+  .then(result =>
+    dispatch({
+      type: GET_GAME,
+      payload: result
+    })
+  );
+}
+
+/**
+ * when a user leave the game, remove them from de database
+ * @param {*} token 
+ * @param {*} gameId 
+ */
+export function removeUserFromGame(token, gameId){
+
+  return function(dispatch){
+    dispatch({
+      type: USER_LEAVE_REQUEST
+    });
+
+    fetch(API_USER_LEAVE, {
+        method: 'DELETE',
+        headers: getAuthorizationHeader(token),
+        body: JSON.stringify({
+            'game_id': gameId
+        })
+    })
     .then(response => response.json())
-    .then(result =>
+    .then(result => 
       dispatch({
-        type: GET_GAME,
-        payload: result
+        type: USER_LEAVE_SUCCESS,
+      })
+    )
+    .catch(error => 
+      dispatch({
+        type: USER_LEAVE_FAILURE
       })
     );
+      
+
+  }
+
 }
 
 export function updateStatusState(gameStatus) {
@@ -64,7 +103,8 @@ export function removePlayer(player){
 
 export function clearGame(){
   return {
-    type: CLEAR_GAME,
-    payload : { game: null }
+    type: CLEAR_GAME
   }
 }
+
+
