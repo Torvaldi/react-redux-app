@@ -1,8 +1,12 @@
 import {
     UPDATE_FIELD_USERNAME,  
     UPDATE_FIELD_PASSWORD, 
-    LOGIN, 
-    REGISTER,
+    LOGIN_SUCCESS, 
+    LOGIN_REQUEST,
+    LOGIN_FAILURE,
+    REGISTER_REQUEST,
+    REGISTER_SUCCESS,
+    REGISTER_FAILURE,
     UPDATE_FIELD_PASSWORD_CONFIRM, 
     UPDATE_FIELD_MAIL,
     RESET_ERROR_LOGIN,
@@ -15,6 +19,11 @@ let defaultState = {
     password: null,
     errorLogin: null,
     token: null,
+    isLoginLoading: false,
+    isRegisterLoading: false,
+    errorRegister: null,
+    messageRegister: null,
+    isRegisterSuccess: false,
 }
 
 export default (state = defaultState, action) => {
@@ -54,31 +63,50 @@ export default (state = defaultState, action) => {
                 ...state,
                 messageRegister: action.payload.messageRegister
             }
-        case LOGIN:
-            if(action.payload.error === undefined){
-                return {
-                    ...state,
-                    token : action.payload.token,
-                    errorLogin: null,
-                }
+        case LOGIN_REQUEST:
+            return {
+                ...state,
+                token: null,
+                errorLogin: null,
+                isLoginLoading: true,
             }
+        case LOGIN_SUCCESS:
+            return {
+                ...state,
+                errorLogin: null,
+                token : action.payload.token,
+                isLoginLoading: false,
+            }
+        case LOGIN_FAILURE:
             return {
                 ...state,
                 errorLogin: action.payload.error,
-                token : action.payload.token
+                token: null,
+                isLoginLoading: false,
             }
-        case REGISTER:
-            if(action.payload.error === undefined){
-                return {
-                    ...state,
-                    errorRegister: action.payload.error,
-                    messageRegister: "Congratulations! Your account has been created",
-                }
-            }
+        case REGISTER_SUCCESS:
             return {
                 ...state,
+                isRegisterLoading: false,
+                errorRegister: null,
+                messageRegister: "Congratulations! Your account has been created",
+                isRegisterSuccess: true,
+            }
+        case REGISTER_REQUEST: 
+            return {
+                ...state,
+                isRegisterLoading: true,
+                errorRegister: null,
+                messageRegister: null,
+                isRegisterSuccess: false,
+            }
+        case REGISTER_FAILURE:
+            return {
+                ...state,
+                isRegisterLoading: false,
                 errorRegister: action.payload.error,
-                messageRegister: undefined,
+                messageRegister: null,
+                isRegisterSuccess: false,
             }
         default:
             return state;

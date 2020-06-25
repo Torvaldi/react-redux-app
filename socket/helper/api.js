@@ -5,18 +5,7 @@ const API_GAME_UPDATE_STATUS = config.api_url + "api/game.status";
 const API_GET_ANIMES = config.api_url + "api/anime.index";
 const API_USER_SAVE_SCORE = config.api_url + "api/game.user.save";
 
-//const API_USER_LEAVE = config.api_url + "api/game.user.leave";
-/*
-function removeUserFromGame(token, gameId){
-    fetch(API_USER_LEAVE, {
-        method: 'DELETE',
-        headers: getAuthorizationHeader(token),
-        body: JSON.stringify({
-            'game_id': gameId
-        })
-    });
-}
-*/
+
 // TODO : prevent duplicate with client side
 const getAuthorizationHeader = (token) => {
     return {

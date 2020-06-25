@@ -40,6 +40,7 @@ class Chat extends React.Component {
         message, 
         messageType: messageType.MESSAGE 
       };
+      
       this.props.onAddMessageToChat(messageData);
     });
 
@@ -136,9 +137,6 @@ class Chat extends React.Component {
       );
   }
 
-
-
-
   render(){
 
       return(
@@ -149,15 +147,15 @@ class Chat extends React.Component {
             </ul>
           </div>
           <form onSubmit={this.handleSubmit} className="chatFormLayout">
-              <TextField
-                  ref="chatInput"
-                  id="outlined-bare"
-                  placeholder="Type message here"
-                  margin="normal"
-                  variant="outlined"
-                  className="chatFormMessage"
-                  onChange={this.changeMessage}
-              />
+            <TextField
+                ref="chatInput"
+                id="outlined-bare"
+                placeholder="Type message here"
+                margin="normal"
+                variant="outlined"
+                className="chatFormMessage"
+                onChange={this.changeMessage}
+            />
           </form>
       </Fragment>
     );

@@ -5,7 +5,7 @@ import Image from 'components/LoginImage/LoginImage';
 import ImageLogin from 'asset/login.jpg';
 import RegisterForm from './RegisterForm';
 import { isLogIn } from 'helper/auth';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 
 class Register extends Component {
 
@@ -17,6 +17,7 @@ class Register extends Component {
       if(response === false) return
       
       this.props.history.push('/game');
+      return <Redirect to="/game" />
   
     });
 

@@ -5,7 +5,7 @@ import Image from '../../../components/LoginImage/LoginImage';
 import AuthLayout from '../../../components/AuthLayout/AuthLayout';
 import image from '../../../asset/login.jpg';
 import { isLogIn } from '../../../helper/auth';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 
 class Login extends Component {
 
@@ -14,9 +14,9 @@ class Login extends Component {
     // prevent from accessing the page if the user is already log in
     isLogIn().then((response) => {
 
-    if(response === false) return
-    
-    this.props.history.push('/game');
+      if(response === false) return
+      
+      return <Redirect to="/game" />
 
     });
 

@@ -7,7 +7,8 @@ import propTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import 'Page/Auth/style.css';
-import Alerte from '../../../components/Alerte/Alert';
+import Alert from 'components/Alerte/Alert';
+import LoadingPage from 'components/LoadingPage/LoadingPage';
 
 const mapStateToProps = (state) => ({ ...state.auth });
 
@@ -21,7 +22,7 @@ const mapDispatchToProps = (dispatch) => ({
   onChangeMail: (mail) =>
     dispatch(changeMail(mail)),
   onSubmit: (username, mail, password, passwordConfirmation) =>
-    register(dispatch, {username, mail, password, passwordConfirmation}),
+    dispatch(register({username, mail, password, passwordConfirmation})),
   onResetErrorRegister: () =>
     dispatch(resertErrorRegister()),
   onResetSucessRegister: () =>
@@ -43,7 +44,8 @@ class RegisterForm extends Component {
   };
 
   /**
-   * @var string errorRegister
+   * @param {string} errorRegister
+   * @param {string} messageRegister
    * Reset all message/error value if there are any
    */
   resetFeedback = (errorRegister, messageRegister) => (event) => {
@@ -56,26 +58,32 @@ class RegisterForm extends Component {
     }
   }
 
+  /**
+   * @param {array} messages
+   * @param {int} type 
+   */
+  printErrorRegister = (messages, type) => {
+    return(
+      messages.map((message, index) => {
+        return <Alert message={message} type={type} key={index} />
+      })
+    );
+  }
+
   render(){
-    const { username, mail, password, passwordConfirmation, errorRegister, messageRegister } = this.props;
+    const { username, mail, password, passwordConfirmation, errorRegister, messageRegister, isRegisterSuccess, isRegisterLoading } = this.props;
 
-    // Define an alert or sucess message after registration attempt, both can't happend at the same time
-    let alerte = "";
-    let alerteSucess = "";
+    // Define an alert or sucess message after registration attempt
+    let registerFeedback = null;
     if(errorRegister){
-      alerte = <Alerte message={errorRegister} type={0} />;
-      alerteSucess = "";
-    }
-
-    if(messageRegister){
-      alerteSucess = <Alerte message={messageRegister} type={1} />;
-      alerte = "";
+      registerFeedback = this.printErrorRegister(errorRegister, 0);
+    } else if(messageRegister && isRegisterSuccess === true) {
+      registerFeedback = <Alert message={messageRegister} type={1} />;
     }
 
     return (
       <form onSubmit={this.submitForm(username, mail, password, passwordConfirmation)}>
-        {alerte}
-        {alerteSucess}
+        {registerFeedback !== null ? registerFeedback: ""}
         <div className="formField">
           <TextField
           id="username"
@@ -139,6 +147,7 @@ class RegisterForm extends Component {
             </Button>
           </Link>
         </div>
+        {isRegisterLoading === true ? <LoadingPage overlay={true} ></LoadingPage> : ''}
       </form>
     );
   }
@@ -158,8 +167,8 @@ RegisterForm.propTypes = {
   mail: propTypes.string,
   passwordConfirmation: propTypes.string,
 
-  errorRegister: propTypes.string,
-  messageRegister: propTypes.string,
+  errorRegister: propTypes.array,
+  messageRegister: propTypes.array,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

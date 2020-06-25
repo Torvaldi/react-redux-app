@@ -4,15 +4,25 @@ export const UPDATE_FIELD_USERNAME = 'UPDATE_FIELD_USERNAME';
 export const UPDATE_FIELD_PASSWORD = 'UPDATE_FIELD_PASSWORD';
 export const UPDATE_FIELD_PASSWORD_CONFIRM = 'UPDATE_FIELD_PASSWORD_CONFIRM';
 export const UPDATE_FIELD_MAIL = 'UPDATE_FIELD_MAIL';
-export const LOGIN = 'LOGIN';
-export const REGISTER = 'REGISTER';
-export const RESET_ERROR_LOGIN = 'RESET_ERROR_LOGIN';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const REGISTER_REQUEST = 'REGISTER_REQUEST';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAILURE= 'REGISTER_FAILURE';
 export const RESET_ERROR_REGISTER = 'RESET_ERROR_REGISTER';
+export const RESET_ERROR_LOGIN = 'RESET_ERROR_LOGIN';
 export const RESET_SUCESS_REGISTER = 'RESET_SUCESS_REGISTER';
 
 
-// LOGIN and REGISTER action
-export const login = (dispatch, data) => {
+// LOGIN and REGISTER_SUCCESS action
+export const login = (data) => {
+
+  return function(dispatch){
+    dispatch({
+      type: LOGIN_REQUEST
+    });
+    
     fetch(API_LOGIN, {
         method: 'POST',
         headers: getCrosHeader(),
@@ -22,32 +32,77 @@ export const login = (dispatch, data) => {
         }),
     })
     .then(response => response.json())
-    .then(result =>
+    .then(result => {
+
+      if(result.error){
         dispatch({
-          type: LOGIN,
+          type: LOGIN_FAILURE,
+          payload: { error: result.error }
+        });
+      } else {
+        dispatch({
+          type: LOGIN_SUCCESS,
           payload: result
         })
-      );
+      }
+
+      })
+    .catch(error => {
+      dispatch({
+        type: LOGIN_FAILURE,
+        payload: { error : "An undefined error occured" }
+      });
+    });
+   
+  }
+
 };
 
-export const register = (dispatch, data) => {
-  fetch(API_REGISTER, {
-    method: 'POST',
-    headers: getCrosHeader(),
-    body: JSON.stringify({
-      'username': data.username,
-      'email': data.mail,
-      'password' : data.password,
-      'password_confirmation': data.passwordConfirmation
-    }),
-})
-.then(response => response.json())
-.then(result =>
+export const register = (data) => {
+
+  return function(dispatch){
     dispatch({
-      type: REGISTER,
-      payload: result,
+      type: REGISTER_REQUEST
+    });
+
+    
+    fetch(API_REGISTER, {
+      method: 'POST',
+      headers: getCrosHeader(),
+      body: JSON.stringify({
+        'username': data.username,
+        'email': data.mail,
+        'password' : data.password,
+        'password_confirmation': data.passwordConfirmation
+      }),
+  })
+  .then(response => response.json())
+  .then(result => {
+
+      if(result.error){
+        dispatch({
+          type: REGISTER_FAILURE,
+          payload: {error: result.error },
+        })
+
+      } else {
+        dispatch({
+          type: REGISTER_SUCCESS,
+          payload: result,
+        })
+      }
+
     })
-  );
+    .catch(error => {
+      dispatch({
+        type: REGISTER_FAILURE,
+        payload: { error : "An undefined error occured" },
+      })
+    });
+    
+
+  }
+
 };
 
 export function changeUsername(username){

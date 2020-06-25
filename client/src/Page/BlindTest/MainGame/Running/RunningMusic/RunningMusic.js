@@ -83,7 +83,7 @@ class RunningMusic extends React.Component {
 
     return(
      <section className="runningMusicBlock">
-       <Counter startingNumber={waitingTurn.WAITING_TURN_2} fastPass={false} />
+       <Counter startingNumber={waitingTurn.WAITING_TURN_2} />
         {animeToGuess ? this.printAudioPlayer() : ''}
         {answerOnce === false && animeToGuess ? this.printAnswer(animeToGuess.animes) : ''}
      </section>

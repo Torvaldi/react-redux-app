@@ -3,9 +3,9 @@ import './counter.css'
 
 class Counter extends React.Component {
 
-    state = {
-        currentCount: 0,
-    }
+  state = {
+    currentCount: 0,
+  }
 
   componentDidMount = () => {
     const { startingNumber } = this.props;

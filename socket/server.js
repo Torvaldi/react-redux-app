@@ -253,6 +253,7 @@ io.on('connection', (socket) => {
    */
   socket.on(event.CLICK_ANSWER, (data) => {
     const { gameId, authUser, findAnime, anime } = data;
+    console.log(authUser.username + ' click answer')
     
     let currentGame = currentGames.get(gameId);
 
