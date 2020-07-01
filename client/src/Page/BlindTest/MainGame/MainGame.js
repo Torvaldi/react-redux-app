@@ -43,10 +43,12 @@ class MainGame extends React.Component {
       this.props.setPlayers(players);
       this.props.onSetTurnResult(turnResult);
       
+      console.log('switch running status to 2')
       this.props.onSwitchRunningStatus(2);
     });
 
     io.on(socketEvent.CHANGE_STATUS_2_TO_0, (data) => {
+      console.log('switch running status to 0')
       this.props.onSwitchRunningStatus(0);
     });
 
@@ -56,6 +58,8 @@ class MainGame extends React.Component {
     });
 
     io.on(socketEvent.UPDATE_GAME_STATUS, (data) => {
+      console.log('update game status')
+      console.log(data)
       const { status } = data;
       this.props.onSwitchRunningStatus(status);
     });
@@ -75,6 +79,8 @@ class MainGame extends React.Component {
    */
   render(){
     const { gameStatus, io, game, authUser, runningStatus, turnResult, winners, token } = this.props;
+    console.log("game running Status");
+    console.log(runningStatus)
     return(
      <Fragment>
           <article className="mainGameContentLayout">

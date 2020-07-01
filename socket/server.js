@@ -34,27 +34,26 @@ io.on('connection', (socket) => {
     console.log('user join game');
 
     socket.join(ioHelper.getRoom(game.id));
+    console.log(game.id);
+    console.log(currentGames.has(game.id));
 
     // Check if this is a new game, otherwise create it
     // using given game parameters
     if (currentGames.has(game.id) === false) {
       currentGames.set(game.id, new Game(game.id, game.creator, game.level, game.answer, game.score_to_win, game.musicType, token));
     }
-    let player;
+    
     let currentGame = currentGames.get(game.id);
+
+    // retrives the game status and send it to the player
+    let gameStatus = currentGame.getRunningStatus();
+    socket.emit(event.UPDATE_GAME_STATUS, {status: gameStatus});
     
     // Check if this player already existed in this game
+    let player;
     if (currentGame.playerExists(authUser.username) === true) {
       player = currentGame.getPlayer(authUser.username);
-
-      // retrives the game status and send it to the player
-      let gameStatus = currentGame.getRunningStatus();
-      if(gameStatus != 0){ // does not send it if its 0 because the default value on the client is 0
-        socket.emit(event.UPDATE_GAME_STATUS, {status: gameStatus});
-      }
-    }
-    // Otherwise create it
-    else {
+    } else { // Otherwise create it
       player = currentGame.newPlayer(authUser.username);
     }
 
@@ -101,9 +100,10 @@ io.on('connection', (socket) => {
    */
   socket.on(event.CHANGE_STATUS_0_TO_1, (data) => {
 
-    console.log('status change witing to music');
-
     const { gameId } = data;
+    console.log('status change waiting to music');
+    console.log(gameId);
+
 
     let currentGame = currentGames.get(gameId);
 
@@ -122,6 +122,7 @@ io.on('connection', (socket) => {
         let animes = currentGame.getLastTurn().getAnimeSerialize();
 
         // send change status event
+        console.log('EMIT waiting to music');
         io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_0_TO_1, { animes });
   
       }, timeout);
@@ -137,10 +138,11 @@ io.on('connection', (socket) => {
    */
   socket.on(event.CHANGE_STATUS_1_TO_2, (data) => {
 
-    console.log('status change music to result');
-
+    
     const { gameId } = data;
-
+    console.log('status change music to result');
+    console.log(gameId);
+    
     // get currentGame
     let currentGame = currentGames.get(gameId);
     let timeout = statusHelper.getTimeout(1);
@@ -164,6 +166,7 @@ io.on('connection', (socket) => {
           let players = currentGame.getAllPlayers();
 
           // send turn scores to the clients
+          console.log('EMIT music to result');
           io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_1_TO_2, {turnResult, players});
         }
 
@@ -176,9 +179,11 @@ io.on('connection', (socket) => {
     */
   socket.on(event.CHANGE_STATUS_2_TO_0, (data) => {
 
-    console.log('status change result to waiting');
-
+    
     const { gameId, token } = data;
+    console.log('status change result to waiting');
+    console.log(gameId);
+
     let currentGame = currentGames.get(gameId);
 
     // check if there is a winner
@@ -206,6 +211,7 @@ io.on('connection', (socket) => {
         // Update game status
         currentGame.setGameStatusLoading();
 
+        console.log('EMIT result to waiting');
         io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, {});
       }, timeout);  
     }
@@ -245,7 +251,14 @@ io.on('connection', (socket) => {
       
     }
 
+    // make user leave the room
+    socket.leave(ioHelper.getRoom(gameId));
+
   });
+
+  socket.on(event.CREATOR_LEAVE_GAME, (gameId) => {
+    socket.leave(ioHelper.getRoom(gameId));
+  })
 
   /**
    * Event called when a user choose an answer, in order to increment their score or not

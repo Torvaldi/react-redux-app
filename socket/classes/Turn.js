@@ -210,7 +210,8 @@ class Turn {
         }
 
         scores.sort(function(a, b){
-            
+            console.log(a.rank);
+            console.log(b.rank);
             if(b.rank < a.rank && b.rank != null && a.rank != null){
                 return 1
             }
