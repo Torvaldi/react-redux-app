@@ -4,7 +4,7 @@ const AnimeTurn = require('./AnimeTurn');
 
 /**
  * Represent a turn during a game
- * This class manage 
+ * This class manage
  * _all players score turn
  * _update player score
  */
@@ -56,7 +56,7 @@ class Turn {
 
     /**
      * set the total of player in the turn
-     * @param {*int} playerTotal 
+     * @param {*int} playerTotal
      */
     setPlayerTotal(playerTotal)
     {
@@ -131,7 +131,7 @@ class Turn {
     }
 
     /**
-     * @param {*string} username 
+     * @param {*string} username
      */
     getPlayerScore(username){
         if(this.scores.has(username) === null){
@@ -174,7 +174,7 @@ class Turn {
 
     /**
      * update lastAnswer of the given player username
-     * @param {*string} username 
+     * @param {*string} username
      * @param {*object} anime
      * @return {void}
      */
@@ -199,7 +199,7 @@ class Turn {
 
 
     /**
-     * transform score Map member to json object 
+     * transform score Map member to json object
      * @return {object}
      */
     serialize(){
@@ -210,14 +210,12 @@ class Turn {
         }
 
         scores.sort(function(a, b){
-            console.log(a.rank);
-            console.log(b.rank);
             if(b.rank < a.rank && b.rank != null && a.rank != null){
                 return 1
             }
 
             return -1;
-        
+
         });
         return scores;
     }

@@ -34,21 +34,19 @@ io.on('connection', (socket) => {
     console.log('user join game');
 
     socket.join(ioHelper.getRoom(game.id));
-    console.log(game.id);
-    console.log(currentGames.has(game.id));
 
     // Check if this is a new game, otherwise create it
     // using given game parameters
     if (currentGames.has(game.id) === false) {
       currentGames.set(game.id, new Game(game.id, game.creator, game.level, game.answer, game.score_to_win, game.musicType, token));
     }
-    
+
     let currentGame = currentGames.get(game.id);
 
     // retrives the game status and send it to the player
     let gameStatus = currentGame.getRunningStatus();
     socket.emit(event.UPDATE_GAME_STATUS, {status: gameStatus});
-    
+
     // Check if this player already existed in this game
     let player;
     if (currentGame.playerExists(authUser.username) === true) {
@@ -101,33 +99,32 @@ io.on('connection', (socket) => {
   socket.on(event.CHANGE_STATUS_0_TO_1, (data) => {
 
     const { gameId } = data;
-    console.log('status change waiting to music');
-    console.log(gameId);
-
 
     let currentGame = currentGames.get(gameId);
 
+    // prevent from sending the event if the game status is not the expected one
+    if(currentGame.getGameStatus() !== statusHelper.gameStatus.loading) return;
+
     let timeout = statusHelper.getTimeout(0);
 
-    let currentStatus = currentGame.getGameStatus();
-    if(currentStatus === statusHelper.gameStatus.loading){
+    // execute the following actions in x seconds
+    setTimeout( () => {
 
-      // execute the following actions in x seconds
-      setTimeout( () => {
-        // update game status
-        currentGame.setGameStatusMusicPLaying();
-  
-        // update number of the turn
-        currentGame.createNewTurn();
-        let animes = currentGame.getLastTurn().getAnimeSerialize();
+      // prevent from sending the event if the game status is not the expected one (it might have change since the previous check)
+      if(currentGame.getGameStatus() !== statusHelper.gameStatus.loading) return;
 
-        // send change status event
-        console.log('EMIT waiting to music');
-        io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_0_TO_1, { animes });
-  
-      }, timeout);
+      currentGame.setGameStatusMusicPLaying();
 
-    }
+      currentGame.createNewTurn();
+
+      // receipe anime that'll be play the next turn
+      let animes = currentGame.getLastTurn().getAnimeSerialize();
+
+      // send change status event
+      io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_0_TO_1, { animes });
+
+    }, timeout);
+
   });
 
   /**
@@ -138,37 +135,31 @@ io.on('connection', (socket) => {
    */
   socket.on(event.CHANGE_STATUS_1_TO_2, (data) => {
 
-    
     const { gameId } = data;
-    console.log('status change music to result');
-    console.log(gameId);
-    
-    // get currentGame
+
     let currentGame = currentGames.get(gameId);
+
+    // prevent from sending the event if the game status is not the expected one
+    if(currentGame.getGameStatus() !== statusHelper.gameStatus.musicPLaying) return;
+
     let timeout = statusHelper.getTimeout(1);
 
     // execute the following actions in x seconds
     setTimeout( () => {
-        let currentStatus = currentGame.getGameStatus();
-        if(currentStatus === statusHelper.gameStatus.musicPLaying){
-          // Update game status
-          currentGame.setGameGameStatusResult();
 
-          // get turn scores
-          let turnResult = currentGame.getLastTurn().serialize();
+        // prevent from sending the event if the game status is not the expected one (it might have change since the previous check)
+        if(currentGame.getGameStatus() !== statusHelper.gameStatus.musicPLaying) return;
+        
+        currentGame.setGameGameStatusResult();
+        currentGame.updatePlayerScore();
+        currentGame.updatePlayerRank();
 
-          // update players scores
-          currentGame.updatePlayerScore();
-          // update players rank
-          currentGame.updatePlayerRank();
+        let turnResult = currentGame.getLastTurn().serialize();
 
-          // get players
-          let players = currentGame.getAllPlayers();
+        let players = currentGame.getAllPlayers();
 
-          // send turn scores to the clients
-          console.log('EMIT music to result');
-          io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_1_TO_2, {turnResult, players});
-        }
+        // send turn scores to the clients
+        io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_1_TO_2, {turnResult, players});
 
       }, timeout);
   });
@@ -179,21 +170,22 @@ io.on('connection', (socket) => {
     */
   socket.on(event.CHANGE_STATUS_2_TO_0, (data) => {
 
-    
     const { gameId, token } = data;
-    console.log('status change result to waiting');
-    console.log(gameId);
 
     let currentGame = currentGames.get(gameId);
+
+    // prevent from sending the event if the game status is not the expected one 
+    if(currentGame.getGameStatus() !== statusHelper.gameStatus.result) return;
 
     // check if there is a winner
     let winners = currentGame.checkWinner();
     if(winners.length > 0){
+
       // send winners to the players
       io.in(ioHelper.getRoom(gameId)).emit(event.GAME_FINISH, { winners });
 
       // set game status to finish
-      api.updateGameStatus(token, gameId, 3); 
+      api.updateGameStatus(token, gameId, 3);
 
       // save all players score to the server
       api.savePlayerScore(token, currentGame.getAllPlayers(), gameId);
@@ -205,16 +197,15 @@ io.on('connection', (socket) => {
 
     let timeout = statusHelper.getTimeout(2);
 
-    let currentStatus = currentGame.getGameStatus();
-    if(currentStatus === statusHelper.gameStatus.result){
-      setTimeout(() => {
-        // Update game status
-        currentGame.setGameStatusLoading();
+    setTimeout(() => {
 
-        console.log('EMIT result to waiting');
-        io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, {});
-      }, timeout);  
-    }
+      // prevent from sending the event if the game status is not the expected one (it might have change since the previous check)
+      if(currentGame.getGameStatus() !== statusHelper.gameStatus.result) return;
+      
+      currentGame.setGameStatusLoading();
+
+      io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, {});
+    }, timeout);
 
   });
 
@@ -239,7 +230,7 @@ io.on('connection', (socket) => {
 
     // the user leaving the game is the creator
     } else {
-      
+
       api.updateGameStatus(token, gameId, 4)
       .then( (statusCode) => {
 
@@ -247,8 +238,8 @@ io.on('connection', (socket) => {
 
         socket.to(ioHelper.getRoom(gameId)).emit(event.CREATOR_LEAVE_GAME); // set the game to cancel
         io.emit(event.GAME_UPDATE);
-      }); 
-      
+      });
+
     }
 
     // make user leave the room
@@ -262,12 +253,11 @@ io.on('connection', (socket) => {
 
   /**
    * Event called when a user choose an answer, in order to increment their score or not
-   * and tell other player when another payer answer 
+   * and tell other player when another payer answer
    */
   socket.on(event.CLICK_ANSWER, (data) => {
     const { gameId, authUser, findAnime, anime } = data;
-    console.log(authUser.username + ' click answer')
-    
+
     let currentGame = currentGames.get(gameId);
 
     let turn = currentGame.getLastTurn();
@@ -308,7 +298,7 @@ io.on('connection', (socket) => {
 
   });
 
-  
+
 
 });
 
