@@ -33,17 +33,24 @@ class Player {
         this.score += score;
     }
 
+    /**
+     * @return {int}
+     */
     getScore(){
         return this.score;
     }
 
+    /**
+     * @param {*int} rank 
+     * @return {void}
+     */
     setRank(rank){
         this.rank = rank
     }
 
     /**
      * transform Player object member to json object
-     * @return {void}
+     * @return {object}
      */
     serialize(){
         return {

@@ -16,6 +16,7 @@ body {
   --mobile-big: 550px;
   --mobile: 375px;
   --titleShadow: 2px 2px 4px rgb(255, 255, 255, 0.3);
+  --gradiant: linear-gradient(135deg, rgba(126,86,194,1) 0%, rgba(63,81,181,1) 39%, rgba(63,81,181,1) 100%); 
 }
 
 a {

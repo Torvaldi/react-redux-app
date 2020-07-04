@@ -19,7 +19,7 @@ export function getAnimeSeason(seasonNumber){
 }
 
 export function getMusicType(type){
-    if(type === 0){
+    if(parseInt(type) === 0){
         return 'Opening';
     }
 

@@ -2,9 +2,9 @@ const config = require('./../config.json');
 const fetch = require('node-fetch');
 
 const API_GAME_UPDATE_STATUS = config.api_url + "api/game.status";
-const API_USER_LEAVE = config.api_url + "api/game.user.leave";
 const API_GET_ANIMES = config.api_url + "api/anime.index";
 const API_USER_SAVE_SCORE = config.api_url + "api/game.user.save";
+
 
 // TODO : prevent duplicate with client side
 const getAuthorizationHeader = (token) => {
@@ -15,8 +15,8 @@ const getAuthorizationHeader = (token) => {
     }
 }
 
-function updateDatabaseGameStatus(token, gameId, statusId){
-    fetch(API_GAME_UPDATE_STATUS, {
+async function updateGameStatus(token, gameId, statusId){
+    let response = await fetch(API_GAME_UPDATE_STATUS, {
         method: 'PUT',
         headers: getAuthorizationHeader(token),
         body: JSON.stringify({
@@ -24,16 +24,9 @@ function updateDatabaseGameStatus(token, gameId, statusId){
             'status' : statusId
         }),
     });
-}
+    let statusCode = await response.status;
 
-function userLeaveGameDatabase(token, gameId){
-    fetch(API_USER_LEAVE, {
-        method: 'DELETE',
-        headers: getAuthorizationHeader(token),
-        body: JSON.stringify({
-            'game_id': gameId
-        })
-    });
+    return statusCode;
 }
 
 async function getAnimes(token, level, musicType){
@@ -60,8 +53,7 @@ function savePlayerScore(token, players, gameId)
 }
 
 module.exports = {
-    updateDatabaseGameStatus,
-    userLeaveGameDatabase,
+    updateGameStatus,
     getAnimes,
     savePlayerScore,
 }

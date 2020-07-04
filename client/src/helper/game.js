@@ -131,17 +131,17 @@ export const getMusicTypeOptions = () => {
      // array use to print music type values on the create form and on the game list visual
      return [
         {
-            value: 2,
+            value: 1,
             label: 'Opening and Ending',
             shortValue : "OP/ED"
         },
         {
-          value: 0,
-          label: 'Opening',
-          shortValue : "OP"
+            value: 2,
+            label: 'Opening',
+            shortValue : "OP"
         },
         {
-          value: 1,
+          value: 3,
           label: 'Ending',
           shortValue : "ED"
         }
@@ -153,7 +153,7 @@ export const getMusicTypeOptions = () => {
  * @return {string}
  */
 export const getMusicTypeByValue = (givenType) => {
-    let musicTypeArray = getMusicTypeOptions().find((type) => type.value === givenType);
+    let musicTypeArray = getMusicTypeOptions().find((type) => type.value === parseInt(givenType));
     
     if(musicTypeArray === undefined) return 'N/A';
 
@@ -183,8 +183,9 @@ export const getLevelOptions = () => {
  * @return {string}
  */
 export const getLevelByValue = (givenLevel) => {
-    let levelArray = getLevelOptions().find((type) => type.value === givenLevel);
-    
+
+    let levelArray = getLevelOptions().find((type) => type.value === parseInt(givenLevel));
+
     if(levelArray === undefined) return 'N/A';
 
     return levelArray.label;
