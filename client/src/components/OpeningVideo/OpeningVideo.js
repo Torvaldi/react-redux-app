@@ -6,7 +6,8 @@ import PauseIcon from '@material-ui/icons/Pause';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import IconButton from '@material-ui/core/IconButton';
 
-import malLogo from '../../asset/myAnimeListLogo.png';
+import malLogo from 'asset/myAnimeListLogo.png';
+import spoilerImage from 'asset/Spoil_Alert_Filter_V2.png';
 
 import { getMoeLink, getAnimeSeason, getAnimeType, getMusicType, getMalUrl } from 'helper/runningGame';
 
@@ -34,6 +35,10 @@ class OpeningVideo extends React.Component {
     const url = getMoeLink(opening.moe_link) + "#t=30";
     const musicType = getMusicType(opening.type);
 
+    const overlayStyle = {
+      backgroundImage: `url(${spoilerImage})`
+    }
+
     return(
 
       <section className="turnResultBlock">
@@ -60,22 +65,22 @@ class OpeningVideo extends React.Component {
             </li>
           </ul>
           <div className="containerVideo">
-            <div className="resultVideoOverflow">
+            <div style={overlayStyle} className="resultVideoOverflow">
             </div>
-              <Player
-                ref={player => {
-                  this.player = player;
-                }}
-                src={url}
-                className="resultVideo"
-                fluid={false}
-                width={450}
-                height={260}
-                autoPlay={true}
-              >
-                <ControlBar disableCompletely={true} />
-                <Shortcut clickable={false}  />
-              </Player>
+            <Player
+              ref={player => {
+                this.player = player;
+              }}
+              src={url}
+              className="resultVideo"
+              fluid={false}
+              width={450}
+              height={260}
+              autoPlay={true}
+            >
+              <ControlBar disableCompletely={true} />
+              <Shortcut clickable={false}  />
+            </Player>
           </div>
         </article>
       </section>

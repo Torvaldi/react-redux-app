@@ -9,10 +9,12 @@ import ScoreTable from 'components/ScoreTable/ScoreTable';
 class EndGame extends React.Component {
 
   printWinners = (winners) => {
+    let count = 0;
     return(
       <ul>
         {winners.map((winner) => {
-          return <li>{winner.userName} - {winner.score}</li>
+          count++;
+          return <li key={count} >{winner.userName} - {winner.score}</li>
         })}
       </ul>
     );

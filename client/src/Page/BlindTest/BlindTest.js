@@ -19,8 +19,7 @@ import {
   removePlayer, 
   clearGame, 
   removeUserFromGame, 
-  setLastAnimePlayed,  
-  setLastTurn
+  setLastAnimePlayed
 } from './action';
 
 import { withRouter, Redirect } from 'react-router-dom';

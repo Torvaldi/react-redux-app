@@ -208,9 +208,13 @@ class Turn {
         {
             scores.push(score);
         }
-
+        
         scores.sort(function(a, b){
             if(b.rank < a.rank && b.rank != null && a.rank != null){
+                return 1
+            }
+
+            if(a.rank === null && b.rank !== null){
                 return 1
             }
 

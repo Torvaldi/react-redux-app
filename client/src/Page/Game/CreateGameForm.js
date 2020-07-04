@@ -10,7 +10,6 @@ import './css/createGameForm.css';
 import { withRouter } from 'react-router-dom';
 import { getLevelOptions, getMusicTypeOptions } from 'helper/game';
 
-import socketEvent from 'socketEvent.json';
 import { 
   changeLevel, 
   changeAnswer, 

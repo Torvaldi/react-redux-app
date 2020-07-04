@@ -70,7 +70,7 @@ class GameAvalaible extends Component {
         // check if the user is not already in a game, so they can't rejoin a game twice
         if(this.props.userRunningGame === true) return;
 
-        const { token, io } = this.props;
+        const { token } = this.props;
         this.props.onUserJoinGame(token, gameId);
     }
 

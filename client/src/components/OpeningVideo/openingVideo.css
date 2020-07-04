@@ -47,7 +47,7 @@
 
 
 .resultVideoOverflow {
-    background-color: rgba(0, 0, 0, 0.9);
+    /*background-color: rgba(0, 0, 0, 0.9); */
     z-index: 10;
     width: 450px;
     height: 260px;
@@ -55,8 +55,10 @@
 }
 
 .resultVideoOverflow:hover{
-    background-color: rgba(0, 0, 0, 0.0);
+    /*background-color: rgba(0, 0, 0, 0.0); */
+    background-image: none !important;
 }
+
 
 .scoreTurnTable {
     width: 70%;
