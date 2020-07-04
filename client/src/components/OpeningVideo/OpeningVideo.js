@@ -8,6 +8,8 @@ import IconButton from '@material-ui/core/IconButton';
 
 import malLogo from '../../asset/myAnimeListLogo.png';
 
+import { getMoeLink, getAnimeSeason, getAnimeType, getMusicType, getMalUrl } from 'helper/runningGame';
+
 class OpeningVideo extends React.Component {
 
   pause = (event) => {
@@ -20,17 +22,20 @@ class OpeningVideo extends React.Component {
 
   render(){
 
-    const { 
-      anime,
-      musicType,
-      opening,
-      animeSeason,
-      animeType,
-      url,
-      myAnimListUrl
-     } = this.props;
+    const { animes } = this.props;
+
+    let anime = animes.animeToGuess;
+    let opening = animes.openingToGuess;
+
+    const animeSeason = getAnimeSeason(anime.season);
+    const animeType = getAnimeType(anime.type);
+    const myAnimListUrl = getMalUrl(anime.myanimelist_id);
+    
+    const url = getMoeLink(opening.moe_link) + "#t=30";
+    const musicType = getMusicType(opening.type);
 
     return(
+
       <section className="turnResultBlock">
         <h1 className="resultTitle">{anime.name_jap} - {musicType} {opening.number} </h1>
         <article className="resultInfoBlock">

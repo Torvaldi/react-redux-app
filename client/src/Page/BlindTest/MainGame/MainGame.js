@@ -61,8 +61,8 @@ class MainGame extends React.Component {
     });
 
     io.on(socketEvent.GAME_FINISH, (data) => {
-      const { winners } = data;
-      this.props.gameFinish(winners);
+      const { winners, animes } = data;
+      this.props.gameFinish(winners, animes);
     });
 
   }
@@ -74,7 +74,7 @@ class MainGame extends React.Component {
    * 3 finish
    */
   render(){
-    const { gameStatus, io, game, authUser, runningStatus, turnResult, winners, token } = this.props;
+    const { gameStatus, io, game, authUser, runningStatus, turnResult, winners, lastAnimePlayed, token } = this.props;
     
     return(
      <Fragment>
@@ -98,7 +98,12 @@ class MainGame extends React.Component {
                   turnResult={turnResult}
                   token={token}
                 /> : ''}
-                {gameStatus === 3 && winners ? <EndGame winners={winners} /> : ''}
+                {gameStatus === 3 && winners ? 
+                  <EndGame 
+                    winners={winners} 
+                    lastAnimePlayed={lastAnimePlayed} 
+                    turnResult={turnResult} 
+                  /> : ''}
                 {gameStatus === undefined ? 'Loading' : ''}
             </article>
           </article>

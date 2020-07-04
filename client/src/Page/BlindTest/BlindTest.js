@@ -10,7 +10,19 @@ import MainGame from './MainGame/MainGame';
 import io from 'socket';
 import socketEvent from 'socketEvent.json'
 
-import { getGame, updateStatusState, setPlayers, setWinners, addPlayer, removePlayer, clearGame, removeUserFromGame } from './action';
+import { 
+  getGame, 
+  updateStatusState, 
+  setPlayers, 
+  setWinners, 
+  addPlayer, 
+  removePlayer, 
+  clearGame, 
+  removeUserFromGame, 
+  setLastAnimePlayed,  
+  setLastTurn
+} from './action';
+
 import { withRouter, Redirect } from 'react-router-dom';
 
 const mapStateToProps = (state, ownProps) => ({...state.runningGame, ...ownProps});
@@ -31,7 +43,9 @@ const mapDispatchToProps = (dispatch) => ({
   onRemovePlayer : (player) =>
     dispatch(removePlayer(player)),
   onPlayerLeave: (token, gameId) =>
-    dispatch(removeUserFromGame(token, gameId))
+    dispatch(removeUserFromGame(token, gameId)),
+  onSetLastAnimePlayed : (animes) =>
+    dispatch(setLastAnimePlayed(animes))
 });
 
 class BlindTest extends React.Component {
@@ -65,7 +79,8 @@ class BlindTest extends React.Component {
   }
 
 
-  gameFinish = (winners) => {
+  gameFinish = (winners, animes) => {
+    this.props.onSetLastAnimePlayed(animes);
     this.props.onUpdateStatusState(3);
     this.props.onSetWinners(winners);
   }
@@ -125,7 +140,7 @@ class BlindTest extends React.Component {
    * Chat: A simple chat where players can talk to each other
    */
   printGame = () => {
-    const { token, game, user, gameStatus, players, winners, isUserLeaveLoading, isUserLeaveError } = this.props;
+    const { token, game, user, gameStatus, players, winners, lastAnimePlayed, isUserLeaveLoading, isUserLeaveError } = this.props;
     
     let gameEmpty = false;
     if(Object.keys(game).length === 0){
@@ -160,6 +175,7 @@ class BlindTest extends React.Component {
             scores={players} // fix name
             gameFinish={this.gameFinish}
             winners={winners}
+            lastAnimePlayed={lastAnimePlayed}
           />}
           right={<Chat io={io} game={game} authUser={user} />}
         /> : '404'}

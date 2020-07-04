@@ -10,6 +10,7 @@ export const CLEAR_GAME = 'CLEAR_GAME';
 export const USER_LEAVE_REQUEST = 'USER_LEAVE_REQUEST';
 export const USER_LEAVE_SUCCESS = 'USER_LEAVE_SUCCESS';
 export const USER_LEAVE_FAILURE = 'USER_LEAVE_FAILURE';
+export const SET_LAST_ANIME_PLAYED = 'SET_LAST_ANIME_PLAYED';
 
 /**
  * get game data (level, answer etc)
@@ -108,3 +109,13 @@ export function clearGame(){
 }
 
 
+export function setLastAnimePlayed(animes){
+  return {
+    type: SET_LAST_ANIME_PLAYED,
+    payload : {
+      animeToGuess : animes.animeToGuess,
+      openingToGuess: animes.openingToGuess
+    }
+
+  }
+}

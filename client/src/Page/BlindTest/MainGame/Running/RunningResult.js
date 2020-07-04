@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { getMoeLink, getAnimeSeason, getAnimeType, getMusicType, getMalUrl } from 'helper/runningGame';
-
 import OpeningVideo from 'components/OpeningVideo/OpeningVideo';
 import ScoreTable from 'components/ScoreTable/ScoreTable';
 import Counter from 'components/Counter/Counter';
@@ -16,30 +14,6 @@ class RunningResult extends React.Component {
 
   componentDidMount = () => {
     this.props.changeStatus(socketEvent.CHANGE_STATUS_2_TO_0);
-  }
-
-  printAnimeInformation = (animes) => {
-    let anime = animes.animeToGuess;
-    let opening = animes.openingToGuess;
-
-    const animeSeason = getAnimeSeason(anime.season);
-    const animeType = getAnimeType(anime.type);
-    const myAnimListUrl = getMalUrl(anime.myanimelist_id);
-    
-    const url = getMoeLink(opening.moe_link) + "#t=30";
-    const musicType = getMusicType(opening.type);
-
-    return(
-      <OpeningVideo 
-        anime={anime} 
-        opening={opening}  
-        animeSeason={animeSeason} 
-        animeType={animeType} 
-        myAnimListUrl={myAnimListUrl} 
-        url={url} 
-        musicType={musicType}
-      />
-    )
   }
 
   printScoreOfTheTurn = (turnResult) => {
@@ -71,7 +45,7 @@ class RunningResult extends React.Component {
     return(
      <section className="runningResultBlock">
        <Counter startingNumber={waitingTrun.WAITING_TURN_3} />
-       { animeToGuess ? this.printAnimeInformation(animeToGuess) : ''}
+       { animeToGuess ? <OpeningVideo animes={animeToGuess} /> : ''}
        { turnResult ? this.printScoreOfTheTurn(turnResult) : ''}
      </section>
     );

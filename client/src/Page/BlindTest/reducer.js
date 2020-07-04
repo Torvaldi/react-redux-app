@@ -10,6 +10,7 @@ import {
     USER_LEAVE_REQUEST,
     USER_LEAVE_SUCCESS,
     USER_LEAVE_FAILURE,
+    SET_LAST_ANIME_PLAYED,
 } from './action';
 
 let initialState = {
@@ -19,6 +20,7 @@ let initialState = {
     isUserLeave: false,
     isUserLeaveLoading: false,
     isUserLeaveError: false,
+    lastAnimePlayed: null,
 }
 
 export default (state = initialState, action) => {
@@ -80,6 +82,11 @@ export default (state = initialState, action) => {
                 ...state,
                 winners: action.payload,
             };
+        case SET_LAST_ANIME_PLAYED:
+            return {
+                ...state,
+                lastAnimePlayed: action.payload
+            }
         case USER_LEAVE_REQUEST:
             return {
                 ...state,
