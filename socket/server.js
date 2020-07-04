@@ -83,10 +83,9 @@ io.on('connection', (socket) => {
 
     let currentGame = currentGames.get(gameId);
 
-    // set new game status
     currentGame.setGameStatusLoading();
 
-    // update game database status
+    // update game database status to "playing"
     api.updateGameStatus(token, gameId, 2);
 
     // sending all users that a new game has been updated (for the game list page)
@@ -181,8 +180,10 @@ io.on('connection', (socket) => {
     let winners = currentGame.checkWinner();
     if(winners.length > 0){
 
+      let animes = currentGame.getLastTurn().getAnimeSerialize();
+
       // send winners to the players
-      io.in(ioHelper.getRoom(gameId)).emit(event.GAME_FINISH, { winners });
+      io.in(ioHelper.getRoom(gameId)).emit(event.GAME_FINISH, { winners, animes });
 
       // set game status to finish
       api.updateGameStatus(token, gameId, 3);
