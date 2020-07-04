@@ -8,7 +8,7 @@ const AuthLayout = (props) => {
   return (
     <section className="authLayout" >
           <article className="authBlock">
-            <article class="authBlock_left">
+            <article className="authBlock_left">
               <BlockText text={props.text} />
               {props.left}
             </article>

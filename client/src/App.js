@@ -1,10 +1,10 @@
-import Login from './LoginPage/Login';
-import Register from './RegisterPage/Register';
-import Home from './HomePage/Home';
-import BlindTest from './BlindTestPage/BlindTest';
+import Login from './Page/Auth/Login/Login';
+import Register from './Page/Auth/Register/Register';
+import Home from './Page/Home/Home';
+import BlindTest from './Page/BlindTest/BlindTest';
+import Game from './Page/Game/Game';
 
-import AuthRoute from './Route/AuthRoute';
-import Game from './GamePage/Game';
+import AuthRoute from './middleware/AuthRoute';
 
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';

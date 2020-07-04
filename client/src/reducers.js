@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 
-import token from './reducers/token';
-import auth from './reducers/auth';
-import game from './reducers/game';
-import runningGame from './reducers/runningGame';
-import chat from './reducers/chat';
-import player from './reducers/player'
-import mainGame from './reducers/mainGame';
-import runningMusic from './reducers/mainGame/runningMusic';
+import token from 'middleware/reducer';
+import auth from 'Page/Auth/reducer';
+import game from 'Page/Game/reducer';
+import runningGame from 'Page/BlindTest/reducer';
+import chat from 'Page/BlindTest/Chat/reducer';
+//import player from './Page/'
+import mainGame from 'Page/BlindTest/MainGame/reducer';
+import runningMusic from 'Page/BlindTest/MainGame/Running/RunningMusic/reducer';
 
 export default combineReducers({
     auth,
@@ -15,7 +15,7 @@ export default combineReducers({
     game,
     runningGame,
     chat,
-    player,
+    //player,
     mainGame,
     runningMusic
 });
