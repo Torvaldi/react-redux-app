@@ -2,7 +2,7 @@
     "sqltools.connections": [
         {
             "askForPassword": true,
-            "database": "anime_blind_test",
+            "database": "blind_test",
             "dialect": "MySQL",
             "name": "Anime Blind Test",
             "port": 3306,

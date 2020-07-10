@@ -110,7 +110,7 @@ class Game {
      * retrive a player based on the given username parameter
      * @param {string} userName
      * @return {Player|null}
-     */2
+     */
     getPlayer(userName){
         if (this.playerExists(userName) === true) {
             return this.players.get(userName);
