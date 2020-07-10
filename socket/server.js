@@ -1,15 +1,18 @@
 const app = require('express')();
 const fs = require('fs');
 const config = require('./config.json');
-var options = {};
+var http;
 if(config.prod === true){
-  options = {
+  let options = {
       key: fs.readFileSync('/etc/letsencrypt/live/socket.guesstheanimeopening.com/privkey.pem'),
       cert: fs.readFileSync('/etc/letsencrypt/live/socket.guesstheanimeopening.com/cert.pem'),
       ca: fs.readFileSync('/etc/letsencrypt/live/socket.guesstheanimeopening.com/chain.pem')
   };
+  http = require('https').createServer(options, app);
+} else {
+  http = require('http').createServer(app);
 }
-const http = require('https').createServer(options, app);
+
 const io = require('socket.io')(http);
 const event = require('./socketEvent.json');
 
