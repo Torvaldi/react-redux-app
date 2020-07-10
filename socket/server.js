@@ -1,12 +1,21 @@
 const app = require('express')();
-const http = require('http').createServer(app);
+const fs = require('fs');
+const config = require('./config.json');
+var options = {};
+if(config.prod === true){
+  options = {
+      key: fs.readFileSync('/etc/letsencrypt/live/socket.guesstheanimeopening.com/privkey.pem'),
+      cert: fs.readFileSync('/etc/letsencrypt/live/socket.guesstheanimeopening.com/cert.pem'),
+      ca: fs.readFileSync('/etc/letsencrypt/live/socket.guesstheanimeopening.com/chain.pem')
+  };
+}
+const http = require('https').createServer(options, app);
 const io = require('socket.io')(http);
 const event = require('./socketEvent.json');
 
 const ioHelper = require('./helper/io');
 const statusHelper = require('./helper/status');
 const api = require('./helper/api');
-const config = require('./config.json');
 
 let currentGames = new Map();
 
@@ -148,7 +157,7 @@ io.on('connection', (socket) => {
 
         // prevent from sending the event if the game status is not the expected one (it might have change since the previous check)
         if(currentGame.getGameStatus() !== statusHelper.gameStatus.musicPLaying) return;
-        
+
         currentGame.setGameGameStatusResult();
         currentGame.updatePlayerScore();
         currentGame.updatePlayerRank();
@@ -173,7 +182,7 @@ io.on('connection', (socket) => {
 
     let currentGame = currentGames.get(gameId);
 
-    // prevent from sending the event if the game status is not the expected one 
+    // prevent from sending the event if the game status is not the expected one
     if(currentGame.getGameStatus() !== statusHelper.gameStatus.result) return;
 
     // check if there is a winner
@@ -202,7 +211,7 @@ io.on('connection', (socket) => {
 
       // prevent from sending the event if the game status is not the expected one (it might have change since the previous check)
       if(currentGame.getGameStatus() !== statusHelper.gameStatus.result) return;
-      
+
       currentGame.setGameStatusLoading();
 
       io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, {});
