@@ -12,21 +12,6 @@ class Turn {
 
     constructor (players, animes, anwserCount)
     {
-        // bind all methods
-        this.getScores = this.getScores.bind(this);
-        this.getPlayerScore = this.getPlayerScore.bind(this);
-        this.serialize = this.serialize.bind(this);
-        this.updatePlayerScore = this.updatePlayerScore.bind(this);
-        this.setRank = this.setRank.bind(this);
-        this.getRank = this.getRank.bind(this);
-        this.setAnime =  this.setAnime.bind(this)
-        this.setPlayerTotal = this.setPlayerTotal.bind(this);
-        this.getTotalPlayer = this.getTotalPlayer.bind(this);
-        this.setTotalAnswers = this.setTotalAnswers.bind(this);
-        this.getTotalAnswer = this.getTotalAnswer.bind(this);
-        this.incrementeTotalAnswers = this.incrementeTotalAnswers.bind(this);
-        this.haveAllPlayerAnswer = this.haveAllPlayerAnswer.bind(this);
-
         // Initialise the score of the turn for each player
         this.scores = new Map();
         for (const [key, player] of players.entries())
@@ -58,39 +43,35 @@ class Turn {
      * set the total of player in the turn
      * @param {*int} playerTotal
      */
-    setPlayerTotal(playerTotal)
-    {
+    setPlayerTotal = (playerTotal) => {
         this.playerTotal = playerTotal;
     }
 
     /**
      * @return {int}
      */
-    getTotalPlayer()
-    {
+    getTotalPlayer = () => {
         return this.playerTotal;
     }
 
     /**
      * @param {int}
      */
-    setTotalAnswers(totalAnswer){
+    setTotalAnswers = (totalAnswer) => {
         this.totalAnswer = totalAnswer;
     }
 
     /**
      * @return {int}
      */
-    getTotalAnswer()
-    {
+    getTotalAnswer = () => {
         return this.totalAnswer;
     }
 
     /**
      * @return {void}
      */
-    incrementeTotalAnswers()
-    {
+    incrementeTotalAnswers = () => {
         this.setTotalAnswers(this.totalAnswer + 1);
     }
 
@@ -98,19 +79,18 @@ class Turn {
      * @param {*Anime} anime
      * @return {void}
      */
-    setAnime(anime)
-    {
+    setAnime = (anime) => {
         this.anime = anime;
     }
 
-    getAnimeSerialize(){
+    getAnimeSerialize = () => {
         return this.anime.serialize();
     }
 
     /**
      * @return {Map}
      */
-    getScores(){
+    getScores = () => {
        return this.scores;
     }
 
@@ -118,22 +98,20 @@ class Turn {
      * @param {*int} rank
      * @return {void}
      */
-    setRank(rank)
-    {
+    setRank = (rank) => {
         this.rank = rank;
     }
     /**
      * @return {int}
      */
-    getRank()
-    {
+    getRank = () => {
         return this.rank;
     }
 
     /**
      * @param {*string} username
      */
-    getPlayerScore(username){
+    getPlayerScore = (username) => {
         if(this.scores.has(username) === null){
             return null;
         }
@@ -143,7 +121,7 @@ class Turn {
     /**
      * @return {bool}
      */
-    haveAllPlayerAnswer(){
+    haveAllPlayerAnswer = () => {
         return this.getTotalPlayer() === this.getTotalAnswer();
     }
 
@@ -152,7 +130,7 @@ class Turn {
      * @param {*string} username
      * @return {void}
      */
-    updatePlayerScore(username){
+    updatePlayerScore = (username) => {
         if(this.scores.has(username) === null){
             return;
         }
@@ -178,7 +156,7 @@ class Turn {
      * @param {*object} anime
      * @return {void}
      */
-    updatePlayerAnimeClicked(username, anime){
+    updatePlayerAnimeClicked = (username, anime) => {
 
         // verify if the username key exist in the score map
         if(this.scores.has(username) === null){
@@ -202,7 +180,7 @@ class Turn {
      * transform score Map member to json object
      * @return {object}
      */
-    serialize(){
+    serialize = () => {
         const scores = [];
         for (const [key, score] of this.scores.entries())
         {

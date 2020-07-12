@@ -5,14 +5,6 @@ class AnimeTurn {
 
     constructor (animes, answers)
     {
-        this.getAnimeAnswer = this.getAnimeAnswer.bind(this);
-        this.getAnimeToGuess = this.getAnimeToGuess.bind(this);
-        this.getOpeningToGuess = this.getOpeningToGuess.bind(this);
-
-        this.setAnimesAnswer = this.setAnimesAnswer.bind(this);
-        this.setAnimeToGuess = this.setAnimeToGuess.bind(this);
-        this.setOpeningToGuess = this.setOpeningToGuess.bind(this);
-
         this.setAnimesAnswer(animes, answers);
         this.setAnimeToGuess();
         this.setOpeningToGuess();
@@ -25,7 +17,7 @@ class AnimeTurn {
      * @param {*int} answers
      * @return {void}
      */
-    setAnimesAnswer(animes, answers){
+    setAnimesAnswer = (animes, answers) => {
         // Shuffle array
         const shuffled = animes.sort(() => 0.5 - Math.random());
 
@@ -42,7 +34,7 @@ class AnimeTurn {
      * randomly select one anime amoung the answer that will be the right answer
      * @return {void}
      */
-    setAnimeToGuess(){
+    setAnimeToGuess = () => {
         this.animeToGuess = this.animesAnswer[Math.floor(Math.random()*this.animesAnswer.length)];
     }
 
@@ -51,7 +43,7 @@ class AnimeTurn {
      * This opening wil be the one played during the turn
      * @return {void}
      */
-    setOpeningToGuess(){
+    setOpeningToGuess = () => {
         let animeOpening = this.getAnimeToGuess().opening;
         this.openingToGuess = animeOpening[Math.floor(Math.random()*animeOpening.length)];
     }
@@ -59,21 +51,21 @@ class AnimeTurn {
     /**
      * @return {object} the answer displayed during the turn
      */
-    getAnimeAnswer(){
+    getAnimeAnswer = () => {
         return this.animesAnswer;
     }
 
     /**
      * @return {object}, the anime info of the opening played during the turn
      */
-    getAnimeToGuess(){
+    getAnimeToGuess = () => {
         return this.animeToGuess;
     }
 
     /**
      * @return {object} the opening played during the turn
      */
-    getOpeningToGuess(){
+    getOpeningToGuess = () => {
         return this.openingToGuess;
     }
 
@@ -81,7 +73,7 @@ class AnimeTurn {
      * return an object with all the informations necessary during a turn
      * @return {object}
      */
-    serialize(){
+    serialize = () => {
         return {
             animes: this.getAnimeAnswer(),
             animeToGuess: this.getAnimeToGuess(),
