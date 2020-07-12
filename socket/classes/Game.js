@@ -13,18 +13,6 @@ class Game {
 
     constructor (id, creatorUserName, difficultyLevel, answersCount, winningScore, musicType, token)
     {
-        this.playerExists = this.playerExists.bind(this);
-        this.newPlayer = this.newPlayer.bind(this);
-        this.getPlayer = this.getPlayer.bind(this);
-        this.deletePlayer = this.deletePlayer.bind(this);
-        this.getAllPlayers = this.getAllPlayers.bind(this);
-        this.getGameStatus =  this.getGameStatus.bind(this);
-        this.checkWinner = this.checkWinner.bind(this);
-        this.getCreatorToken = this.getCreatorToken.bind(this);
-        this.getAnimes = this.getAnimes.bind(this);
-        this.setAnimes = this.setAnimes.bind(this);
-        this.updatePlayerRank = this.updatePlayerRank.bind(this);
-
         this.id = id;
         this.creatorUserName = creatorUserName;
         this.difficultyLevel = difficultyLevel;
@@ -45,26 +33,25 @@ class Game {
     /**
      * @return {string} the name of the creator of the game
      */
-    getCreatorUsername()
-    {
+    getCreatorUsername = () => {
         return this.creatorUserName;
     }
 
-    setAnimes(animes){
+    setAnimes = (animes) => {
         this.animes = animes;
     }
 
     /**
      * @return {array} array of object
      */
-    getAnimes(){
+    getAnimes = () => {
         return this.animes;
     }
 
     /**
      * @return {string}
      */
-    getCreatorToken(){
+    getCreatorToken = () => {
         return this.creatorToken;
     }
 
@@ -73,7 +60,7 @@ class Game {
      * @param {*string} userName
      * @return {*bool}
      */
-    playerExists(userName){
+    playerExists = (userName) => {
         if (this.players.has(userName)) {
             return true;
         }
@@ -85,7 +72,7 @@ class Game {
      * @param {*string} userName
      * @return {Player}
      */
-    newPlayer(userName){
+    newPlayer = (userName) => {
         if (this.playerExists(userName) === true) {
             return null;
         }
@@ -98,7 +85,7 @@ class Game {
      * @param {string} userName
      * @return {Map} players list 
      */
-    deletePlayer(userName){
+    deletePlayer = (userName) => {
         if (this.playerExists(userName) === false) {
             return null;
         }
@@ -111,7 +98,7 @@ class Game {
      * @param {string} userName
      * @return {Player|null}
      */
-    getPlayer(userName){
+    getPlayer = (userName) => {
         if (this.playerExists(userName) === true) {
             return this.players.get(userName);
         }
@@ -122,7 +109,7 @@ class Game {
      * Retrive all players of the game
      * @return {array} array of serialized Player
      */
-    getAllPlayers(){
+    getAllPlayers = () => {
         let players = [];
         this.players.forEach(function(player){
             players.push(player.serialize());
@@ -135,7 +122,7 @@ class Game {
      * retrives the score of the turn of each player and add it to their global score
      * @return {void}
      */
-    updatePlayerScore(){
+    updatePlayerScore = () => {
         // loop players
         let lastTurnScore = this.getLastTurn().getScores();
         
@@ -152,7 +139,7 @@ class Game {
      * uptade the rank of players based on their score and order them by their score
      * @return {void}
      */
-    updatePlayerRank(){
+    updatePlayerRank = () => {
 
         this.players = new Map([...this.players.entries()].sort(function(a, b){
             return b[1].getScore() - a[1].getScore()
@@ -170,7 +157,7 @@ class Game {
      * initialise a new Turn inside the game
      * @return {void}
      */
-    createNewTurn(){
+    createNewTurn = () => {
         // get total turn number
         let totalTurn = this.turns.size;
         // initialise the next turn number
@@ -184,7 +171,7 @@ class Game {
      * Note : depending of when this method is run, the last turn is also the current turn
      * @return {Turn}
      */
-    getLastTurn(){
+    getLastTurn = () => {
         let lastTurnNumber = this.turns.size;
         let lastTurn = this.turns.get(lastTurnNumber);
         return lastTurn;
@@ -193,29 +180,28 @@ class Game {
     /**
      * @return {string}
      */
-    getGameStatus()
-    {
+    getGameStatus = () => {
         return this.status;
     }
 
     /**
      * @return {void}
      */
-    setGameStatusLoading(){
+    setGameStatusLoading = () => {
         this.status = gameStatus.loading;
     }
 
     /**
      * @return {void}
      */
-    setGameStatusMusicPLaying(){
+    setGameStatusMusicPLaying = () => {
         this.status = gameStatus.musicPLaying;
     }
 
     /**
      * @return {void}
      */
-    setGameGameStatusResult(){
+    setGameGameStatusResult = () => {
         this.status = gameStatus.result;
     }
 
@@ -223,8 +209,7 @@ class Game {
      * Retrives the initial Running game status
      * @return {int}
      */
-    getRunningStatus()
-    {
+    getRunningStatus = () => {
         if(this.status === gameStatus.musicPLaying){
             return 1;
         }
@@ -240,7 +225,7 @@ class Game {
      * retrives the winner of the game
      * @return {array}
      */
-    checkWinner(){
+    checkWinner = () => {
         let scores = this.getAllPlayers();
         let winners = [];
         let winnerPlayer = { username: null, score: 0 }
