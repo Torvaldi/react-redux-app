@@ -10,7 +10,7 @@
 
 .mainGameLayout{
     width: 70%;
-    background: linear-gradient(135deg, rgba(126,86,194,1) 0%, rgba(63,81,181,1) 39%, rgba(63,81,181,1) 100%);
+    background: var(--gradiant);
     height: 100%;
     display: flex;
     justify-content: center;
