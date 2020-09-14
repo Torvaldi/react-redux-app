@@ -1,4 +1,5 @@
 /*@import url('https://fonts.googleapis.com/css?family=Noto+Sans&display=swap'); */
+@import url("https://fonts.googleapis.com/css?family=Merriweather:300,700,300italic,700italic|Source+Sans+Pro:900");
 
 body {
   margin: 0;
@@ -8,6 +9,7 @@ body {
   /* see Material UI custom theme */
   --primary: #3f51b5;
   --secondary: #7e57c2;
+  --lightGreen: #1DB954;
   --lighGrey: #fafafa;
   --darkBlue: #1F2D4E;
   --grey: #eeeeee;
