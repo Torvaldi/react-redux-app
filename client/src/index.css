@@ -14,6 +14,8 @@ body {
   --darkBlue: #1F2D4E;
   --grey: #eeeeee;
   --darkGrey: #9e9e9e;
+  --primaryDark: #334294;
+  --yellow: #fff126;
   --tablet: 1024px;
   --mobile-big: 550px;
   --mobile: 375px;
@@ -39,3 +41,44 @@ html, body, #root, #root>div {
   height: 100%;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  display: block;
+  background: var(--darkBlue);
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  padding: 5px;
+  background: var(--primaryDark); 
+  border-radius: 7px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary); 
+}
+
+/* button scroll */
+::-webkit-scrollbar-button:single-button {
+  border-color: transparent;
+  background: var(--darkBlue); 
+  display: block;
+  height: 5px;
+  }
+
+/* disable select text */
+  .noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+  }
