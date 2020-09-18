@@ -1,7 +1,7 @@
 import React from 'react';
 import './Carousel.css';
 
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import TransitionGroup from '/Cours/Guess/react-redux-app/client/node_modules/@material-ui/core/node_modules/react-transition-group/cjs/TransitionGroup.js';
 import 'components/Icons/icons.css';
 
 
@@ -21,7 +21,6 @@ class Carousel extends React.Component {
     generateItems() {
         var items = []
         var level
-        console.log(this.state.active)
         for (var i = this.state.active - 2; i < this.state.active + 3; i++) {
             var index = i
             if (i < 0) {
@@ -65,10 +64,10 @@ class Carousel extends React.Component {
         return(
             <div id="carousel" className="noselect">
                 <div className="under_carousel">
-                    <CSSTransitionGroup 
-                      transitionName={this.state.direction}>
+                    <TransitionGroup 
+                      >
                       {this.generateItems()}
-                    </CSSTransitionGroup>
+                    </TransitionGroup>
                 </div>
                 <div className="arrow arrow-left" onClick={this.leftClick}><i className="icon solid fa-chevron-left"></i></div>
                 <div className="arrow arrow-right" onClick={this.rightClick}><i className="icon solid fa-chevron-right"></i></div>

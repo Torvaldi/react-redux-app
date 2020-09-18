@@ -38,15 +38,17 @@ class Home extends Component {
 						<ul className="icons">
 							<li>
                 <Link to="/contact">
-                  <a className="icon solid fa-envelope"><span className="label">Contact</span></a>
+                  <div className="icon solid fa-envelope"><span className="label">Contact</span></div>
                 </Link>
               </li>
               <li>
-                  <a href="https://discord.gg/8DnC9FJ" className="icon brands fa-discord"><span className="label">Discord</span></a>
+                <Link to="https://discord.gg/8DnC9FJ">
+                  <div className="icon brands fa-discord"><span className="label">Discord</span></div>
+                </Link>
               </li>
               <li>
                 <Link to="">
-                  <a className="icon brands fa-github"><span className="label">GitHub</span></a>
+                  <div className="icon brands fa-github"><span className="label">GitHub</span></div>
                 </Link>
               </li>
 						</ul>
@@ -59,7 +61,7 @@ class Home extends Component {
                 Opening <a id="beta">Beta</a>
             </h1>
             <p>
-                Rejoingnez la communauter de <a href="">Guess The Anime Opening</a> et jouez avec vos amies,<br />
+                Rejoingnez la communauter de <a href="https://discord.gg/8DnC9FJ">Guess The Anime Opening</a> et jouez avec vos amies,<br />
                 afin de deviner le nom des openings
             </p>
         
@@ -82,7 +84,7 @@ class Home extends Component {
 
           <div id="homeInfoFeature">
 
-            <div id="presentation" class="homeInfoFeature_Feature">
+            <div id="presentation" className="homeInfoFeature_Feature">
               <h2 className="homeCenterElement">
                 Presentation
               </h2>
@@ -98,7 +100,7 @@ class Home extends Component {
               </p>
             </div>
 
-            <div id="anime" class="homeInfoFeature_Feature">
+            <div id="anime" className="homeInfoFeature_Feature">
               <h2 className="homeCenterElement">
                 Anime
               </h2>
@@ -136,7 +138,7 @@ class Home extends Component {
               </div>
             </div>
 
-            <div id="community" class="homeInfoFeature_Feature" style={overlayCommunity}>
+            <div id="community" className="homeInfoFeature_Feature" style={overlayCommunity}>
               <h2 className="homeCenterElement">
                 Community
               </h2>
@@ -161,7 +163,7 @@ class Home extends Component {
                     src="https://discordapp.com/widget?id=722857791894716448" 
                     height="500" 
                     allowtransparency="true" 
-                    frameborder="0" 
+                    frameBorder="0" 
                     sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
                   ></iframe>
                 </div>
