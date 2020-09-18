@@ -1,0 +1,38 @@
+circle {
+    transition: stroke-dashoffset 0.35s;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
+circle.currentTime{
+    stroke: var(--lightGreen);
+    border-radius: 1rem;
+    animation-name: example;
+    animation-duration: 30s;
+}
+
+
+@keyframes example {
+0%   {stroke: green;}
+65%  {stroke: yellow;}
+100% {stroke: red;}
+}
+
+#progressRing{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    position: relative;
+}
+
+.progressRing{
+    z-index: 10000;
+}
+
+#textprogressRing{
+    position: absolute;
+    color:var(--grey);
+    font-size: 4rem;
+    font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+}

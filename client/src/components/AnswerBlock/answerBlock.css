@@ -5,14 +5,17 @@
     align-items: center;
     text-align: center;
     list-style: none;
-    width: 25%;
-    background-color: white;
-    border: 2px solid var(--grey);
+    font-size: 1.1rem;
+    font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+    width: inherit;
+    background-color: var(--primary);
+    border: 2px solid transparent;
     padding: 10px;
-    margin: 5px;
+    margin: 0 0 7px 0;
     cursor: pointer;
+    color: white;
 }
 
 .answerItem:hover {
-    background-color:var(--grey);
+    background-color:var(--primaryDark);
 }

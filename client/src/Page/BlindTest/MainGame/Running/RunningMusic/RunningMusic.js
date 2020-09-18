@@ -8,7 +8,7 @@ import { getMoeLink } from 'helper/runningGame';
 
 import waitingTurn from 'waitingTrun.json';
 
-import Counter from 'components/Counter/Counter';
+import CounterRunning from 'components/CounterRunning/CounterRunning';
 
 import './style.css'
 
@@ -82,11 +82,17 @@ class RunningMusic extends React.Component {
     const { animeToGuess, answerOnce } = this.props;
 
     return(
-     <section className="runningMusicBlock">
-       <Counter startingNumber={waitingTurn.WAITING_TURN_2} />
-        {animeToGuess ? this.printAudioPlayer() : ''}
-        {answerOnce === false && animeToGuess ? this.printAnswer(animeToGuess.animes) : ''}
-     </section>
+      <section className="runningMusicBlock">
+        <div className="infoSong">
+          <CounterRunning startingNumber={waitingTurn.WAITING_TURN_2} />
+          {animeToGuess ? this.printAudioPlayer() : ''}
+        </div>
+        <div className="listSong">
+          <div className="listSongBoxScroll">
+            {answerOnce === false && animeToGuess ? this.printAnswer(animeToGuess.animes) : ''}
+          </div>
+        </div>
+      </section>
     );
   }
 }
