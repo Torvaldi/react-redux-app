@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import AnswerBlock from 'components/AnswerBlock/AnswerBlock';
 
 import socketEvent from 'socketEvent.json';
-import { clickAnswer, setAnswerOnce } from './action';
+import { clickAnswer, setAnswerOnce, resetAnimeSelect } from './action';
 import { getMoeLink } from 'helper/runningGame';
 
 import waitingTurn from 'waitingTrun.json';
@@ -15,10 +15,12 @@ import './style.css'
 const mapStateToProps = (state, ownProps) => ({...state.runningMusic, ...ownProps});
 
 const mapDispatchToProps = (dispatch) => ({
-  onClickAnswer: (findAnime) =>
-    dispatch(clickAnswer(findAnime)),
+  onClickAnswer: (animeSelect) =>
+    dispatch(clickAnswer(animeSelect)),
   onSetAnswerOnce: (defaultValue) =>
     dispatch(setAnswerOnce(defaultValue)),
+  onResetAnimeSelect: (resetToNullAnimeSelect) =>
+    dispatch(resetAnimeSelect(resetToNullAnimeSelect)),
 });
 
 class RunningMusic extends React.Component {
@@ -33,6 +35,10 @@ class RunningMusic extends React.Component {
     this.props.changeStatus(socketEvent.CHANGE_STATUS_1_TO_2);
   }
 
+  componentWillUnmount = () => {
+    this.props.onResetAnimeSelect(null);
+  }
+
   /**
    * Handle click the click on an anime name
    */
@@ -41,7 +47,10 @@ class RunningMusic extends React.Component {
     const { animeToGuess : { animeToGuess }, authUser, io, gameId } = this.props;
 
     let data = { gameId, authUser, anime };
+    let animeSelect;
     let findAnime;
+
+    animeSelect = anime.name_jap;
     // won
     if(anime.id === animeToGuess.id){
       findAnime = true;
@@ -50,18 +59,18 @@ class RunningMusic extends React.Component {
       findAnime = false;
     }
     data = {...data, findAnime };
-    this.props.onClickAnswer(findAnime);
+    this.props.onClickAnswer(animeSelect);
     io.emit(socketEvent.CLICK_ANSWER, data);
   }
 
   /**
    * print the answer of the CQM
    */
-  printAnswer = (animes) => {
+  printAnswer = (animes, answerOnce) => {
     return(
       <ul className="answerListBlock">
         {animes.map((anime) => {
-          return <AnswerBlock key={anime.id} id={anime} name={anime.name_jap} clickAnswer={this.clickAnswer} />
+          return <AnswerBlock key={anime.id} id={anime} name={anime.name_jap} answerOnce={answerOnce} clickAnswer={this.clickAnswer} />
         })}
       </ul>
     )
@@ -78,18 +87,25 @@ class RunningMusic extends React.Component {
     )
   }
 
+
   render(){
-    const { animeToGuess, answerOnce } = this.props;
+    const { animeToGuess, answerOnce, animeSelect } = this.props;
 
     return(
       <section className="runningMusicBlock">
         <div className="infoSong">
           <CounterRunning startingNumber={waitingTurn.WAITING_TURN_2} />
-          {animeToGuess ? this.printAudioPlayer() : ''}
+          {animeToGuess ? this.printAudioPlayer() : <audio id="player_music"/>}
+          <div className="your_choise">
+            <p className="counterText_your_choise">
+              Your choise : 
+            </p>
+            {animeSelect}
+          </div>
         </div>
-        <div className="listSong">
+        <div className="listSongAndScore">
           <div className="listSongBoxScroll">
-            {answerOnce === false && animeToGuess ? this.printAnswer(animeToGuess.animes) : ''}
+            {animeToGuess ? this.printAnswer(animeToGuess.animes, answerOnce) : '' }
           </div>
         </div>
       </section>

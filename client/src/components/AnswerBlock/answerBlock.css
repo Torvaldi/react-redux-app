@@ -7,6 +7,7 @@
     list-style: none;
     font-size: 1.1rem;
     font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+    border-radius: 5px;
     width: inherit;
     background-color: var(--primary);
     border: 2px solid transparent;
@@ -18,4 +19,9 @@
 
 .answerItem:hover {
     background-color:var(--primaryDark);
+}
+
+.answerItem.Disable {
+    background-color:var(--primaryDark);
+    cursor: auto;
 }
