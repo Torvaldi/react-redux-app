@@ -66,8 +66,8 @@ html, body, #root, #root>div {
 
 /* button scroll */
 ::-webkit-scrollbar-button:single-button {
-  border-color: transparent;
-  background: var(--darkBlue); 
+  border-color: var(--darkBlue);
+  background-color: var(--darkBlue); 
   display: block;
   height: 5px;
   }
@@ -80,5 +80,15 @@ html, body, #root, #root>div {
          -moz-user-select: none; /* Old versions of Firefox */
           -ms-user-select: none; /* Internet Explorer/Edge */
               user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+  }
+
+  .noselectDisable {
+    -webkit-touch-callout: all; /* iOS Safari */
+      -webkit-user-select: all; /* Safari */
+       -khtml-user-select: all; /* Konqueror HTML */
+         -moz-user-select: all; /* Old versions of Firefox */
+          -ms-user-select: all; /* Internet Explorer/Edge */
+              user-select: all; /* Non-prefixed version, currently
                                     supported by Chrome, Edge, Opera and Firefox */
   }

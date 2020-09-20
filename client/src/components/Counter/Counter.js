@@ -28,8 +28,12 @@ class Counter extends React.Component {
 
   renderErrorTimeout = () => {
     return (
+      /*
       <section className="counterBlock">
           <span className="counterTextTimeout">Error while connecting with the game's creator, wait until they come back or leave the game</span>
+      </section>*/
+      <section className="counterBlock">
+          <span className="counterText">Remaining time : <span className="counterSecond">Error</span></span>
       </section>
     );
   }

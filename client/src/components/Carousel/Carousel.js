@@ -122,3 +122,27 @@ class Item extends React.Component {
 
 
 export default Carousel;
+
+
+/*
+import Slider from '@material-ui/core/Slider';
+
+volumeChange = (event) => {
+    return () => {
+      const { player } = this.player.getState();
+      this.player.volume = player.volume + event;
+    };
+  };
+
+
+  ContinuousSlider() {
+    const [value, setValue] = React.useState(30);
+  
+    const handleChange = (event, newValue) => {
+      setValue(newValue);
+    };
+
+    return (
+            <Slider value={value} onChange={handleChange} aria-labelledby="continuous-slider" />
+    );
+  };*/

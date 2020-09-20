@@ -1,21 +1,10 @@
 
 
-.runningMusicBlock {
-    display: inline-flex;
-    height: 100%;
-    width: -webkit-fill-available;
-    width: -moz-available;
-}
-
-.runningMusicBlock > div.infoSong {
-    margin-right: 1rem;
-}
-
 .answerListBlock {
     display: block;
     flex-wrap: wrap;
     justify-content: space-around;
-    padding: 0 calc(4% - 7px) 0 4%;
+    padding: 0 4px 0 0;
     margin: 0;
 }
 

@@ -1,10 +1,7 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
-import './css/endGame.css';
 
-import OpeningVideo from 'components/OpeningVideo/OpeningVideo';
-import ScoreTable from 'components/ScoreTable/ScoreTable';
+import OpeningVideoEndGame from 'components/OpeningVideoEndGame/OpeningVideoEndGame';
+import ScoreTableEndGame from 'components/ScoreTable/ScoreTableEndGame/ScoreTableEndGame';
 
 class EndGame extends React.Component {
 
@@ -14,28 +11,32 @@ class EndGame extends React.Component {
       <ul>
         {winners.map((winner) => {
           count++;
-          return <li key={count} >{winner.userName} - {winner.score}</li>
+          return <li key={0} >{winner.userName} - {winner.score}</li>
         })}
       </ul>
+      
     );
   }
 
   render(){
     const { winners, lastAnimePlayed, turnResult } = this.props;
     return(
-      <article className="winnerBlock">
-        end of the game
-        {winners ? this.printWinners(winners) : ''}
-
-        {lastAnimePlayed !== null ? <OpeningVideo animes={lastAnimePlayed} /> : ''}
-        {turnResult ? <ScoreTable turnResult={turnResult} /> : '' }
-
-        <Link to="/game">
-          <Button size="large" variant="outlined" color="secondary">
-            Leave
-          </Button>
-        </Link>
-      </article>
+        <section className="runningBlock">
+          <div className="infoSong">
+            <section className="counterBlock">
+              <span className="counterText">End of the game</span>
+            </section>
+            {lastAnimePlayed !== null ? <OpeningVideoEndGame animes={lastAnimePlayed} /> : ''}
+          </div>
+          <div className="listSongAndScore">
+            <p className="infoTableWinner">
+              <h1 className="infoTable">Winner :</h1>
+              {winners ? this.printWinners(winners) : ''}
+              <hr/>
+            </p>
+          {turnResult ? <ScoreTableEndGame turnResult={turnResult} /> : '' }
+          </div>
+        </section>
     );
   }
 }

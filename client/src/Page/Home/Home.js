@@ -58,10 +58,10 @@ class Home extends Component {
 
             <h1>
                 Guess The Anime<br />
-                Opening <a id="beta">Beta</a>
+                Opening <span id="beta">Beta</span>
             </h1>
             <p>
-                Rejoingnez la communauter de <a href="https://discord.gg/8DnC9FJ">Guess The Anime Opening</a> et jouez avec vos amies,<br />
+                Rejoingnez la communauter de <Link to="https://discord.gg/8DnC9FJ">Guess The Anime Opening</Link> et jouez avec vos amies,<br />
                 afin de deviner le nom des openings
             </p>
         
@@ -159,6 +159,7 @@ class Home extends Component {
 
                 <div className="right wm-40 discord">
                   <iframe 
+                    title="discordWidget"
                     id="discordWidget"
                     src="https://discordapp.com/widget?id=722857791894716448" 
                     height="500" 

@@ -1,5 +1,5 @@
 import React from 'react';
-import './openingVideo.css';
+import './openingVideoEndGame.css';
 import { Player, ControlBar, Shortcut } from 'video-react';
 import "../../../node_modules/video-react/dist/video-react.css";
 import PauseIcon from '@material-ui/icons/Pause';
@@ -7,12 +7,15 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import IconButton from '@material-ui/core/IconButton';
 import Slider from "@material-ui/core/Slider";
 
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
+
 import malLogo from 'asset/myAnimeListLogo.png';
 import spoilerImage from 'asset/Spoil_Alert_Filter_V2.png';
 
 import { getMoeLink, getAnimeSeason, getMusicType, getMalUrl } from 'helper/runningGame';
 
-class OpeningVideo extends React.Component {
+class OpeningVideoEndGame extends React.Component {
 
   pause = (event) => {
     this.player.pause();
@@ -101,7 +104,10 @@ class OpeningVideo extends React.Component {
           </ul>
         </article>
         <div className="nextSong">
-          <a className="nextSongButton">Next Song</a>
+          <Link to="/game">
+            <a className="nextSongButton">Leave</a>
+          </Link>
+          
         </div>
       </section>
     )
@@ -109,5 +115,5 @@ class OpeningVideo extends React.Component {
   }
 }
 
-export default OpeningVideo
+export default OpeningVideoEndGame
 

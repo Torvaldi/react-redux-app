@@ -4,14 +4,14 @@ import './answerBlock.css';
 
 const AnswerBlock = (props) => {
 
-  if(props.answerOnce == false){
+  if(props.answerOnce === false){
     return (
       <li className="answerItem" onClick={props.clickAnswer(props.id)} >
           {props.name}
       </li>
     );
   }
-  else if(props.answerOnce == true){
+  else if(props.answerOnce === true){
     return (
       <li className="answerItem Disable">
           {props.name}

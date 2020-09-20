@@ -43,10 +43,14 @@ class RunningResult extends React.Component {
   render(){
     const { turnResult, animeToGuess } = this.props;
     return(
-     <section className="runningResultBlock">
-       <Counter startingNumber={waitingTrun.WAITING_TURN_3} />
-       { animeToGuess ? <OpeningVideo animes={animeToGuess} /> : ''}
-       { turnResult ? this.printScoreOfTheTurn(turnResult) : ''}
+     <section className="runningBlock">
+        <div className="infoSong">
+          <Counter startingNumber={waitingTrun.WAITING_TURN_3} />
+          { animeToGuess ? <OpeningVideo animes={animeToGuess} /> : ''}
+        </div>
+        <div className="listSongAndScore">
+          { turnResult ? this.printScoreOfTheTurn(turnResult) : ''}
+        </div>
      </section>
     );
   }

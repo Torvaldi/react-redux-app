@@ -1,7 +1,15 @@
-.scoreTurnTable {
-    margin: 0;
+
+.divContentTable{
     height: inherit;
-    overflow-y: scroll;
+    margin: 0;
+}
+
+.divContentTable .EndGame{
+    max-height: calc(100% - 50px);
+}
+
+.scoreTurnTable.EndGame {
+    height: calc(100% - 20%) !important;
     
 }
 

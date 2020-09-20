@@ -19,7 +19,6 @@ class ConstructRing extends React.Component {
   
       const strokeDashoffset = this.circumference - progress / 100 * this.circumference;
 
-      const animation_duration = "animation-duration: " + this.props.time + 's';
     
       return (
         <div id="progressRing">
@@ -73,10 +72,10 @@ class ConstructRing extends React.Component {
         // emulating progress
         const interval = setInterval(() => {
           if(this.state.time < 10){
-            this.state.time_set = 1;
+            this.setState({time_set: 10});
           }
           else{
-            this.state.time_set = 0.5;
+            this.setState({time_set: 0.5});
           }
 
           this.setState({ progress: this.state.progress + -this.state.time_set });

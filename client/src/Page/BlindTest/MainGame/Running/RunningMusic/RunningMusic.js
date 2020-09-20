@@ -92,7 +92,7 @@ class RunningMusic extends React.Component {
     const { animeToGuess, answerOnce, animeSelect } = this.props;
 
     return(
-      <section className="runningMusicBlock">
+      <section className="runningBlock">
         <div className="infoSong">
           <CounterRunning startingNumber={waitingTurn.WAITING_TURN_2} />
           {animeToGuess ? this.printAudioPlayer() : <audio id="player_music"/>}

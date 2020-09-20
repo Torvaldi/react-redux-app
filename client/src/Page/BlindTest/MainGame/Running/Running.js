@@ -45,6 +45,7 @@ class Running extends React.Component {
        {runningStatus === 0 ?
         <RunningWaiting
           changeStatus={this.changeStatus}
+          turnResult={turnResult}
         /> : ''}
 
        {runningStatus === 1 ?
