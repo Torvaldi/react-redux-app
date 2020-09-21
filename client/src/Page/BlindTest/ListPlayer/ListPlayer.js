@@ -81,8 +81,9 @@ class ListPlayer extends React.Component {
             color="secondary"
             size="small"
             onClick={this.props.leaveGame}
+            className="buttonLeaveGame"
             >
-            Leave
+            Leave Game
           </Button>
       </section>
     )

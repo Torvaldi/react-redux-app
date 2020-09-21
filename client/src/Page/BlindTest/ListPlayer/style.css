@@ -4,7 +4,8 @@
     align-items: center;
     background-color : var(--darkBlue);
     background-size: cover;
-    height: 100%;
+    height: -webkit-fill-available;
+    padding: 0 0 120px 0;
 }
 
 
@@ -81,8 +82,9 @@
     flex-direction: column;
     align-items: center;
     padding: 0;
-    margin: O;
+    margin: 0;
     width: 100%;
+    overflow: auto;
 }
 
 .listPlayerLabel{
@@ -91,6 +93,7 @@
     padding: 0 30px;
     margin-top: 10px;
     width: 100%;
+    margin-bottom: 10px;
 }
 
 .playerLabel, .playerScore {
@@ -110,4 +113,13 @@
 
 .buttonLauchGame {
     margin: 10px 0 !important; /* to rewrite default margin value */
+}
+
+.buttonLeaveGame{
+    margin-top: 30px !important;
+    font-size: 0.9rem !important;
+    padding: 10px !important;
+    font-weight: bold !important;
+    position: absolute !important;
+    bottom: 35px;
 }
