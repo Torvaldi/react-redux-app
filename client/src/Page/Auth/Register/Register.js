@@ -24,7 +24,7 @@ class Register extends Component {
     return (
       <AuthLayout
       text={
-        "This is the register page"
+        "Create account / Sign-up"
       }
       left={
         <RegisterForm />
