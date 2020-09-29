@@ -37,7 +37,14 @@ class ListPlayer extends React.Component {
       this.props.removePlayer(player);
     });
     
-    
+  }
+
+  componentWillUnmount = () => {
+    const { io } = this.props;
+
+    io.off(socketEvent.USER_JOIN_GAME);
+    io.off(socketEvent.GAME_JOINED_SUCCESSFULLY);
+    io.off(socketEvent.USER_LEAVE_GAME);
   }
 
   /**
