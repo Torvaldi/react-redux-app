@@ -1,4 +1,6 @@
 
+import io from 'socket';
+import socketEvent from 'socketEvent.json'
 import { 
     GET_GAME, 
     UPDATE_GAME_STATUS, 
@@ -95,6 +97,7 @@ export default (state = initialState, action) => {
                 isUserLeaveError: false,
             }
         case USER_LEAVE_SUCCESS:
+            io.emit(socketEvent.USER_LEAVE_GAME, action.payload);
             return {
                 ...state,
                 isUserLeave: true,

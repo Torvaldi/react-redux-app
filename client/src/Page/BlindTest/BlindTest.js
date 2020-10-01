@@ -41,8 +41,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(addPlayer(player)),
   onRemovePlayer : (player) =>
     dispatch(removePlayer(player)),
-  onPlayerLeave: (token, gameId) =>
-    dispatch(removeUserFromGame(token, gameId)),
+  onPlayerLeave: (token, gameId, user) =>
+    dispatch(removeUserFromGame(token, gameId, user)),
   onSetLastAnimePlayed : (animes) =>
     dispatch(setLastAnimePlayed(animes))
 });
@@ -62,7 +62,6 @@ class BlindTest extends React.Component {
 
       // resend the event to the socket, in order to leave the socket room
       io.emit(socketEvent.CREATOR_LEAVE_GAME, this.props.game.id);
-
       // redirect other player to game list if the creator leaves the game
       window.alert("The creator of the game left, you are going to be redirect to the game list");
       setTimeout(() => {  
@@ -75,6 +74,9 @@ class BlindTest extends React.Component {
 
   componentWillUnmount = () => {
     this.props.onClearGame();
+
+    io.off(socketEvent.CREATOR_LEAVE_GAME);
+    io.off(socketEvent.LAUCH_GAME);
   }
 
 
@@ -125,10 +127,10 @@ class BlindTest extends React.Component {
   leaveGame = (event) => {
     event.preventDefault();
     if(window.confirm("Are you sure you want to leave ? You may not be able to join again and your score won't be save")){
-      const { token, game } = this.props;
+      const { token, game, user } = this.props;
       
       // call the userLeave props function
-      this.props.onPlayerLeave(token, game.id);
+      this.props.onPlayerLeave(token, game.id, user);
     }
   }
 
@@ -140,14 +142,8 @@ class BlindTest extends React.Component {
    */
   printGame = () => {
     const { token, game, user, gameStatus, players, winners, lastAnimePlayed, isUserLeaveLoading, isUserLeaveError } = this.props;
-    
-    let gameEmpty = false;
-    if(Object.keys(game).length === 0){
-      gameEmpty = true;
-    }
     return(
        <Fragment>
-      { gameEmpty === false ? 
           <BlindTestLayout
           left={<ListPlayer 
             io={io} 
@@ -177,7 +173,7 @@ class BlindTest extends React.Component {
             lastAnimePlayed={lastAnimePlayed}
           />}
           right={<Chat io={io} game={game} authUser={user} />}
-        /> : '404'}
+        />
         {isUserLeaveLoading === true || isUserLeaveError === true ? <LoadingPage overlay={true} /> : ''}
       </Fragment>
       );
@@ -185,25 +181,19 @@ class BlindTest extends React.Component {
   }
 
   render(){
-    const { game, players, isUserLeave, token, user } = this.props;
-
+    const { game, players, isUserLeave } = this.props;
+    
     if(isUserLeave === true){
-      let data = {
-        token, 
-        gameId: game.id, 
-        player: user
-      };
-      io.emit(socketEvent.USER_LEAVE_GAME, data);
-
+      //this.props.history.push('/game');
       return(<Redirect to="/game" />);
-
-    } else {
-      return(
-        <Fragment>
-          { game && players ? this.printGame() : <LoadingPage /> }
-        </Fragment>
-      )
     }
+    
+
+    return(
+      <Fragment>
+        { game && players && Object.keys(game).length > 0 ? this.printGame() : <LoadingPage /> }
+      </Fragment>
+    )
 
   }
 }

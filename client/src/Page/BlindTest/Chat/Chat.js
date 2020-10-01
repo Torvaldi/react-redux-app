@@ -40,7 +40,6 @@ class Chat extends React.Component {
         message, 
         messageType: messageType.MESSAGE 
       };
-      
       this.props.onAddMessageToChat(messageData);
     });
 
@@ -52,7 +51,6 @@ class Chat extends React.Component {
         message: null, 
         messageType: messageType.ANSWER 
       });
-
     });
     
     io.on(socketEvent.USER_LEAVE_GAME, (data) => {
@@ -65,14 +63,15 @@ class Chat extends React.Component {
 
     });
     
+    
     io.on(socketEvent.USER_JOIN_GAME, (player) => {
       this.props.onAddMessageToChat({ 
         username: player.userName,
         message: null,
         messageType: messageType.USER_JOIN
       });
-
     });
+    
 
   }
 
@@ -83,6 +82,13 @@ class Chat extends React.Component {
 
   componentWillUnmount = () => {
     this.props.onClearChat();
+
+    const { io } = this.props;
+
+    io.off(socketEvent.USER_JOIN_GAME);
+    io.off(socketEvent.USER_LEAVE_GAME);
+    io.off(socketEvent.CLICK_ANSWER);
+    io.off(socketEvent.USER_POST_CHAT);
   }
 
   /** update message change state */
@@ -115,7 +121,6 @@ class Chat extends React.Component {
         message,
         gameId: game.id,
       }
-
       io.emit(socketEvent.USER_POST_CHAT, socketData);
     }
   }

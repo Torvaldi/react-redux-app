@@ -43,8 +43,6 @@ io.on('connection', (socket) => {
     // fetch player list (fetch api)
     const { game, authUser, token } = data;
 
-    console.log('user join game');
-
     socket.join(ioHelper.getRoom(game.id));
 
     // Check if this is a new game, otherwise create it
@@ -73,6 +71,7 @@ io.on('connection', (socket) => {
 
     // Send notification to other players that a new player joined
     // as well as he's score
+   
     socket.to(ioHelper.getRoom(game.id)).emit(event.USER_JOIN_GAME, player.serialize());
   });
 
@@ -88,7 +87,6 @@ io.on('connection', (socket) => {
    * Event call when the game is launch
    */
   socket.on(event.LAUCH_GAME, (data) => {
-    console.log('game launch');
     const { gameId, token } = data;
 
     io.in(ioHelper.getRoom(gameId)).emit(event.LAUCH_GAME);
@@ -226,8 +224,6 @@ io.on('connection', (socket) => {
    * Event called when a user leave the game
    */
   socket.on(event.USER_LEAVE_GAME, (data) => {
-
-    console.log('user leave a game');
 
     const { token, gameId, player } = data;
 
