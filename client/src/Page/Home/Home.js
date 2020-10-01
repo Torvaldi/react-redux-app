@@ -31,15 +31,15 @@ class Home extends Component {
       >
         <div>
 
-        <nav id="nav">
-						<ul className="links">
-							<li className="active"><a href="#intro">Home</a></li>
-							<li><a href="#presentation">Presentation</a></li>
-							<li><a href="#anime">Anime</a></li>
+          <nav id="nav">
+            <ul className="links">
+              <li className="active"><a href="#intro">Home</a></li>
+              <li><a href="#presentation">Presentation</a></li>
+              <li><a href="#anime">Anime</a></li>
               <li><a href="#community">Community</a></li>
-						</ul>
-						<ul className="icons">
-							<li>
+            </ul>
+            <ul className="icons">
+              <li>
                 <Link to="/contact">
                   <div className="icon solid fa-envelope"><span className="label">Contact</span></div>
                 </Link>
@@ -54,8 +54,8 @@ class Home extends Component {
                   <div className="icon brands fa-github"><span className="label">GitHub</span></div>
                 </Link>
               </li>
-						</ul>
-					</nav>
+            </ul>
+          </nav>
 
           <div id="intro" style={overlayWaifu}>
 

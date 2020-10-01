@@ -7,7 +7,6 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import IconButton from '@material-ui/core/IconButton';
 import Slider from "@material-ui/core/Slider";
 
-import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
 import malLogo from 'asset/myAnimeListLogo.png';

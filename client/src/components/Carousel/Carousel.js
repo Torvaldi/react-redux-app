@@ -1,7 +1,6 @@
 import React from 'react';
 import './Carousel.css';
 
-import TransitionGroup from '@material-ui/core/node_modules/react-transition-group/cjs/TransitionGroup.js';
 import 'components/Icons/icons.css';
 
 
@@ -19,10 +18,10 @@ class Carousel extends React.Component {
     }
 
     generateItems() {
-        var items = []
-        var level
-        for (var i = this.state.active - 2; i < this.state.active + 3; i++) {
-            var index = i
+        let items = []
+        let level
+        for (let i = this.state.active - 2; i < this.state.active + 3; i++) {
+            let index = i
             if (i < 0) {
                 index = this.state.items.length + i
             } 
@@ -44,7 +43,7 @@ class Carousel extends React.Component {
     }
     
     moveLeft() {
-        var newActive = this.state.active
+        let newActive = this.state.active
         newActive--
         this.setState({
             active: newActive < 0 ? this.state.items.length - 1 : newActive,
@@ -53,7 +52,7 @@ class Carousel extends React.Component {
     }
     
     moveRight() {
-        var newActive = this.state.active
+        let newActive = this.state.active
         this.setState({
             active: (newActive + 1) % this.state.items.length,
             direction: 'right'
@@ -64,10 +63,9 @@ class Carousel extends React.Component {
         return(
             <div id="carousel" className="noselect">
                 <div className="under_carousel">
-                    <TransitionGroup 
-                      >
+                    
                       {this.generateItems()}
-                    </TransitionGroup>
+                    
                 </div>
                 <div className="arrow arrow-left" onClick={this.leftClick}><i className="icon solid fa-chevron-left"></i></div>
                 <div className="arrow arrow-right" onClick={this.rightClick}><i className="icon solid fa-chevron-right"></i></div>
@@ -94,8 +92,6 @@ class Item extends React.Component {
         const className = 'item level' + this.props.level
  
           // {this.props.id} 
-        
-          console.log(overlayStyle);
 
         if(this.props.level > 0 ){
             return(
@@ -124,27 +120,3 @@ class Item extends React.Component {
 
 
 export default Carousel;
-
-
-/*
-import Slider from '@material-ui/core/Slider';
-
-volumeChange = (event) => {
-    return () => {
-      const { player } = this.player.getState();
-      this.player.volume = player.volume + event;
-    };
-  };
-
-
-  ContinuousSlider() {
-    const [value, setValue] = React.useState(30);
-  
-    const handleChange = (event, newValue) => {
-      setValue(newValue);
-    };
-
-    return (
-            <Slider value={value} onChange={handleChange} aria-labelledby="continuous-slider" />
-    );
-  };*/
