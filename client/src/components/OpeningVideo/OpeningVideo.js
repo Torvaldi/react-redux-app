@@ -26,6 +26,36 @@ class OpeningVideo extends React.Component {
       this.player.volume = volumeLevel;
   };
 
+  windowsWidth(){
+    const windowWidth = document.body.clientWidth;
+    let widthVideo;
+
+    if(windowWidth >= 500){
+      widthVideo = 450;
+    }
+    else {
+      widthVideo = 320;
+    }
+    return(
+      widthVideo
+    )
+  }
+
+  windowsHeight(){
+    const windowWidth = document.body.clientWidth;
+    let heightVideo;
+
+    if(windowWidth >= 500){
+      heightVideo = 260;
+    }
+    else {
+      heightVideo = 185;
+    }
+    return(
+      heightVideo
+    )
+  }
+
 
   render(){
 
@@ -59,8 +89,8 @@ class OpeningVideo extends React.Component {
               src={url}
               className="resultVideo"
               fluid={false}
-              width={450}
-              height={260}
+              width={this.windowsWidth()}
+              height={this.windowsHeight()}
               autoPlay={true}
             >
               <ControlBar disableCompletely={true} />

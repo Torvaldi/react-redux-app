@@ -123,3 +123,10 @@
     position: absolute !important;
     bottom: 35px;
 }
+
+
+@media screen and (max-width: 980px) {
+    .playerListLayout{
+        display: none;
+    }
+}

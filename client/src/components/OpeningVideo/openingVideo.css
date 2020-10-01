@@ -112,3 +112,12 @@
     border-radius: 5px;
     font-size: 1.2rem;
 }
+
+
+@media screen and (max-width: 980px) {
+    .resultVideoOverflow {
+        width: 320px !important;
+        height: 185px !important;
+        background-size: 320px 185px;
+    }
+}

@@ -264,8 +264,19 @@ body{
   }
 }
 
+@media screen and (max-width: 800px) {
+  body{
+    --arrow-right-position: 20%;
+    --arrow-left-position: 20%;
+  }
+}
+
+
+
 @media screen and (max-width: 620px) {
   body{
+    --arrow-right-position: 10%;
+    --arrow-left-position: 10%;
     --carousel-padding-bottom: 20%;
   }
 }
@@ -299,9 +310,21 @@ body{
 
 }
 
+@media screen and (max-width: 500px) {
+  body{
+    --arrow-right-position: 10%;
+    --arrow-left-position: 10%;
+  }
+
+  .arrow{
+    width: 6rem;
+  }
+}
+
 @media screen and (max-width: 420px) {
 
   body{
+    
     --carousel-padding-bottom: 25%;
   }
 
@@ -311,4 +334,11 @@ body{
     transition: display 1s;
   }
 
+}
+
+@media screen and (max-width: 360px) {
+  body{
+    --arrow-right-position: 5%;
+    --arrow-left-position: 5%;
+  }
 }

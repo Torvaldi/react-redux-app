@@ -9,7 +9,7 @@
 }
 
 .mainGameLayout{
-    width: 70%;
+    width: 100%;
     background: var(--gradiant);
     height: 100%;
     display: flex;

@@ -30,3 +30,17 @@
     padding: 5px; 
     color: white;
 }
+
+@media screen and (max-width: 980px) {
+    .config_detail_title {
+        font-size: 100%;
+    }
+    
+    .config_detail_data {
+        font-size: 100%;
+    }
+    
+    .config_detail_data_small {
+        font-size: 100%;
+    }
+}
