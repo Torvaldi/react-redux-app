@@ -33,14 +33,15 @@ export function getGame(dispatch, token) {
 
 /**
  * when a user leave the game, remove them from de database
- * @param {*} token 
- * @param {*} gameId 
+ * @param {string} token 
+ * @param {int} gameId
+ * @param {string}
  */
-export function removeUserFromGame(token, gameId){
+export function removeUserFromGame(token, gameId, player){
 
   return function(dispatch){
     dispatch({
-      type: USER_LEAVE_REQUEST
+      type: USER_LEAVE_REQUEST,
     });
 
     fetch(API_USER_LEAVE, {
@@ -54,6 +55,11 @@ export function removeUserFromGame(token, gameId){
     .then(result => 
       dispatch({
         type: USER_LEAVE_SUCCESS,
+        payload: {
+          token,
+          gameId,
+          player,
+        }
       })
     )
     .catch(error => 
