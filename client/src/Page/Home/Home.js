@@ -7,10 +7,13 @@ import Button from '@material-ui/core/Button';
 import 'components/Icons/icons.css';
 import Carousel from 'components/Carousel/Carousel';
 import './Home.css';
-import waify from '../../asset/animeboy_flip.png';
-import community from '../../asset/overlayCommunity.png';
+import waify from 'asset/animeboy_flip.png';
+import community from 'asset/overlayCommunity.png';
 
 
+/**
+* Initialise image of the home page
+*/
 const overlayWaifu = {
   backgroundImage: `url(${waify})`
 }

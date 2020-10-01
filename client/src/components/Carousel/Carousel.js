@@ -1,7 +1,7 @@
 import React from 'react';
 import './Carousel.css';
 
-import TransitionGroup from '/Cours/Guess/react-redux-app/client/node_modules/@material-ui/core/node_modules/react-transition-group/cjs/TransitionGroup.js';
+import TransitionGroup from '@material-ui/core/node_modules/react-transition-group/cjs/TransitionGroup.js';
 import 'components/Icons/icons.css';
 
 
@@ -88,13 +88,15 @@ class Item extends React.Component {
     render() {
 
         const overlayStyle = {
-            backgroundImage: `url(${process.env.PUBLIC_URL}'/assets/minimalist_caracter/${this.props.id}.png')`
+            backgroundImage: `url('/assets/minimalist_caracter/${this.props.id}.png')`
           }
           
         const className = 'item level' + this.props.level
  
           // {this.props.id} 
         
+          console.log(overlayStyle);
+
         if(this.props.level > 0 ){
             return(
                     <div className={className} style={overlayStyle} onClick={this.props.leftClick}>
