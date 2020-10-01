@@ -219,6 +219,12 @@ body{
         }
     }
 
+    @media screen and (max-width: 1600px){
+        #homeInfoFeature > #community{
+            background-size: auto;
+        }
+    }
+
     @media screen and (max-width: 1464px){
         #homeInfoFeature > #presentation,#anime,#community{
             padding: 4rem 10rem 4rem 10rem;
