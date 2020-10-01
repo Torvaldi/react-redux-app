@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # Starting the project
 
-This project works with a REST API available [here](https://github.com/falia15/symfony4-api.git).
+This project works with a REST API available [here](https://github.com/falia15/laravel_6_api.git).
 TODO : add project goal and description.
 
 ## Initialiase project
