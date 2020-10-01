@@ -23,7 +23,7 @@ class Login extends Component {
     return (
         <AuthLayout
         text={
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vesti"
+          "Login / Sign-in"
         }
         left={
           <LoginForm />
