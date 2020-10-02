@@ -67,7 +67,7 @@ class RunningResult extends React.Component {
 
   render(){
     const { turnResult, animeToGuess, clickNext } = this.props;
-
+    
     return(
      <section className="runningResultBlock">
        <Counter startingNumber={waitingTrun.WAITING_TURN_3} />

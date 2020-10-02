@@ -65,6 +65,11 @@ class MainGame extends React.Component {
       this.props.gameFinish(winners, animes);
     });
 
+    io.on(socketEvent.UPDATE_TURN, (data) => {
+      const { turnResult } = data;
+      this.props.onSetTurnResult(turnResult);
+    })
+
   }
 
   /**

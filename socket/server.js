@@ -182,7 +182,7 @@ io.on('connection', (socket) => {
     const { gameId, token } = data;
 
     let currentGame = currentGames.get(gameId);
-
+    
     // prevent from sending the event if the game status is not the expected one
     if(currentGame.getGameStatus() !== statusHelper.gameStatus.result) return;
 
@@ -315,13 +315,16 @@ io.on('connection', (socket) => {
 
     turn.updatePlayerNextSongRequest(username);
 
+    let turnResult = currentGame.getLastTurn().serialize();
+
+    io.in(ioHelper.getRoom(gameId)).emit(event.UPDATE_TURN, {turnResult} );
+
     // if all players have request the next song, change game status
     if(turn.haveAllPlayerRequestNextSong() === false) return;
 
     currentGame.setGameStatusLoading();
 
     io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, {});
-
 
   });
 
