@@ -1,6 +1,7 @@
 
 import { 
     CLICK_NEXT,
+    CLICK_NEXT_RESET
 } from './action';
 
 const initialState = {
@@ -13,6 +14,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 clickNext: true
+            }
+        case CLICK_NEXT_RESET:
+            return {
+                ...state,
+                clickNext: false
             }
         default:
             return state;

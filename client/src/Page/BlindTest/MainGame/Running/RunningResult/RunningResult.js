@@ -6,7 +6,7 @@ import ScoreTable from 'components/ScoreTable/ScoreTable';
 import Counter from 'components/Counter/Counter';
 import Button from '@material-ui/core/Button';
 import waitingTrun from 'waitingTrun.json';
-import { clickNext } from './action';
+import { clickNext, clickNextReset } from './action';
 import socketEvent from 'socketEvent.json';
 import './style.css';
 
@@ -16,12 +16,15 @@ const mapStateToProps = (state, ownProps) => ({...state.runningResult, ...ownPro
 const mapDispatchToProps = (dispatch) => ({
   onClickNext: () =>
     dispatch(clickNext()),
+  onSetClickNextSong: () =>
+    dispatch(clickNextReset())
 });
 
 class RunningResult extends React.Component {
 
   componentDidMount = () => {
     this.props.changeStatus(socketEvent.CHANGE_STATUS_2_TO_0);
+    this.props.onSetClickNextSong();
   }
 
   printScoreOfTheTurn = (turnResult) => {
@@ -64,7 +67,7 @@ class RunningResult extends React.Component {
 
   render(){
     const { turnResult, animeToGuess, clickNext } = this.props;
-    
+
     return(
      <section className="runningResultBlock">
        <Counter startingNumber={waitingTrun.WAITING_TURN_3} />
