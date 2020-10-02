@@ -307,6 +307,23 @@ io.on('connection', (socket) => {
 
   });
 
+  socket.on(event.VOTE_NEXT_SONG, (data) => {
+    const { gameId, username } = data;
+
+    let currentGame = currentGames.get(gameId);
+    let turn = currentGame.getLastTurn();
+
+    turn.updatePlayerNextSongRequest(username);
+
+    // if all players have request the next song, change game status
+    if(turn.haveAllPlayerRequestNextSong() === false) return;
+
+    currentGame.setGameStatusLoading();
+
+    io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, {});
+
+
+  });
 
 
 });

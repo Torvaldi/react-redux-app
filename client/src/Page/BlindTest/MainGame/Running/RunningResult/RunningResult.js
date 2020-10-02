@@ -54,11 +54,17 @@ class RunningResult extends React.Component {
   nextTurn = () => {
     this.props.onClickNext();
 
+    const { io, gameId, authUser } = this.props;
+
+    io.emit(socketEvent.VOTE_NEXT_SONG, {
+      gameId,
+      username: authUser.username,
+    });
   }
 
   render(){
     const { turnResult, animeToGuess, clickNext } = this.props;
-    console.log(clickNext);
+    
     return(
      <section className="runningResultBlock">
        <Counter startingNumber={waitingTrun.WAITING_TURN_3} />

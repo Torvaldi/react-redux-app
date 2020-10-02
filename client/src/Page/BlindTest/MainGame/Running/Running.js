@@ -63,6 +63,9 @@ class Running extends React.Component {
           changeStatus={this.changeStatus}
           turnResult={turnResult}
           turnNumber={turnNumber}
+          io={io}
+          gameId={id}
+          authUser={authUser}
         /> : ''}
 
      </Fragment>

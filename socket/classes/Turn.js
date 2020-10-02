@@ -20,7 +20,8 @@ class Turn {
                 rank: null,
                 username: player.getUsername(),
                 score: 0,
-                lastAnswer: null
+                lastAnswer: null,
+                nextSongRequest: false
             }
             this.scores.set(player.getUsername(), playerScore)
         }
@@ -36,6 +37,7 @@ class Turn {
 
         // initialise the number of answer given, start with 0
         this.setTotalAnswers(0);
+
 
     }
 
@@ -119,10 +121,33 @@ class Turn {
     }
 
     /**
+     * @return {int}
+     */
+    getTotalPlayerRequestNextSong = () => {
+        let playersRequestNextSong = 0;
+
+        for (const [key, score] of this.scores.entries())
+        {
+            if(score.nextSongRequest === false) return;
+
+            playersRequestNextSong++;
+        }
+
+        return playersRequestNextSong;
+    }
+
+    /**
      * @return {bool}
      */
     haveAllPlayerAnswer = () => {
         return this.getTotalPlayer() === this.getTotalAnswer();
+    }
+
+    /**
+     * @return {bool}
+     */
+    haveAllPlayerRequestNextSong = () => {
+        return this.getTotalPlayer() === this.getTotalPlayerRequestNextSong();
     }
 
     /**
@@ -173,6 +198,22 @@ class Turn {
         }
         // update player last answer
         this.scores.set(username, {...playerScore, lastAnswer: animeNames});
+    }
+
+    /**
+     * Called when a player click on the next button (to ask for the next song to be played)
+     * change value of the nextSongRequest to "true"
+     * @param {string} username
+     * @return {void}
+     */
+    updatePlayerNextSongRequest = (username) => {
+        if(this.scores.has(username) === null){
+            return;
+        }
+
+        let playerScore = this.scores.get(username);
+
+        this.scores.set(username, {...playerScore, nextSongRequest: true});
     }
 
 
