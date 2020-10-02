@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import RunningWaiting from './RunningWaiting';
 import RunningMusic from './RunningMusic/RunningMusic';
-import RunningResult from './RunningResult';
+import RunningResult from './RunningResult/RunningResult';
 
 const mapStateToProps = (state, ownProps) => ({...state.mainGame, ...ownProps});
 

@@ -6,7 +6,7 @@ import Counter from 'components/Counter/Counter';
 
 import waitingTrun from 'waitingTrun.json';
 
-import './css/runningResult.css';
+import './style.css';
 
 import socketEvent from 'socketEvent.json';
 
