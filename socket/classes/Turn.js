@@ -38,7 +38,37 @@ class Turn {
         // initialise the number of answer given, start with 0
         this.setTotalAnswers(0);
 
+        this.setFastPassResult(false);
 
+        this.setFastPassAnswer(false);
+    }
+
+     /**
+     * @param {boolean}
+     */
+    setFastPassResult = (bool) => {
+        this.fastPassAnswer =  bool;
+    }
+
+    /**
+     * @return {boolean}
+     */
+    getFastPassResult = () => {
+        return this.fastPassAnswer;
+    }
+
+    /**
+     * @param {boolean}
+     */
+    setFastPassAnswer = (bool) => {
+        this.fastPassAnswer =  bool;
+    }
+
+    /**
+     * @return {boolean}
+     */
+    getFastPassAnswer = () => {
+        return this.fastPassAnswer;
     }
 
     /**

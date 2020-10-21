@@ -17,7 +17,7 @@ class Running extends React.Component {
    */
   changeStatus = (ioStatusEvent) => {
     const { io, runningStatus, authUser, game : { id, creator }, token } = this.props;
-
+    console.log("emit " + ioStatusEvent)
     // the creator handle all the change status of the game
     if(authUser.username === creator){
       let data = {
