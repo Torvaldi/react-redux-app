@@ -143,9 +143,8 @@ io.on('connection', (socket) => {
    * send back the switch event in (5, 15 or 30) seconds, depending of the runningStatus
    */
   socket.on(event.CHANGE_STATUS_1_TO_2, (data) => {
-
     const { gameId } = data;
-
+    
     let currentGame = currentGames.get(gameId);
 
     // prevent from sending the event if the game status is not the expected one
@@ -153,11 +152,20 @@ io.on('connection', (socket) => {
 
     let timeout = statusHelper.getTimeout(1);
 
+    let isFastPassBeforeTimeout = currentGame.getLastTurn().getFastPassAnswer();
+
+    let turnNumberBeforeTimeout = currentGame.getTurnNumber();
+
     // execute the following actions in x seconds
     setTimeout( () => {
 
         // prevent from sending the event if the game status is not the expected one (it might have change since the previous check)
         if(currentGame.getGameStatus() !== statusHelper.gameStatus.musicPLaying) return;
+
+        let isFastPassAfterTimeout = currentGame.getLastTurn().getFastPassAnswer();
+        let turnNumberAfterTimeout = currentGame.getTurnNumber();
+
+        if(isFastPassAfterTimeout !== isFastPassBeforeTimeout || turnNumberAfterTimeout !== turnNumberBeforeTimeout) return;
 
         currentGame.setGameGameStatusResult();
         currentGame.updatePlayerScore();
@@ -206,15 +214,23 @@ io.on('connection', (socket) => {
       // TODO delete game of current game object
     }
 
-    let timeout = statusHelper.getTimeout(2);
+    let isFastPassBeforeTimeout = currentGame.getLastTurn().getFastPassResult();
 
+    let turnNumberBeforeTimeout = currentGame.getTurnNumber();
+
+    let timeout = statusHelper.getTimeout(2);
     setTimeout(() => {
 
       // prevent from sending the event if the game status is not the expected one (it might have change since the previous check)
       if(currentGame.getGameStatus() !== statusHelper.gameStatus.result) return;
 
-      currentGame.setGameStatusLoading();
+      let isFastPassAfterTimeout = currentGame.getLastTurn().getFastPassResult();
+      let turnNumberAfterTimeout = currentGame.getTurnNumber();
 
+      if(isFastPassBeforeTimeout !== isFastPassAfterTimeout || turnNumberAfterTimeout !== turnNumberBeforeTimeout) return;
+
+      currentGame.setGameStatusLoading();
+      
       io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, {});
     }, timeout);
 
@@ -290,8 +306,12 @@ io.on('connection', (socket) => {
       // Update game status
       currentGame.setGameGameStatusResult();
 
+      let turn = currentGame.getLastTurn();
+
+      turn.setFastPassAnswer(true);
+
       // get turn scores
-      let turnResult = currentGame.getLastTurn().serialize();
+      let turnResult = turn.serialize();
 
       // update players scores
       currentGame.updatePlayerScore();
@@ -307,6 +327,27 @@ io.on('connection', (socket) => {
 
   });
 
+  socket.on(event.VOTE_NEXT_SONG, (data) => {
+    const { gameId, username } = data;
+
+    let currentGame = currentGames.get(gameId);
+    let turn = currentGame.getLastTurn();
+
+    turn.updatePlayerNextSongRequest(username);
+    turn.setFastPassResult(true);
+
+    let turnResult = turn.serialize();
+
+    io.in(ioHelper.getRoom(gameId)).emit(event.UPDATE_TURN, {turnResult} );
+
+    // if all players have request the next song, change game status
+    if(turn.haveAllPlayerRequestNextSong() === true) {
+      currentGame.setGameStatusLoading();
+      io.in(ioHelper.getRoom(gameId)).emit(event.CHANGE_STATUS_2_TO_0, {});
+    }
+
+
+  });
 
 
 });

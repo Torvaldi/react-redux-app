@@ -8,6 +8,7 @@ import chat from 'Page/BlindTest/Chat/reducer';
 //import player from './Page/'
 import mainGame from 'Page/BlindTest/MainGame/reducer';
 import runningMusic from 'Page/BlindTest/MainGame/Running/RunningMusic/reducer';
+import runningResult from 'Page/BlindTest/MainGame/Running/RunningResult/reducer'
 
 export default combineReducers({
     auth,
@@ -17,5 +18,6 @@ export default combineReducers({
     chat,
     //player,
     mainGame,
-    runningMusic
+    runningMusic,
+    runningResult
 });

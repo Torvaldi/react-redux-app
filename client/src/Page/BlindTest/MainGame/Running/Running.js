@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import RunningWaiting from './RunningWaiting';
 import RunningMusic from './RunningMusic/RunningMusic';
-import RunningResult from './RunningResult';
+import RunningResult from './RunningResult/RunningResult';
 
 const mapStateToProps = (state, ownProps) => ({...state.mainGame, ...ownProps});
 
@@ -17,7 +17,6 @@ class Running extends React.Component {
    */
   changeStatus = (ioStatusEvent) => {
     const { io, runningStatus, authUser, game : { id, creator }, token } = this.props;
-
     // the creator handle all the change status of the game
     if(authUser.username === creator){
       let data = {
@@ -63,6 +62,9 @@ class Running extends React.Component {
           changeStatus={this.changeStatus}
           turnResult={turnResult}
           turnNumber={turnNumber}
+          io={io}
+          gameId={id}
+          authUser={authUser}
         /> : ''}
 
      </Fragment>
