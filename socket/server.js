@@ -154,6 +154,8 @@ io.on('connection', (socket) => {
 
     let isFastPassBeforeTimeout = currentGame.getLastTurn().getFastPassAnswer();
 
+    let turnNumberBeforeTimeout = currentGame.getTurnNumber();
+
     // execute the following actions in x seconds
     setTimeout( () => {
 
@@ -161,8 +163,9 @@ io.on('connection', (socket) => {
         if(currentGame.getGameStatus() !== statusHelper.gameStatus.musicPLaying) return;
 
         let isFastPassAfterTimeout = currentGame.getLastTurn().getFastPassAnswer();
+        let turnNumberAfterTimeout = currentGame.getTurnNumber();
 
-        if(isFastPassAfterTimeout !== isFastPassBeforeTimeout) return;
+        if(isFastPassAfterTimeout !== isFastPassBeforeTimeout || turnNumberAfterTimeout !== turnNumberBeforeTimeout) return;
 
         currentGame.setGameGameStatusResult();
         currentGame.updatePlayerScore();
@@ -213,6 +216,8 @@ io.on('connection', (socket) => {
 
     let isFastPassBeforeTimeout = currentGame.getLastTurn().getFastPassResult();
 
+    let turnNumberBeforeTimeout = currentGame.getTurnNumber();
+
     let timeout = statusHelper.getTimeout(2);
     setTimeout(() => {
 
@@ -220,8 +225,9 @@ io.on('connection', (socket) => {
       if(currentGame.getGameStatus() !== statusHelper.gameStatus.result) return;
 
       let isFastPassAfterTimeout = currentGame.getLastTurn().getFastPassResult();
+      let turnNumberAfterTimeout = currentGame.getTurnNumber();
 
-      if(isFastPassBeforeTimeout !== isFastPassAfterTimeout) return;
+      if(isFastPassBeforeTimeout !== isFastPassAfterTimeout || turnNumberAfterTimeout !== turnNumberBeforeTimeout) return;
 
       currentGame.setGameStatusLoading();
       
@@ -332,7 +338,7 @@ io.on('connection', (socket) => {
 
     let turnResult = turn.serialize();
 
-    //io.in(ioHelper.getRoom(gameId)).emit(event.UPDATE_TURN, {turnResult} );
+    io.in(ioHelper.getRoom(gameId)).emit(event.UPDATE_TURN, {turnResult} );
 
     // if all players have request the next song, change game status
     if(turn.haveAllPlayerRequestNextSong() === true) {

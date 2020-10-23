@@ -56,6 +56,13 @@ class Game {
     }
 
     /**
+     * @return {int}
+     */
+    getTurnNumber = () => {
+        return this.turns.size;
+    }
+
+    /**
      * verify if a player exist based on it username
      * @param {*string} userName
      * @return {*bool}
