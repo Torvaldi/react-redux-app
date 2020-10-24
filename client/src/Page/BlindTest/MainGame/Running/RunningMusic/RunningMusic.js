@@ -94,13 +94,15 @@ class RunningMusic extends React.Component {
     return(
       <section className="runningBlock">
         <div className="infoSong">
-          <CounterRunning startingNumber={waitingTurn.WAITING_TURN_2} />
-          {animeToGuess ? this.printAudioPlayer() : <audio id="player_music"/>}
-          <div className="your_choise">
-            <p className="counterText_your_choise">
-              Your choise : 
-            </p>
-            {animeSelect}
+          <div className="infoSongScroll">
+            <CounterRunning startingNumber={waitingTurn.WAITING_TURN_2} />
+            {animeToGuess ? this.printAudioPlayer() : <audio id="player_music"/>}
+            <div className="your_choise">
+              <p className="counterText_your_choise">
+                Your choise : 
+              </p>
+              {animeSelect}
+            </div>
           </div>
         </div>
         <div className="listSongAndScore">

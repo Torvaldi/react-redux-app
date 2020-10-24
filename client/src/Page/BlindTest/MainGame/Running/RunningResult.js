@@ -45,8 +45,10 @@ class RunningResult extends React.Component {
     return(
      <section className="runningBlock">
         <div className="infoSong">
-          <Counter startingNumber={waitingTrun.WAITING_TURN_3} />
-          { animeToGuess ? <OpeningVideo animes={animeToGuess} /> : ''}
+          <div className="infoSongScroll">
+            <Counter startingNumber={waitingTrun.WAITING_TURN_3} />
+            { animeToGuess ? <OpeningVideo animes={animeToGuess} /> : ''}
+          </div>
         </div>
         <div className="listSongAndScore">
           { turnResult ? this.printScoreOfTheTurn(turnResult) : ''}

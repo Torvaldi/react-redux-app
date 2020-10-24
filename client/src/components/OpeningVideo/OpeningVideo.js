@@ -7,6 +7,8 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import IconButton from '@material-ui/core/IconButton';
 import Slider from "@material-ui/core/Slider";
 
+import { Link } from 'react-router-dom';
+
 import malLogo from 'asset/myAnimeListLogo.png';
 import spoilerImage from 'asset/Spoil_Alert_Filter_V2.png';
 
@@ -89,8 +91,8 @@ class OpeningVideo extends React.Component {
               src={url}
               className="resultVideo"
               fluid={false}
-              width={this.windowsWidth()}
-              height={this.windowsHeight()}
+              width={this.windowsWidth}
+              height={this.windowsHeight}
               autoPlay={true}
             >
               <ControlBar disableCompletely={true} />
@@ -121,17 +123,20 @@ class OpeningVideo extends React.Component {
             </li>
             <li className="resultInfoItem noselectDisable"><span className="resutltInfoItemLabel">Song :</span> {opening.title}</li>
             <li className="resultInfoItem"><span className="resutltInfoItemLabel">Season :</span> {animeSeason} {anime.year}</li>
-            <li className="resultInfoItem"><span className="resutltInfoItemLabel">
-              <a href={myAnimListUrl} rel="noopener noreferrer" target="_blank" >
-                <img src={malLogo} width="20" alt="my_anime_list_logo" />
-                MyAnimeList
-                </a>
+            <li className="resultInfoItem">
+              <span className="resutltInfoItemLabel">
+                <Link to={myAnimListUrl} rel='noopener noreferrer' target="_blank">
+                  <label>
+                    <img src={malLogo} width="20" alt="my_anime_list_logo" />
+                    MyAnimeList
+                  </label>
+                </Link>
               </span>
             </li>
           </ul>
         </article>
         <div className="nextSong">
-          <a className="nextSongButton">Next Song</a>
+          <label className="nextSongButton">Next Song</label>
         </div>
       </section>
     )

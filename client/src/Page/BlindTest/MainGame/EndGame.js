@@ -21,10 +21,12 @@ class EndGame extends React.Component {
     return(
         <section className="runningBlock">
           <div className="infoSong">
-            <section className="counterBlock">
-              <span className="counterText">End of the game</span>
-            </section>
-            {lastAnimePlayed !== null ? <OpeningVideoEndGame animes={lastAnimePlayed} /> : ''}
+            <div className="infoSongScroll">
+              <section className="counterBlock">
+                <span className="counterText">End of the game</span>
+              </section>
+              {lastAnimePlayed !== null ? <OpeningVideoEndGame animes={lastAnimePlayed} /> : ''}
+            </div>
           </div>
           <div className="listSongAndScore">
             <p className="infoTableWinner">

@@ -93,18 +93,21 @@ class OpeningVideoEndGame extends React.Component {
             </li>
             <li className="resultInfoItem noselectDisable"><span className="resutltInfoItemLabel">Song :</span> {opening.title}</li>
             <li className="resultInfoItem"><span className="resutltInfoItemLabel">Season :</span> {animeSeason} {anime.year}</li>
-            <li className="resultInfoItem"><span className="resutltInfoItemLabel">
-              <a href={myAnimListUrl} rel="noopener noreferrer" target="_blank" >
-                <img src={malLogo} width="20" alt="my_anime_list_logo" />
-                MyAnimeList
-                </a>
+            <li className="resultInfoItem">
+              <span className="resutltInfoItemLabel">
+                <Link to={myAnimListUrl} rel='noopener noreferrer' target="_blank">
+                  <label>
+                    <img src={malLogo} width="20" alt="my_anime_list_logo" />
+                    MyAnimeList
+                  </label>
+                </Link>
               </span>
             </li>
           </ul>
         </article>
         <div className="nextSong">
           <Link to="/game">
-            <a className="nextSongButton">Leave</a>
+            <label className="nextSongButton">Leave</label>
           </Link>
           
         </div>
