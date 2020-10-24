@@ -10,9 +10,12 @@ class Counter extends React.Component {
   componentDidMount = () => {
     const { startingNumber } = this.props;
     this.setState({currentCount: startingNumber});
-    setInterval(this.timer, 1000);
+    this.interval = setInterval(this.timer, 1000);
   }
 
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
 
   timer = () => {
     this.setState({currentCount: this.state.currentCount - 1});
